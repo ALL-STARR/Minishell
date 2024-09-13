@@ -36,6 +36,8 @@ t_env_list	*envellope(char **env)
 	int	i;
 
 	envl = (t_env_list *)malloc(sizeof(t_env_list ));
+	if (!envl)
+		return (NULL);
 	i = 0;
 	first = envl;
 	while (env[i])
@@ -44,6 +46,8 @@ t_env_list	*envellope(char **env)
 		i++;
 		if (env[i])
 			envl = new_node(envl);
+		if (!envl)
+			return (NULL);
 	}
 	return (first);
 }
@@ -53,6 +57,8 @@ t_env_list	*new_node(t_env_list *l)
 	t_env_list *new;
 
 	new = (t_env_list *)malloc(sizeof(t_env_list));
+	if (!new)
+		return (NULL);
 	if (!l)
 		return (new);
 	l->next = new;
