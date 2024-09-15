@@ -12,7 +12,7 @@
 
 #include "shell.h"
 
-//Still need to implement $ handeling
+//Still need to implement $ handling
 
 t_token	*tokenizer(char	*input)
 {
