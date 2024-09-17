@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 15:21:41 by thomvan-          #+#    #+#             */
-/*   Updated: 2023/11/14 02:20:13 by marvin           ###   ########.fr       */
+/*   Updated: 2024/09/16 16:32:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define LIBFT_H
 
 # include <stdlib.h>
-# include <unistd.h>
+//# include <unistd.h>
 # include <string.h>
 
 typedef struct s_list

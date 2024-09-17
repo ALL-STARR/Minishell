@@ -12,6 +12,27 @@
 
 #include "shell.h"
 
+int	main()
+{
+	t_token	*token;
+	t_token	*first;
+	char	*input;
+	char	text[] = "hello I am a|big>>monster";
+
+	input = malloc(sizeof(char) * (ft_strlen(text) + 1));
+	ft_strlcpy(input, text, (size_t)(ft_strlen(text) + 1));
+	token = tokenizer(input);
+	first = token;
+	while (token->next != NULL)
+	{
+		printf("%s : %d\n", token->content, token->type);
+		token = token->next;
+	}
+	printf("%s\n", token->content);
+	token_l_free(first);
+	return (0);
+}
+
 //Still need to implement $ handling
 
 t_token	*tokenizer(char	*input)
@@ -22,7 +43,9 @@ t_token	*tokenizer(char	*input)
 	input = spacer(input);
 	chop = ft_split(input, ' ');
 	token_list = token_node(chop);
-	double_array_free(chop);
+	free(input);
+	free(chop);
+	//double_array_free(chop);
 	return (token_list);
 }
 
@@ -46,7 +69,7 @@ t_token	*token_node(char **chopped)
 		tok->type = sym_check(tok->content);
 		i++;
 		if (chopped[i])
-			tok = new_node(tok);
+			tok = new_t_node(tok);
 		if (!tok)
 			return (NULL);
 	}
@@ -83,10 +106,12 @@ void	token_l_free(t_token *t)
 	while (t->next != NULL)
 	{
 		tmp = t->next;
-		free(l);
+		free(t->content);
+		free(t);
 		t = tmp;
 	}
-	free(l);
+	free(t->content);
+	free(t);
 	return ;
 }
 
@@ -96,7 +121,7 @@ int	sym_check(char *input)
 {
 	int i;
 
-	i = 0:
+	i = 0;
 	if (input[i] == '<' && input[i + 1] == '<')
 		return (4);
 	if (input[i] == '>' && input[i + 1] == '>')
@@ -118,6 +143,7 @@ int	size_count(char *str)
 	int	size;
 
 	i = 0;
+	size = 0;
 	while (str[i])
 	{
 		if (sym_check(str + i) < 4)
@@ -125,8 +151,8 @@ int	size_count(char *str)
 			size += 2;
 			if (sym_check(str + i) == 5 || sym_check(str + i) == 4)
 				i++;
-			i++;
 		}
+		i++;
 	}
 	return (size += i);
 }
@@ -141,16 +167,16 @@ char	*spacer(char *s)
 
 	i = 0;
 	j = 0;
-	spaced = malloc(sizeof(char) * size_count(str));
+	spaced = malloc(sizeof(char) * (size_count(s) + 1));
 	if (!spaced)
 		return (NULL);
 	while (s[i])
 	{
-		if (!dquoted(s, i) && !dquoted(s, i) && sym_check(str + i) < 6)
+		if (!dquoted(s, i) && !quoted(s, i) && sym_check(s + i) < 6)
 		{
 			spaced[j++] = ' ';
 			spaced[j++] = s[i++];
-			if (s[i - 1] == s[i] && sym_check(str + i) < 3)
+			if (s[i - 1] == s[i] && sym_check(s + i) < 3)
 				spaced[j++] = s[i++];
 			spaced[j++] = ' ';
 		}
@@ -173,6 +199,8 @@ int	dquoted(char *s, int index)
 	
 	i = 0;
 	how_many = 0;
+	dquotes_open = 0;
+	dquotes_closed = 0;
 	while (s[i])
 	{
 		if (s[i] == 34)
@@ -195,23 +223,25 @@ int	dquoted(char *s, int index)
 int	quoted(char *s, int index)
 {
 	int	i;
-	int	dquotes_open;
-	int	dquotes_closed;
+	int	quotes_open;
+	int	quotes_closed;
 	int	how_many;
 	
 	i = 0;
 	how_many = 0;
+	quotes_open = 0;
+	quotes_closed = 0;
 	while (s[i])
 	{
 		if (s[i] == 39)
 		{
 			how_many++;
 			if (how_many % 2 == 1)
-				dquotes_open = i;
+				quotes_open = i;
 			else
-				dquotes_closed = i;
+				quotes_closed = i;
 		}
-		if (index < dquotes_closed && index > dquotes_open)
+		if (index < quotes_closed && index > quotes_open)
 			return (1);
 		i++;
 	}
@@ -225,8 +255,8 @@ void	double_array_free(char **a)
 
 	i = 0;
 	while (a[i])
-		free(a[i]);
-	free[a];
+		free(a[i++]);
+	free(a);
 	return ;
 }
 

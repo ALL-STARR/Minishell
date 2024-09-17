@@ -13,11 +13,11 @@
 #ifndef SHELL_H
 # define SHELL_H
 
-# include <unistd.h>
+//# include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdio.h>
-# include ".\libftt\libft.h"
+# include "./libft/libft.h"
 
 typedef struct s_env_list
 {
@@ -59,5 +59,6 @@ char		*spacer(char *s);
 int			dquoted(char *s, int index);
 int			quoted(char *s, int index);
 void		double_array_free(char **a);
+t_token		*tokenizer(char	*input);
 
 #endif
