@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include "includes/shell.h"
 
-int	main(int arc, char **arv, char **env)
+/*int	main(int arc, char **arv, char **env)
 {
-	t_env_list *list;
-	t_env_list *first_env;
+	t_env_list	*list;
+	t_env_list	*first_env;
 
 	list = envellope(env);
 	first_env = list;
@@ -26,16 +26,15 @@ int	main(int arc, char **arv, char **env)
 	}
 	env_l_free(first_env);
 	return (0);
-}
+}*/
 
 t_env_list	*envellope(char **env)
 {
-	t_env_list *envl;
-	t_env_list *first;
+	t_env_list	*envl;
+	t_env_list	*first;
+	int			i;
 
-	int	i;
-
-	envl = (t_env_list *)malloc(sizeof(t_env_list ));
+	envl = (t_env_list *)malloc(sizeof(t_env_list));
 	if (!envl)
 		return (NULL);
 	i = 0;
@@ -54,7 +53,7 @@ t_env_list	*envellope(char **env)
 
 t_env_list	*new_node(t_env_list *l)
 {
-	t_env_list *new;
+	t_env_list	*new;
 
 	new = (t_env_list *)malloc(sizeof(t_env_list));
 	if (!new)
@@ -68,7 +67,7 @@ t_env_list	*new_node(t_env_list *l)
 
 void	env_l_free(t_env_list *l)
 {
-	t_env_list *tmp;
+	t_env_list	*tmp;
 
 	while (l->next != NULL)
 	{

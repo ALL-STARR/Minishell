@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
+/*   token_utils_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/12 14:49:59 by thomvan-          #+#    #+#             */
-/*   Updated: 2023/11/12 17:45:26 by thomvan-         ###   ########.fr       */
+/*   Created: 2024/09/17 15:15:34 by thomvan-          #+#    #+#             */
+/*   Updated: 2024/09/17 15:20:26 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "includes/shell.h"
 
-t_list	*ft_lstnew(void *content)
+void	type_assign(t_token *t)
 {
-	t_list	*nlist;
-
-	nlist = (t_list *)malloc(sizeof(t_list));
-	if (!nlist)
-		return (0);
-	nlist->content = content;
-	nlist->next = NULL;
-	return (nlist);
+	
 }

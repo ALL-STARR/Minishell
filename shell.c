@@ -10,18 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "shell.h"
+#include "includes/shell.h"
 
-int	main(int arc, char **arv, char **envp)
+/*int	main(int arc, char **arv, char **envp)
 {
 	char		*input;
 	t_env_list	*evp_list;
 	t_token		*token_list;
 
 	if (arc == 0)
-		return ;
+		return (1);
 	envp_list = envellope(envp);
 	input = readline("write something idk '\\_(-_-)_/' :");
 	add_history(char input);
-	
-}
+
+}*/

@@ -10,14 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include "includes/shell.h"
 
-int	main()
+int	main(void)
 {
 	t_token	*token;
 	t_token	*first;
 	char	*input;
-	char	text[] = "hello I am a|big>>monster";
+	char	text[] = "hello I am \"a | big>>mo nst er\"";
 
 	input = malloc(sizeof(char) * (ft_strlen(text) + 1));
 	ft_strlcpy(input, text, (size_t)(ft_strlen(text) + 1));
@@ -25,8 +25,9 @@ int	main()
 	first = token;
 	while (token->next != NULL)
 	{
-		printf("%s : %d\n", token->content, token->type);
+		printf("%s : %d index = %d -- ", token->content, token->type, token->index);
 		token = token->next;
+		printf("%s\n", token->previous->content);
 	}
 	printf("%s\n", token->content);
 	token_l_free(first);
@@ -39,13 +40,12 @@ t_token	*tokenizer(char	*input)
 {
 	char	**chop;
 	t_token	*token_list;
-	
+
 	input = spacer(input);
 	chop = ft_split(input, ' ');
 	token_list = token_node(chop);
 	free(input);
 	free(chop);
-	//double_array_free(chop);
 	return (token_list);
 }
 
@@ -53,12 +53,11 @@ t_token	*tokenizer(char	*input)
 
 t_token	*token_node(char **chopped)
 {
-	t_token *tok;
-	t_token *first;
+	t_token	*tok;
+	t_token	*first;
+	int		i;
 
-	int	i;
-
-	tok = (t_token *)malloc(sizeof(t_token ));
+	tok = (t_token *)malloc(sizeof(t_token));
 	if (!tok)
 		return (NULL);
 	i = 0;
@@ -66,7 +65,8 @@ t_token	*token_node(char **chopped)
 	while (chopped[i])
 	{
 		tok->content = chopped[i];
-		tok->type = sym_check(tok->content);
+		tok->type = 0;
+		tok->index = i;
 		i++;
 		if (chopped[i])
 			tok = new_t_node(tok);
@@ -80,7 +80,7 @@ t_token	*token_node(char **chopped)
 
 t_token	*new_t_node(t_token *l)
 {
-	t_token *new;
+	t_token	*new;
 
 	new = (t_token *)malloc(sizeof(t_token));
 	if (!new)
@@ -95,66 +95,6 @@ t_token	*new_t_node(t_token *l)
 	new->next = NULL;
 	new->previous = l;
 	return (new);
-}
-
-/*frees the token list*/
-
-void	token_l_free(t_token *t)
-{
-	t_token *tmp;
-
-	while (t->next != NULL)
-	{
-		tmp = t->next;
-		free(t->content);
-		free(t);
-		t = tmp;
-	}
-	free(t->content);
-	free(t);
-	return ;
-}
-
-/*indentifies the special character*/
-
-int	sym_check(char *input)
-{
-	int i;
-
-	i = 0;
-	if (input[i] == '<' && input[i + 1] == '<')
-		return (4);
-	if (input[i] == '>' && input[i + 1] == '>')
-		return (5);
-	if (input[i] == '<')
-		return (1);
-	if (input[i] == '>')
-		return (2);
-	if (input[i] == '|')
-		return (3);
-	return (6);
-}
-
-/*calculates the size needed for the new spaced string*/
-
-int	size_count(char *str)
-{
-	int	i;
-	int	size;
-
-	i = 0;
-	size = 0;
-	while (str[i])
-	{
-		if (sym_check(str + i) < 4)
-		{
-			size += 2;
-			if (sym_check(str + i) == 5 || sym_check(str + i) == 4)
-				i++;
-		}
-		i++;
-	}
-	return (size += i);
 }
 
 /*creates a new string with ' ' separating each elements for further splitting*/
@@ -188,95 +128,20 @@ char	*spacer(char *s)
 	return (spaced);
 }
 
-/*detects if the character is between double-quotes*/
+/*frees the token list*/
 
-int	dquoted(char *s, int index)
+void	token_l_free(t_token *t)
 {
-	int	i;
-	int	dquotes_open;
-	int	dquotes_closed;
-	int	how_many;
-	
-	i = 0;
-	how_many = 0;
-	dquotes_open = 0;
-	dquotes_closed = 0;
-	while (s[i])
+	t_token	*tmp;
+
+	while (t->next != NULL)
 	{
-		if (s[i] == 34)
-		{
-			how_many++;
-			if (how_many % 2 == 1)
-				dquotes_open = i;
-			else
-				dquotes_closed = i;
-		}
-		if (index < dquotes_closed && index > dquotes_open)
-			return (1);
-		i++;
+		tmp = t->next;
+		free(t->content);
+		free(t);
+		t = tmp;
 	}
-	return (0);
-}
-
-/*detects if the character is between quotes*/
-
-int	quoted(char *s, int index)
-{
-	int	i;
-	int	quotes_open;
-	int	quotes_closed;
-	int	how_many;
-	
-	i = 0;
-	how_many = 0;
-	quotes_open = 0;
-	quotes_closed = 0;
-	while (s[i])
-	{
-		if (s[i] == 39)
-		{
-			how_many++;
-			if (how_many % 2 == 1)
-				quotes_open = i;
-			else
-				quotes_closed = i;
-		}
-		if (index < quotes_closed && index > quotes_open)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-void	double_array_free(char **a)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (a[i])
-		free(a[i++]);
-	free(a);
+	free(t->content);
+	free(t);
 	return ;
 }
-
-/* int	sym_finder(char *input)
-{
-	int	i;
-
-	int = 0;
-	while (input[i] != '<' && input[i] != '>'
-		&& input[i] != '|' && input[i])
-		i++;
-	if (input[i] == '<' && input[i + 1] == '<')
-		return (4);
-	if (input[i] == '>' && input[i + 1] == '>')
-		return (5);
-	if (input[i] == '<')
-		return (1);
-	if (input[i] == '>')
-		return (2);
-	if (input[i] == '|')
-		return (3);
-	return (-1);
-} */
