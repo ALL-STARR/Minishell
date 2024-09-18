@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:05:57 by thomvan-          #+#    #+#             */
-/*   Updated: 2024/09/18 17:18:42 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/09/18 19:43:31 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,6 @@ int	sym_check(char *input)
 	if (input[i] == '|')
 		return (3);
 	return (6);
-}
-
-/*calculates the size needed for the new spaced string*/
-
-int	size_count(char *str)
-{
-	int	i;
-	int	size;
-
-	i = 0;
-	size = 0;
-	while (str[i])
-	{
-		if (sym_check(str + i) < 4)
-		{
-			size += 2;
-			if (sym_check(str + i) == 5 || sym_check(str + i) == 4)
-				i++;
-		}
-		i++;
-	}
-	return (size += i);
 }
 
 /*detects if the character is between double-quotes*/
@@ -121,7 +99,7 @@ int	tok_is_in_dquote(t_token *token)
 	int	dquote;
 	int	dquote_i_start;
 	int	dquote_i_end;
-	int index;
+	int	index;
 
 	dquote = 0;
 	dquote_i_end = -1;
@@ -150,7 +128,7 @@ int	tok_is_in_quote(t_token *token)
 	int	quote;
 	int	quote_i_start;
 	int	quote_i_end;
-	int index;
+	int	index;
 
 	quote = 0;
 	quote_i_end = -1;

@@ -5,6 +5,7 @@ TO DO LIST
 - make a function to free everything
 	- could make token_l_free work from any node
 - add  '$' implementation
+- remove quotes in the tokenization
 - readline implementation
 	- history
 	- Ctrl - L

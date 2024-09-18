@@ -12,30 +12,6 @@
 
 #include "includes/shell.h"
 
-/*int	main(void)
-{
-	t_token	*token;
-	t_token	*first;
-	char	*input;
-	char	text[] = "hello |I am \"a | big >>mo nst er\"";
-
-	input = malloc(sizeof(char) * (ft_strlen(text) + 1));
-	ft_strlcpy(input, text, (size_t)(ft_strlen(text) + 1));
-	token = tokenizer(input);
-	if (token == NULL)
-		return (1);
-	first = token;
-	while (token->next != NULL)
-	{
-		printf("%s : %d index = %d -- ", token->content, token->type, token->index);
-		token = token->next;
-		printf("%s\n", token->previous->content);
-	}
-	printf("%s : %d index = %d -- \n", token->content, token->type, token->index);
-	token_l_free(first);
-	return (0);
-}*/
-
 //Still need to implement $ handling
 
 t_token	*tokenizer(char	*input)
