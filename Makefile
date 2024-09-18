@@ -25,9 +25,11 @@ FT_FOLDER = ./libft
 
 FT = ${FT_FOLDER}/libft.a
 
-CC		= gcc -g #-fsanitize=address 
+CC		= gcc -g #-fsanitize=address
 
 FLAGS	= -Wall -Wextra -Werror
+
+READ_FLAGS = -L/Users/$(shell whoami)/.brew/opt/readline/lib -I/Users/$(shell whoami)/.brew/opt/readline/include -lreadline
 
 LIB		= ar -rc
 
@@ -44,7 +46,7 @@ INCLUDES = -I ./includes ./libft/includes
 all: ${NAME}
 
 $(NAME): $(OBJS) ${FT}
-	$(CC) $(FLAGS) -o $(NAME)  $(OBJS) ${FT}
+	$(CC) $(FLAGS) -o $(NAME)  $(OBJS) ${FT} ${READ_FLAGS}
 
 ${FT}: 
 		${MAKE_FT}

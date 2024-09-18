@@ -12,22 +12,6 @@
 
 #include "includes/shell.h"
 
-/*int	main(int arc, char **arv, char **env)
-{
-	t_env_list	*list;
-	t_env_list	*first_env;
-
-	list = envellope(env);
-	first_env = list;
-	while (list->next != NULL)
-	{
-		printf("%s\n", list->variable);
-		list = list->next;
-	}
-	env_l_free(first_env);
-	return (0);
-}*/
-
 t_env_list	*envellope(char **env)
 {
 	t_env_list	*envl;
@@ -77,4 +61,15 @@ void	env_l_free(t_env_list *l)
 	}
 	free(l);
 	return ;
+}
+
+char	*variable_fetch(t_env_list *e, char *str)
+{
+	while (e->next == NULL)
+	{
+		if (ft_strnstr(e->variable, str, ft_strlen(e->variable)))
+			return (e->variable);
+		e = e->next;
+	}
+	return (NULL);
 }

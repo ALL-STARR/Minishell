@@ -46,6 +46,7 @@ typedef struct s_token
 t_env_list	*envellope(char **env);
 t_env_list	*new_node(t_env_list *l);
 void		env_l_free(t_env_list *l);
+char		*variable_fetch(t_env_list *e, char *str);
 
 /*token functions*/
 

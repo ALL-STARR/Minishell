@@ -1,0 +1,12 @@
+TO DO LIST
+
+[[PARSING PART]]
+
+- make a function to free everything
+	- could make token_l_free work from any node
+- add  '$' implementation
+- readline implementation
+	- history
+	- Ctrl - L
+
+[[EXECUTION PART]]
