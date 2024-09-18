@@ -17,7 +17,7 @@ int	main(void)
 	t_token	*token;
 	t_token	*first;
 	char	*input;
-	char	text[] = "hello I am \"a | big>>mo nst er\"";
+	char	text[] = "hello |I am \"a | big >>mo nst er\"";
 
 	input = malloc(sizeof(char) * (ft_strlen(text) + 1));
 	ft_strlcpy(input, text, (size_t)(ft_strlen(text) + 1));
@@ -29,7 +29,7 @@ int	main(void)
 		token = token->next;
 		printf("%s\n", token->previous->content);
 	}
-	printf("%s\n", token->content);
+	printf("%s : %d index = %d -- \n", token->content, token->type, token->index);
 	token_l_free(first);
 	return (0);
 }
@@ -44,6 +44,7 @@ t_token	*tokenizer(char	*input)
 	input = spacer(input);
 	chop = ft_split(input, ' ');
 	token_list = token_node(chop);
+	type_assign(token_list);
 	free(input);
 	free(chop);
 	return (token_list);
@@ -60,6 +61,7 @@ t_token	*token_node(char **chopped)
 	tok = (t_token *)malloc(sizeof(t_token));
 	if (!tok)
 		return (NULL);
+	tok->previous = NULL;
 	i = 0;
 	first = tok;
 	while (chopped[i])

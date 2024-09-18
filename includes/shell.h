@@ -60,5 +60,9 @@ int			dquoted(char *s, int index);
 int			quoted(char *s, int index);
 void		double_array_free(char **a);
 t_token		*tokenizer(char	*input);
+int			tok_is_in_quote(t_token *token);
+int			tok_is_in_dquote(t_token *token);
+void		type_assign(t_token *t);
+void		quote_add(t_token *t, int *q, int *start, int *end);
 
 #endif

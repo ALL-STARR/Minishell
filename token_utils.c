@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:05:57 by thomvan-          #+#    #+#             */
-/*   Updated: 2024/09/18 15:22:18 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/09/18 17:18:42 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,15 +132,14 @@ int	tok_is_in_dquote(t_token *token)
 	{
 		if (ft_strchr(token->content, 34))
 		{
-			if (dquote++ % 2 == 0)
-				dquote_i_start = token->index;
-			else
-				dquote_i_end = token->index;
+			quote_add(token, &dquote, &dquote_i_start, &dquote_i_end);
 			if (index > dquote_i_start && index < dquote_i_end)
 				return (1);
 		}
 		token = token->next;
 	}
+	if (ft_strchr(token->content, 34) && index > dquote_i_start)
+		return (1);
 	return (0);
 }
 
@@ -162,14 +161,13 @@ int	tok_is_in_quote(t_token *token)
 	{
 		if (ft_strchr(token->content, 34))
 		{
-			if (quote++ % 2 == 0)
-				quote_i_start = token->index;
-			else
-				quote_i_end = token->index;
+			quote_add(token, &quote, &quote_i_start, &quote_i_end);
 			if (index > quote_i_start && index < quote_i_end)
 				return (1);
 		}
 		token = token->next;
 	}
+	if (ft_strchr(token->content, 34) && index > quote_i_start)
+		return (1);
 	return (0);
 }
