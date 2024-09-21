@@ -18,7 +18,6 @@ int	main(int arc, char **arv, char **envp)
 	char		*prompt;
 	t_env_list	*evp_list;
 	t_token		*token;
-	t_token		*first_node;
 
 	if (arc == 0)
 		return (1);
@@ -36,7 +35,6 @@ int	main(int arc, char **arv, char **envp)
         if (*input) 
             add_history(input);
 		token = tokenizer(input);
-		first_node = token;
 		while (token->next != NULL)
 		{
 			printf("%s : %d index = %d -- ", token->content, token->type, token->index);
@@ -44,8 +42,7 @@ int	main(int arc, char **arv, char **envp)
 			printf("%s\n", token->previous->content);
 		}
 		printf("%s : %d index = %d -- \n", token->content, token->type, token->index);
-		token_l_free(first_node);
-		env_l_free(evp_list);
+		total_free(token, evp_list);
     }
     return 0;
 }

@@ -39,8 +39,14 @@ typedef struct s_token
 # define PIPE 3
 # define DOUBLE_SMALL 4
 # define DOUBLE_GREAT 5
-# define GENERAL 6
-# define COMMAND 7
+# define D_QUOTE 6
+# define QUOTE 7
+# define GENERAL 8
+# define COMMAND 9
+
+/*general functions*/
+
+void		total_free(t_token *t, t_env_list *e);
 
 /*environment_list functions*/
 

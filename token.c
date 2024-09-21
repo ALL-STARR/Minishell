@@ -94,7 +94,7 @@ char	*spacer(char *s)
 		return (NULL);
 	while (s[i])
 	{
-		if (!dquoted(s, i) && !quoted(s, i) && sym_check(s + i) < 6)
+		if (!dquoted(s, i) && !quoted(s, i) && sym_check(s + i) < GENERAL)
 		{
 			spaced[j++] = ' ';
 			spaced[j++] = s[i++];
@@ -116,6 +116,8 @@ void	token_l_free(t_token *t)
 {
 	t_token	*tmp;
 
+	while (t->previous != NULL)
+		t = t->previous;
 	while (t->next != NULL)
 	{
 		tmp = t->next;

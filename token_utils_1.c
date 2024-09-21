@@ -27,7 +27,7 @@ void	type_assign(t_token *t)
 		t = t->next;
 	}
 	if (!tok_is_in_dquote(t) && !tok_is_in_quote(t)
-		&& sym_check(t->content) < 6)
+		&& sym_check(t->content) < GENERAL)
 		t->type = sym_check(t->content);
 	else
 		t->type = 6;
@@ -38,7 +38,7 @@ void	type_assign(t_token *t)
 
 void	quote_add(t_token *t, int *q, int *start, int *end)
 {
-	if (*q++ % 2 == 0)
+	if (*q % 2 == 1)
 		*start = t->index;
 	else
 		*end = t->index;
@@ -78,8 +78,10 @@ int	is_command(t_token *t)
 	while (i < 7)
 	{
 		if (ft_strncmp(tab[i], t->content, ft_strlen(tab[i])) == 0)
-			return (t->type = 7, 1);
+			return (t->type = 9, 1);
 		i++;
 	}
 	return (0);
 }
+
+void	quote_trim

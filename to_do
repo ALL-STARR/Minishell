@@ -2,10 +2,12 @@ TO DO LIST
 
 [[PARSING PART]]
 
-- make a function to free everything
-	- could make token_l_free work from any node
+- make a function to free everything V
+	- could make token_l_free work from any node V
 - add  '$' implementation
 - remove quotes in the tokenization
+	? are commands taken in account if they are between quotes ? ==> only if 
+	? what happens if I have something like this? "hello I am"Bob" ?
 - readline implementation
 	- history
 	- Ctrl - L

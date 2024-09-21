@@ -9,6 +9,7 @@ SHELL_SRCS 	= shell.c  \
 				env.c\
 				token_utils.c\
 				token_utils_1.c\
+				token_utils_2.c\
 				token.c\
 
 

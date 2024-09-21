@@ -29,7 +29,11 @@ int	sym_check(char *input)
 		return (2);
 	if (input[i] == '|')
 		return (3);
-	return (6);
+	if (input[i] == 34)
+		return (6);
+	if (input[i] == 39)
+		return (7);
+	return (8);
 }
 
 /*detects if the character is between double-quotes*/
@@ -116,7 +120,7 @@ int	tok_is_in_dquote(t_token *token)
 		}
 		token = token->next;
 	}
-	if (ft_strchr(token->content, 34) && index > dquote_i_start)
+	if (ft_strchr(token->content, 34) && index >= dquote_i_start)
 		return (1);
 	return (0);
 }
@@ -140,12 +144,12 @@ int	tok_is_in_quote(t_token *token)
 		if (ft_strchr(token->content, 34))
 		{
 			quote_add(token, &quote, &quote_i_start, &quote_i_end);
-			if (index > quote_i_start && index < quote_i_end)
+			if (index >= quote_i_start && index <= quote_i_end)
 				return (1);
 		}
 		token = token->next;
 	}
-	if (ft_strchr(token->content, 34) && index > quote_i_start)
+	if (ft_strchr(token->content, 34) && index >= quote_i_start)
 		return (1);
 	return (0);
 }
