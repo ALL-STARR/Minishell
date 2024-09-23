@@ -72,5 +72,6 @@ int			tok_is_in_dquote(t_token *token);
 void		type_assign(t_token *t);
 void		quote_add(t_token *t, int *q, int *start, int *end);
 int			is_command(t_token *t);
+int			token_delete(t_token *t);
 
 #endif
