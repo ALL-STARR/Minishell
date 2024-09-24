@@ -34,13 +34,15 @@ typedef struct s_token
 	struct s_token	*previous;
 }	t_token;
 
+
+
 # define CHAR_SMALLER_THAN 1
 # define CHAR_GREATER_THAN 2
 # define PIPE 3
 # define DOUBLE_SMALL 4
 # define DOUBLE_GREAT 5
-# define D_QUOTE 6
-# define QUOTE 7
+# define QUOTE 6
+# define D_QUOTE 7
 # define GENERAL 8
 # define COMMAND 9
 
@@ -60,18 +62,17 @@ char		*variable_fetch(t_env_list *e, char *str);
 t_token		*new_t_node(t_token *l);
 void		token_l_free(t_token *t);
 t_token		*token_node(char **chopped);
-int			sym_finder(char *input);
 int			sym_check(char *input);
 int			size_count(char *str);
 char		*spacer(char *s);
-int			dquoted(char *s, int index);
-int			quoted(char *s, int index);
 t_token		*tokenizer(char	*input);
 int			tok_is_in_quote(t_token *token);
 int			tok_is_in_dquote(t_token *token);
 void		type_assign(t_token *t);
 void		quote_add(t_token *t, int *q, int *start, int *end);
 int			is_command(t_token *t);
-int			token_delete(t_token *t);
+t_token		*token_delete(t_token *t);
+void		quote_erase(t_token *t);
+void		token_free(t_token *t);
 
 #endif

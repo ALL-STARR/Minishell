@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/shell.h"
+#include "../includes/shell.h"
 
 /*checks if the current token is between 2 nodes with quotes*/
 
@@ -18,20 +18,23 @@ void	type_assign(t_token *t)
 {
 	while (t->next != NULL)
 	{
-		if (!tok_is_in_dquote(t) && !tok_is_in_quote(t)
-			&& sym_check(t->content) < GENERAL)
+		if ((!tok_is_in_dquote(t) || !tok_is_in_quote(t))
+		&& sym_check(t->content) < D_QUOTE)
 			t->type = sym_check(t->content);
+		else if (sym_check(t->content) == 7)
+			t->type = 7;
 		else
-			t->type = 6;
-		is_command(t);
+			t->type = 8;
 		t = t->next;
 	}
-	if (!tok_is_in_dquote(t) && !tok_is_in_quote(t)
-		&& sym_check(t->content) < GENERAL)
+	if ((!tok_is_in_dquote(t) || !tok_is_in_quote(t))
+		&& sym_check(t->content) < D_QUOTE)
 		t->type = sym_check(t->content);
+	else if (sym_check(t->content) == 7)
+			t->type = 7;
 	else
-		t->type = 6;
-	is_command(t);
+		t->type = 8;
+	quote_erase(t);
 }
 
 /*function to make tok_is_in_(d)quotes() shorter*/
@@ -55,7 +58,7 @@ int	size_count(char *str)
 	size = 0;
 	while (str[i])
 	{
-		if (sym_check(str + i) < 4)
+		if (sym_check(str + i) < GENERAL)
 		{
 			size += 2;
 			if (sym_check(str + i) == 5 || sym_check(str + i) == 4)
@@ -83,5 +86,3 @@ int	is_command(t_token *t)
 	}
 	return (0);
 }
-
-void	quote_trim

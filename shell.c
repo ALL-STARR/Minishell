@@ -16,12 +16,10 @@ int	main(int arc, char **arv, char **envp)
 {
 	char		*input;
 	char		*prompt;
-	t_env_list	*evp_list;
 	t_token		*token;
 
 	if (arc == 0)
 		return (1);
-	evp_list = envellope(envp);
     while (1)
     {
         input = readline("write something : ");

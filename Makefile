@@ -5,12 +5,11 @@ NAME	= minishell
 
 HEADER	= /includes/shell.h 
 
-SHELL_SRCS 	= shell.c  \
-				env.c\
-				token_utils.c\
-				token_utils_1.c\
-				token_utils_2.c\
-				token.c\
+SHELL_SRCS 	= token/token_utils.c\
+				token/token_utils_1.c\
+				token/token_utils_2.c\
+				token/token.c\
+				shell.c
 
 
 

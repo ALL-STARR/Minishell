@@ -10,40 +10,67 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/shell.h"
+#include "../includes/shell.h"
 
 /*frees the lists*/
 
 void	total_free(t_token *t, t_env_list *e)
 {
-	void		env_l_free(e);
-	void		token_l_free(t);
+	token_l_free(t);
 	return ;
 }
 
 /*deletes one token of the list*/
 
-int	token_delete(t_token *t)
+t_token	*token_delete(t_token *t)
 {
-	t_token *tmp1;
+	t_token *tmp;
 
-	if (t->previous == NULL)
+	if (t->next == NULL && t->previous == NULL)
+		return (token_free(t), NULL);
+	else if (t->previous == NULL)
 	{
-		tmp1 = t->next;
-		tmp1->previous = NULL;
-		return (free(t->content), free(t), 1);
+		tmp = t->next;
+		tmp->previous = NULL;
+		return (token_free(t), tmp);
 	}
 	else if (t->next == NULL)
 	{
-		tmp1 = t->previous;
-		tmp1->next = NULL;
-		return (free(t->content), free(t), 1);
+		tmp = t->previous;
+		token_free(t);
+		tmp->next = NULL;
+		return (NULL);
 	}
-	else if (t->next == NULL && t->previous == NULL)
-		return (free(t->content), free(t), 1);
 	else
 	{
-		t->next->previous = t->previous
-		return (free(t->content), free(t), 1);
+		tmp = t->next;
+		t->previous->next = tmp;
+		return (token_free(t), tmp);
 	}
+}
+
+/*searches through the token list for quotes or double_quotes tokens and deletes them*/
+
+void	quote_erase(t_token *t)
+{
+	while (t->previous != NULL)
+		t = t->previous;
+	while (t->next != NULL)
+	{
+		if (t->type == 6 || t->type == 7 )
+			t = token_delete(t);
+		else
+			t = t->next;
+	}
+	if (t->type == 6 || t->type == 7 )
+			t = token_delete(t);
+}
+
+/*frees token*/
+
+void	token_free(t_token *t)
+{
+	free(t->content);
+	free(t);
+	return ;
 }
