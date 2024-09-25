@@ -18,33 +18,10 @@ void	type_assign(t_token *t)
 {
 	while (t->next != NULL)
 	{
-		if ((!tok_is_in_dquote(t) || !tok_is_in_quote(t))
-		&& sym_check(t->content) < D_QUOTE)
-			t->type = sym_check(t->content);
-		else if (sym_check(t->content) == 7)
-			t->type = 7;
-		else
-			t->type = 8;
+		t->type = sym_check(t->content);
 		t = t->next;
 	}
-	if ((!tok_is_in_dquote(t) || !tok_is_in_quote(t))
-		&& sym_check(t->content) < D_QUOTE)
-		t->type = sym_check(t->content);
-	else if (sym_check(t->content) == 7)
-			t->type = 7;
-	else
-		t->type = 8;
-	quote_erase(t);
-}
-
-/*function to make tok_is_in_(d)quotes() shorter*/
-
-void	quote_add(t_token *t, int *q, int *start, int *end)
-{
-	if (*q % 2 == 1)
-		*start = t->index;
-	else
-		*end = t->index;
+	t->type = sym_check(t->content);
 }
 
 /*calculates the size needed for the new spaced string*/
@@ -58,7 +35,7 @@ int	size_count(char *str)
 	size = 0;
 	while (str[i])
 	{
-		if (sym_check(str + i) < GENERAL)
+		if (sym_check(str + i) < GENERAL && !quoted(str, i))
 		{
 			size += 2;
 			if (sym_check(str + i) == 5 || sym_check(str + i) == 4)

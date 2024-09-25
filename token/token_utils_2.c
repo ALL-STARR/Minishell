@@ -14,7 +14,7 @@
 
 /*frees the lists*/
 
-void	total_free(t_token *t, t_env_list *e)
+void	total_free(t_token *t)
 {
 	token_l_free(t);
 	return ;
@@ -45,25 +45,9 @@ t_token	*token_delete(t_token *t)
 	{
 		tmp = t->next;
 		t->previous->next = tmp;
+		tmp->previous = t->previous;
 		return (token_free(t), tmp);
 	}
-}
-
-/*searches through the token list for quotes or double_quotes tokens and deletes them*/
-
-void	quote_erase(t_token *t)
-{
-	while (t->previous != NULL)
-		t = t->previous;
-	while (t->next != NULL)
-	{
-		if (t->type == 6 || t->type == 7 )
-			t = token_delete(t);
-		else
-			t = t->next;
-	}
-	if (t->type == 6 || t->type == 7 )
-			t = token_delete(t);
 }
 
 /*frees token*/
@@ -73,4 +57,12 @@ void	token_free(t_token *t)
 	free(t->content);
 	free(t);
 	return ;
+}
+
+int	not_a_split(char *s, char sep, int index)
+{
+	if (quoted(s, index) || s[index] != sep)
+		return (1);
+	else
+		return (0);
 }

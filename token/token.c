@@ -12,19 +12,20 @@
 
 #include "../includes/shell.h"
 
-int	main()
+/*int	main()
 {
 	t_token *t;
 
-	t = tokenizer("Hello\"mylove'|how\"are'you>>baby''");
-	printf("Hello\"mylove'|how\"are'you>>baby''\n\n");
+	t = tokenizer("He>>l\"omy |'love'\"");
+	printf("Hell\"omy|love'\"\n");
 	while (t->next != NULL)
 	{
-		printf("%s type is %d\n", t->content, t->type);
+		printf("%s type is %d and index is : %d\n\n", t->content, t->type, t->index);
 		t = t->next;
 	}
-	printf("%s type is %d\n", t->content, t->type);
-}
+	printf("%s type is %d and index is : %d\n\n", t->content, t->type, t->index);
+	token_l_free(t);
+}*/
 
 //Still need to implement $ handling
 
@@ -34,7 +35,7 @@ t_token	*tokenizer(char	*input)
 	t_token	*token_list;
 
 	input = spacer(input);
-	chop = ft_split(input, ' ');
+	chop = s_split(input, ' ');
 	token_list = token_node(chop);
 	if (token_list == NULL)
 		return (NULL);
@@ -56,6 +57,7 @@ t_token	*token_node(char **chopped)
 	if (!tok)
 		return (NULL);
 	tok->previous = NULL;
+	tok->next = NULL;
 	i = 0;
 	first = tok;
 	while (chopped[i])
@@ -100,6 +102,7 @@ char	*spacer(char *s)
 	char	*spaced;
 	int		i;
 	int		j;
+	int		quote;
 
 	i = 0;
 	j = 0;
@@ -108,8 +111,9 @@ char	*spacer(char *s)
 		return (NULL);
 	while (s[i])
 	{
-		if (sym_check(s + i) < GENERAL)
+		if (sym_check(s + i) < GENERAL && !quoted(s, i))
 		{
+			printf("quoted = %d and i = %d\n", quoted(s, i), i);
 			spaced[j++] = ' ';
 			spaced[j++] = s[i++];
 			if (s[i - 1] == s[i] && sym_check(s + i) < 3)

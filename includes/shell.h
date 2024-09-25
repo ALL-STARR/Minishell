@@ -41,14 +41,11 @@ typedef struct s_token
 # define PIPE 3
 # define DOUBLE_SMALL 4
 # define DOUBLE_GREAT 5
-# define QUOTE 6
-# define D_QUOTE 7
-# define GENERAL 8
-# define COMMAND 9
-
+# define GENERAL 6
+# define COMMAND 7
 /*general functions*/
 
-void		total_free(t_token *t, t_env_list *e);
+void		total_free(t_token *t);
 
 /*environment_list functions*/
 
@@ -66,13 +63,13 @@ int			sym_check(char *input);
 int			size_count(char *str);
 char		*spacer(char *s);
 t_token		*tokenizer(char	*input);
-int			tok_is_in_quote(t_token *token);
-int			tok_is_in_dquote(t_token *token);
 void		type_assign(t_token *t);
-void		quote_add(t_token *t, int *q, int *start, int *end);
 int			is_command(t_token *t);
 t_token		*token_delete(t_token *t);
-void		quote_erase(t_token *t);
 void		token_free(t_token *t);
+int			quoted(char *s, int index);
+int			dquoted(char *s, int index);
+int			not_a_split(char *s, char sep, int index);
+char		**s_split(char const *str, const char charset);
 
 #endif

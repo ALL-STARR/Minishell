@@ -36,62 +36,33 @@ int	sym_check(char *input)
 	return (8);
 }
 
-/*checks for quotes in the previous and next(s) nodes*/
+/*detects if the character is between quotes or double-quotes*/
 
-int	tok_is_in_dquote(t_token *token)
+int	quoted(char *s, int index)
 {
-	int	dquote;
-	int	dquote_i_start;
-	int	dquote_i_end;
-	int	index;
-
-	dquote = 0;
-	dquote_i_end = -1;
-	dquote_i_start = 0;
-	index = token->index;
-	while (token->previous != NULL)
-		token = token->previous;
-	while (token->next != NULL)
-	{
-		if (*token->content == 34)
-		{
-			quote_add(token, &dquote, &dquote_i_start, &dquote_i_end);
-			if (index > dquote_i_start && index < dquote_i_end)
-				return (1);
-		}
-		token = token->next;
-	}
-	if (*token->content == 34 && index > dquote_i_start)
-		return (1);
-	return (0);
-}
-
-/*checks for dquotes in the previous and next(s) nodes*/
-
-int	tok_is_in_quote(t_token *token)
-{
+	int	i;
+	int	dquotes_open;
+	int	dquotes_closed;
 	int	quote;
-	int	quote_i_start;
-	int	quote_i_end;
-	int	index;
 
-	quote = 0;
-	quote_i_end = -1;
-	quote_i_start = 0;
-	index = token->index;
-	while (token->previous != NULL)
-		token = token->previous;
-	while (token->next != NULL)
+	i = 0;
+	dquotes_open = 0;
+	dquotes_closed = 0;
+	while (s[i])
 	{
-		if (*token->content == 39 && !tok_is_in_dquote(token))
+		if ((s[i] == 34 && ft_strchr(s + (i + 1), 34))
+			|| (s[i] == 39 && ft_strchr(s + (i + 1), 39)))
 		{
-			quote_add(token, &quote, &quote_i_start, &quote_i_end);
-			if (index >= quote_i_start && index <= quote_i_end)
-				return (1);
+			quote = s[i];
+			dquotes_open = i;
+			while (s[++i] != quote)
+				i;
+			dquotes_closed = i;
 		}
-		token = token->next;
+		if (index < dquotes_closed && index > dquotes_open)
+			return (1);
+		dquotes_closed = 0;
+		i++;
 	}
-	if (*token->content == 39 && index > quote_i_start)
-		return (1);
 	return (0);
 }
