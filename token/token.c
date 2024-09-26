@@ -12,12 +12,12 @@
 
 #include "../includes/shell.h"
 
-/*int	main()
+int	main()
 {
 	t_token *t;
 
 	t = tokenizer("He>>l\"omy |'love'\"");
-	printf("Hell\"omy|love'\"\n");
+	printf("He>>l\"omy |'love'\"\n");
 	while (t->next != NULL)
 	{
 		printf("%s type is %d and index is : %d\n\n", t->content, t->type, t->index);
@@ -25,7 +25,7 @@
 	}
 	printf("%s type is %d and index is : %d\n\n", t->content, t->type, t->index);
 	token_l_free(t);
-}*/
+}
 
 //Still need to implement $ handling
 
@@ -113,7 +113,6 @@ char	*spacer(char *s)
 	{
 		if (sym_check(s + i) < GENERAL && !quoted(s, i))
 		{
-			printf("quoted = %d and i = %d\n", quoted(s, i), i);
 			spaced[j++] = ' ';
 			spaced[j++] = s[i++];
 			if (s[i - 1] == s[i] && sym_check(s + i) < 3)
@@ -123,7 +122,7 @@ char	*spacer(char *s)
 		else
 			spaced[j++] = s[i++];
 	}
-	free(s);
+	//free(s);
 	spaced[j] = '\0';
 	return (spaced);
 }

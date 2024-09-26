@@ -10,7 +10,6 @@ SHELL_SRCS 	= token/token_utils.c\
 				token/token_utils_2.c\
 				token/token.c\
 				token/special_split.c
-				shell.c
 
 
 

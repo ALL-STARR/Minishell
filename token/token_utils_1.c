@@ -22,6 +22,7 @@ void	type_assign(t_token *t)
 		t = t->next;
 	}
 	t->type = sym_check(t->content);
+	quote_erase(t);
 }
 
 /*calculates the size needed for the new spaced string*/

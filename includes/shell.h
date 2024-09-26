@@ -43,6 +43,7 @@ typedef struct s_token
 # define DOUBLE_GREAT 5
 # define GENERAL 6
 # define COMMAND 7
+
 /*general functions*/
 
 void		total_free(t_token *t);
@@ -71,5 +72,6 @@ int			quoted(char *s, int index);
 int			dquoted(char *s, int index);
 int			not_a_split(char *s, char sep, int index);
 char		**s_split(char const *str, const char charset);
+void		quote_erase(t_token *l);
 
 #endif

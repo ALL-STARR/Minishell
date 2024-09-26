@@ -66,3 +66,62 @@ int	quoted(char *s, int index)
 	}
 	return (0);
 }
+
+/*copies the string without the quotes*/
+
+static char	*no_quote_cpy(char *dest, char *src)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (src[i])
+	{
+		if (src[i] != 34 && src[i] != 39)
+			dest[j++] = src[i];
+		i++;
+	}
+	dest[j] = '\0';
+	free(src);
+	return (dest);
+}
+
+static char	*no_quote_node(char *s)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+
+	i = 0;
+	j = 0;
+	while (s[i])
+	{
+		if (s[i] != 34 && s[i] != 39)
+			j++;
+		i++;
+	}
+	tmp = malloc(sizeof(char) * (j + 1));
+	if (!s)
+		return (NULL);
+	s = no_quote_cpy(tmp, s);
+	return (s);
+}
+
+/*replaces the tokens with their version without quotes*/
+
+void	quote_erase(t_token *l)
+{
+	int		i;
+	int		j;
+	char	*s;
+
+	while (l->previous != NULL)
+		l = l->previous;
+	while (l->next != NULL)
+	{
+		l->content = no_quote_node(l->content);
+		l = l->next;
+	}
+	l->content = no_quote_node(l->content);
+}
