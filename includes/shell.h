@@ -34,7 +34,12 @@ typedef struct s_token
 	struct s_token	*previous;
 }	t_token;
 
-
+typedef struct s_cmd
+{
+	char			**cmd;
+	struct s_token	*next;
+	struct s_token	*previous;
+}	t_cmd;
 
 # define CHAR_SMALLER_THAN 1
 # define CHAR_GREATER_THAN 2
@@ -73,5 +78,11 @@ int			dquoted(char *s, int index);
 int			not_a_split(char *s, char sep, int index);
 char		**s_split(char const *str, const char charset);
 void		quote_erase(t_token *l);
+
+/*parsing functions*/
+
+int			word_count(t_token *t);
+t_cmd		*cmd_node(t_token *t, t_cmd *cmd_l);
+t_cmd		*new_c_node(t_cmd *c);
 
 #endif

@@ -12,7 +12,7 @@
 
 #include "../includes/shell.h"
 
-int	main()
+/*int	main(void)
 {
 	t_token *t;
 
@@ -25,7 +25,7 @@ int	main()
 	}
 	printf("%s type is %d and index is : %d\n\n", t->content, t->type, t->index);
 	token_l_free(t);
-}
+}*/
 
 //Still need to implement $ handling
 
@@ -122,7 +122,7 @@ char	*spacer(char *s)
 		else
 			spaced[j++] = s[i++];
 	}
-	//free(s);
+	/*free(s);*/
 	spaced[j] = '\0';
 	return (spaced);
 }

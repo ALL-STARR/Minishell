@@ -24,7 +24,7 @@ void	total_free(t_token *t)
 
 t_token	*token_delete(t_token *t)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	if (t->next == NULL && t->previous == NULL)
 		return (token_free(t), NULL);

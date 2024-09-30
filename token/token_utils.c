@@ -54,9 +54,9 @@ int	quoted(char *s, int index)
 			|| (s[i] == 39 && ft_strchr(s + (i + 1), 39)))
 		{
 			quote = s[i];
-			dquotes_open = i;
-			while (s[++i] != quote)
-				i;
+			dquotes_open = i++;
+			while (s[i] != quote)
+				i++;
 			dquotes_closed = i;
 		}
 		if (index < dquotes_closed && index > dquotes_open)
