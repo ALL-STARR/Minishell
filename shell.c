@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/09/16 16:06:54 by marvin           ###   ########.fr       */
+/*   Updated: 2024/10/01 19:56:01 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	main(int arc, char **arv, char **envp)
 	char		*input;
 	char		*prompt;
 	t_token		*token;
+	t_cmd		*c;
+	int			i;
 
 	if (arc == 0)
 		return (1);
@@ -33,14 +35,19 @@ int	main(int arc, char **arv, char **envp)
         if (*input) 
             add_history(input);
 		token = tokenizer(input);
-		while (token->next != NULL)
+		c = parser(token);
+		while (c->next != NULL)
 		{
-			printf("%s : %d index = %d -- ", token->content, token->type, token->index);
-			token = token->next;
-			printf("%s\n", token->previous->content);
+			i = 0;
+			while (c->cmd[i])
+			{
+				printf("%s\n", c->cmd[i]);
+				i++;
+			}
+			c = c->next;
 		}
-		printf("%s : %d index = %d -- \n", token->content, token->type, token->index);
-		total_free(token, evp_list);
+		//cmd_l_free(c);
+		total_free(token);
     }
     return 0;
 }

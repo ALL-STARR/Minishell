@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/shell.h"
+#include "../includes/shell.h"
 
-int	parser(t_cmd_len *t)
+t_cmd	*parser(t_token *t)
 {
 	t_cmd	*command;
 	int		how_many;
@@ -21,7 +21,9 @@ int	parser(t_cmd_len *t)
 	how_many = 0;
 	command = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!command)
-		return (-1);
+		return (NULL);
+	command = cmd_node(t, command);
+	return (command);
 }
 
 /*creates cmd_nodes and fills them with the commands*/
@@ -34,7 +36,7 @@ t_cmd	*cmd_node(t_token *t, t_cmd *cmd_l)
 	cmd_l->next = NULL;
 	i = 0;
 	cmd_l->cmd = malloc(sizeof(char *) * (word_count(t) + 1));
-	if (!command->cmd)
+	if (!cmd_l->cmd)
 		return (NULL);
 	while (t->next != NULL)
 	{
@@ -51,7 +53,7 @@ t_cmd	*cmd_node(t_token *t, t_cmd *cmd_l)
 			i = 0;
 		}
 	}
-	return ();
+	return (cmd_l);
 }
 
 /*counts the number of words before the next PIPE*/
@@ -77,14 +79,35 @@ t_cmd	*new_c_node(t_cmd *c)
 	new = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new)
 		return (NULL);
-	if (!l)
-	{
-		new->next = NULL;
-		new->previous = NULL;
-		return (new);
-	}
 	c->next = new;
 	new->next = NULL;
 	new->previous = c;
 	return (new);
+}
+
+void	cmd_l_free(t_cmd *c)
+{
+	int	i;
+
+	while (c->previous != NULL)
+		c = c->previous;
+	while (c->next != NULL)
+	{
+		i = 0;
+		while (c->cmd[i])
+		{
+			free(c->cmd[i]);
+			i++;
+		}
+		free(c->cmd);
+		c = c->next;
+	}
+	i = 0;
+	while (c->cmd[i])
+	{
+		free(c->cmd[i]);
+		i++;
+	}
+	free(c->cmd);
+	c = c->next;
 }

@@ -37,8 +37,8 @@ typedef struct s_token
 typedef struct s_cmd
 {
 	char			**cmd;
-	struct s_token	*next;
-	struct s_token	*previous;
+	struct s_cmd	*next;
+	struct s_cmd	*previous;
 }	t_cmd;
 
 # define CHAR_SMALLER_THAN 1
@@ -84,5 +84,7 @@ void		quote_erase(t_token *l);
 int			word_count(t_token *t);
 t_cmd		*cmd_node(t_token *t, t_cmd *cmd_l);
 t_cmd		*new_c_node(t_cmd *c);
+t_cmd		*parser(t_token *t);
+void		cmd_l_free(t_cmd *c);
 
 #endif

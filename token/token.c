@@ -122,7 +122,7 @@ char	*spacer(char *s)
 		else
 			spaced[j++] = s[i++];
 	}
-	/*free(s);*/
+	//free(s);
 	spaced[j] = '\0';
 	return (spaced);
 }

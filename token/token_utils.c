@@ -29,11 +29,7 @@ int	sym_check(char *input)
 		return (2);
 	if (input[i] == '|')
 		return (3);
-	if (input[i] == 39)
-		return (6);
-	if (input[i] == 34)
-		return (7);
-	return (8);
+	return (6);
 }
 
 /*detects if the character is between quotes or double-quotes*/
@@ -78,7 +74,7 @@ static char	*no_quote_cpy(char *dest, char *src)
 	j = 0;
 	while (src[i])
 	{
-		if (src[i] != 34 && src[i] != 39)
+		if ((src[i] != 34 && src[i] != 39) || quoted(src, i))
 			dest[j++] = src[i];
 		i++;
 	}
@@ -92,19 +88,26 @@ static char	*no_quote_node(char *s)
 	int		i;
 	int		j;
 	char	*tmp;
+	int		flag;
 
-	i = 0;
+	i = -1;
 	j = 0;
-	while (s[i])
+	flag = 0;
+	while (s[++i])
 	{
-		if (s[i] != 34 && s[i] != 39)
+		if ((s[i] != 34 && s[i] != 39) || quoted(s, i))
 			j++;
-		i++;
+		if (((s[i] == 34 || s[i] == 39) && !quoted(s, i))
+			&& ft_strchr(s + (i + 1), s[i]))
+			flag = 1;
 	}
-	tmp = malloc(sizeof(char) * (j + 1));
-	if (!s)
-		return (NULL);
-	s = no_quote_cpy(tmp, s);
+	if (flag)
+	{
+		tmp = malloc(sizeof(char) * (j + 1));
+		if (!s)
+			return (NULL);
+		s = no_quote_cpy(tmp, s);
+	}
 	return (s);
 }
 
