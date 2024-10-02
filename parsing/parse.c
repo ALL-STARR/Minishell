@@ -41,17 +41,22 @@ t_cmd	*cmd_node(t_token *t, t_cmd *cmd_l)
 	while (t->next != NULL)
 	{
 		if (t->type != PIPE)
-			cmd_l->cmd[i] = t->content;
-		i++;
+			cmd_l->cmd[i++] = t->content;
 		t = t->next;
 		if (t->type == PIPE)
 		{
 			t = t->next; /*if there is a pipe in the parsing it means that there where multiple pipes back to back*/
-			cmd_l = new_c_node(cmd_l);
+			cmd_l->cmd[i] = NULL;
+			cmd_l = new_c_node(cmd_l, t);
 			if (!cmd_l)
 				return (NULL);
 			i = 0;
 		}
+	}
+	if (t->type != PIPE)
+	{
+		cmd_l->cmd[i++] = t->content;
+		cmd_l->cmd[i++] = NULL;
 	}
 	return (cmd_l);
 }
@@ -64,7 +69,10 @@ int	word_count(t_token *t)
 
 	i = 0;
 	while (t->next != NULL && t->type != PIPE)
+	{
+		t = t->next;
 		i++;
+	}
 	if (t->type != PIPE)
 		i++;
 	return (i);
@@ -72,12 +80,15 @@ int	word_count(t_token *t)
 
 /*creates a new cmd_node and returns it*/
 
-t_cmd	*new_c_node(t_cmd *c)
+t_cmd	*new_c_node(t_cmd *c, t_token *t)
 {
 	t_cmd	*new;
 
 	new = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new)
+		return (NULL);
+	new->cmd = malloc(sizeof(char *) * (word_count(t) + 1));
+	if (!new->cmd)
 		return (NULL);
 	c->next = new;
 	new->next = NULL;
@@ -87,27 +98,17 @@ t_cmd	*new_c_node(t_cmd *c)
 
 void	cmd_l_free(t_cmd *c)
 {
-	int	i;
+	t_cmd *tmp;
 
 	while (c->previous != NULL)
 		c = c->previous;
 	while (c->next != NULL)
 	{
-		i = 0;
-		while (c->cmd[i])
-		{
-			free(c->cmd[i]);
-			i++;
-		}
 		free(c->cmd);
+		tmp = c;
 		c = c->next;
-	}
-	i = 0;
-	while (c->cmd[i])
-	{
-		free(c->cmd[i]);
-		i++;
+		free(tmp);
 	}
 	free(c->cmd);
-	c = c->next;
+	free(c);
 }

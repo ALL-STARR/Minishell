@@ -59,6 +59,7 @@ t_env_list	*envellope(char **env);
 t_env_list	*new_node(t_env_list *l);
 void		env_l_free(t_env_list *l);
 char		*variable_fetch(t_env_list *e, char *str);
+char		*var_value(char *var);
 
 /*token functions*/
 
@@ -83,8 +84,9 @@ void		quote_erase(t_token *l);
 
 int			word_count(t_token *t);
 t_cmd		*cmd_node(t_token *t, t_cmd *cmd_l);
-t_cmd		*new_c_node(t_cmd *c);
+t_cmd		*new_c_node(t_cmd *c, t_token *t);
 t_cmd		*parser(t_token *t);
 void		cmd_l_free(t_cmd *c);
+
 
 #endif

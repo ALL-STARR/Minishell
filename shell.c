@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/10/01 19:56:01 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/10/02 00:08:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	main(int arc, char **arv, char **envp)
 			}
 			c = c->next;
 		}
-		//cmd_l_free(c);
+		cmd_l_free(c);
 		total_free(token);
     }
     return 0;

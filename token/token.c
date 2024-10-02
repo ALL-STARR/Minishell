@@ -12,20 +12,36 @@
 
 #include "../includes/shell.h"
 
-/*int	main(void)
+int	main(void)
 {
 	t_token *t;
+	t_cmd	*c;
+	int		i;
 
-	t = tokenizer("He>>l\"omy |'love'\"");
-	printf("He>>l\"omy |'love'\"\n");
-	while (t->next != NULL)
+	t = tokenizer("He>>|l\"omy |'love'\"|baby|bubble>>look");
+	printf("He>>|l\"omy |'love'\"|baby\n");
+	c = parser(t);
+	while (c->previous != NULL)
+		c = c->previous;
+	while (c->next != NULL)
 	{
-		printf("%s type is %d and index is : %d\n\n", t->content, t->type, t->index);
-		t = t->next;
+		i = 0;
+		while (c->cmd[i])
+		{
+			printf("%s\n", c->cmd[i]);
+			i++;
+		}
+		c = c->next;
 	}
-	printf("%s type is %d and index is : %d\n\n", t->content, t->type, t->index);
+	i = 0;
+	while (c->cmd[i])
+	{
+		printf("%s\n", c->cmd[i]);
+		i++;
+	}
+	cmd_l_free(c);
 	token_l_free(t);
-}*/
+}
 
 //Still need to implement $ handling
 

@@ -10,5 +10,7 @@ TO_DO_LIST
 	- history
 	- Ctrl - L
 - recuperer et split PATH
+- handle double_pipe parsing
+- check all error returns
 
 [[EXECUTION PART]]
