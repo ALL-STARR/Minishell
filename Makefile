@@ -11,6 +11,8 @@ SHELL_SRCS 	= token/token_utils.c\
 				token/token.c\
 				token/special_split.c\
 				parsing/parse.c\
+				env.c\
+				shell.c\
 
 
 
@@ -31,7 +33,7 @@ CC		= gcc -g #-fsanitize=address
 
 FLAGS	= -Wall -Wextra -Werror
 
-READ_FLAGS = -L/Users/$(shell whoami)/.brew/opt/readline/lib -I/Users/$(shell whoami)/.brew/opt/readline/include -lreadline
+READ_FLAGS = -L/Users/$(shell whoami)/homebrew/opt/readline/lib -I/Users/$(shell whoami)/homebrew/opt/readline/include -lreadline
 
 LIB		= ar -rc
 

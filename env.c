@@ -25,7 +25,7 @@ t_env_list	*envellope(char **env)
 	first = envl;
 	while (env[i])
 	{
-		envl->variable = env[i];
+		envl->var = env[i];
 		i++;
 		if (env[i])
 			envl = new_node(envl);
@@ -63,13 +63,44 @@ void	env_l_free(t_env_list *l)
 	return ;
 }
 
-char	*variable_fetch(t_env_list *e, char *str)
+char	*var_fetch(t_env_list *e, char *str)
 {
+	int	flag;
+
+	flag = 0;
 	while (e->next == NULL)
 	{
-		if (ft_strnstr(e->variable, str, ft_strlen(e->variable)))
-			return (e->variable);
+		if (ft_strnstr(e->var, str, ft_strlen(str)))
+		{
+			flag = 1;
+			break;
+		}
 		e = e->next;
 	}
+	if (flag)
+		return (e->var + (ft_strlen(str) + 1));
+	return (NULL);
+}
+
+char	*var_pfetch(char *e, char *str)
+{
+	int	flag;
+	int	i;
+
+	flag = 0;
+	i = 0;
+	while (str[i + 1] != ' ')
+		i++;
+	while (e->next == NULL)
+	{
+		if (ft_strncmp(e->var, str, i))
+		{
+			flag = 1;
+			break;
+		}
+		e = e->next;
+	}
+	if (flag)
+		return (e->var + (i + 1));
 	return (NULL);
 }

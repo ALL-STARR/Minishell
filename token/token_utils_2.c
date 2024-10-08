@@ -59,10 +59,42 @@ void	token_free(t_token *t)
 	return ;
 }
 
+/*detects if a character is a point to split*/
+
 int	not_a_split(char *s, char sep, int index)
 {
 	if (quoted(s, index) || s[index] != sep)
 		return (1);
 	else
 		return (0);
+}
+
+/*detects if a character is between simple quotes*/
+
+int	simple_quoted(char *s, int index)
+{
+	int	i;
+	int	squotes_open;
+	int	squotes_closed;
+	int	quote;
+
+	i = 0;
+	squotes_open = 0;
+	squotes_closed = 0;
+	while (s[i])
+	{
+		if ((s[i] == 39 && ft_strchr(s + (i + 1), 39)))
+		{
+			quote = s[i];
+			squotes_open = i++;
+			while (s[i] != quote)
+				i++;
+			squotes_closed = i;
+		}
+		if (index < squotes_closed && index > squotes_open)
+			return (1);
+		squotes_closed = 0;
+		i++;
+	}
+	return (0);
 }

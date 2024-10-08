@@ -12,14 +12,14 @@
 
 #include "../includes/shell.h"
 
-int	main(void)
+/*int	main(void)
 {
 	t_token *t;
 	t_cmd	*c;
 	int		i;
 
 	t = tokenizer("He>>|l\"omy |'love'\"|baby|bubble>>look");
-	printf("He>>|l\"omy |'love'\"|baby\n");
+	printf("He>>|l\"omy |'love'\"|baby|bubble>>look\n");
 	c = parser(t);
 	while (c->previous != NULL)
 		c = c->previous;
@@ -41,16 +41,16 @@ int	main(void)
 	}
 	cmd_l_free(c);
 	token_l_free(t);
-}
+}*/
 
 //Still need to implement $ handling
 
-t_token	*tokenizer(char	*input)
+t_token	*tokenizer(char	*input, t_all *all)
 {
 	char	**chop;
 	t_token	*token_list;
 
-	input = spacer(input);
+	input = spacer(input, all);
 	chop = s_split(input, ' ');
 	token_list = token_node(chop);
 	if (token_list == NULL)
@@ -113,33 +113,32 @@ t_token	*new_t_node(t_token *l)
 
 /*creates a new string with ' ' separating each elements for further splitting*/
 
-char	*spacer(char *s)
+char	*spacer(char *s, t_all *all)
 {
 	char	*spaced;
 	int		i;
 	int		j;
-	int		quote;
+	char	*tmp;
 
 	i = 0;
 	j = 0;
-	spaced = malloc(sizeof(char) * (size_count(s) + 1));
-	if (!spaced)
-		return (NULL);
-	while (s[i])
+	spaced = malloc(sizeof(char) * (size_count(s, all) + 1));
+	while (s[i] && spaced)
 	{
-		if (sym_check(s + i) < GENERAL && !quoted(s, i))
+		if (s[i] == '$' && var_pfetch(all->env->var, s + i))
 		{
-			spaced[j++] = ' ';
-			spaced[j++] = s[i++];
-			if (s[i - 1] == s[i] && sym_check(s + i) < 3)
-				spaced[j++] = s[i++];
-			spaced[j++] = ' ';
+			tmp = var_pfetch(all->env->var, s + i);
+			while (*tmp)
+				spaced[j++] = *(tmp++);
 		}
+		if (sym_check(s + i) < GENERAL && !quoted(s, i))
+			spacer_shortcut(spaced, s, &i, &j);
 		else
 			spaced[j++] = s[i++];
 	}
-	//free(s);
-	spaced[j] = '\0';
+	free(s);
+	if (spaced)
+		spaced[j] = '\0';
 	return (spaced);
 }
 

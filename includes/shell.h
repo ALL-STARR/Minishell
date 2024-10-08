@@ -21,7 +21,7 @@
 
 typedef struct s_env_list
 {
-	char				*variable;
+	char				*var;
 	struct s_env_list	*next;
 }	t_env_list;
 
@@ -40,6 +40,13 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 	struct s_cmd	*previous;
 }	t_cmd;
+
+typedef struct s_all
+{
+	t_env_list	*env;
+	t_token		*token;
+	t_cmd		*cmd;
+}	t_all;
 
 # define CHAR_SMALLER_THAN 1
 # define CHAR_GREATER_THAN 2
@@ -60,6 +67,7 @@ t_env_list	*new_node(t_env_list *l);
 void		env_l_free(t_env_list *l);
 char		*variable_fetch(t_env_list *e, char *str);
 char		*var_value(char *var);
+char		*var_pfetch(char *e, char *str);
 
 /*token functions*/
 
@@ -67,9 +75,9 @@ t_token		*new_t_node(t_token *l);
 void		token_l_free(t_token *t);
 t_token		*token_node(char **chopped);
 int			sym_check(char *input);
-int			size_count(char *str);
-char		*spacer(char *s);
-t_token		*tokenizer(char	*input);
+int			size_count(char *str, t_all *all);
+char		*spacer(char *s, t_all *all);
+t_token		*tokenizer(char	*input, t_all *all);
 void		type_assign(t_token *t);
 int			is_command(t_token *t);
 t_token		*token_delete(t_token *t);
@@ -79,6 +87,7 @@ int			dquoted(char *s, int index);
 int			not_a_split(char *s, char sep, int index);
 char		**s_split(char const *str, const char charset);
 void		quote_erase(t_token *l);
+void		spacer_shortcut(char *spac, char *s, int *i, int *j);
 
 /*parsing functions*/
 
