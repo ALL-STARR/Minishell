@@ -12,14 +12,18 @@
 
 #include "../includes/shell.h"
 
-/*int	main(void)
+int	main(int arc, char **arv, char **env)
 {
 	t_token *t;
 	t_cmd	*c;
 	int		i;
+	t_all	*all;
+	
 
-	t = tokenizer("He>>|l\"omy |'love'\"|baby|bubble>>look");
-	printf("He>>|l\"omy |'love'\"|baby|bubble>>look\n");
+	all = (t_all *)malloc(sizeof(t_all));
+	all->env = envellope(env);
+	t = tokenizer("\'He>>$SHELL \'|l\"omy  |'love'\"|baby|bubble>>look", all);
+	printf("\"He>>$SHELL \"|l\"omy  |'love'\"|baby|bubble>>look\n");
 	c = parser(t);
 	while (c->previous != NULL)
 		c = c->previous;
@@ -41,7 +45,7 @@
 	}
 	cmd_l_free(c);
 	token_l_free(t);
-}*/
+}
 
 //Still need to implement $ handling
 
@@ -125,18 +129,21 @@ char	*spacer(char *s, t_all *all)
 	spaced = malloc(sizeof(char) * (size_count(s, all) + 1));
 	while (s[i] && spaced)
 	{
-		if (s[i] == '$' && var_pfetch(all->env->var, s + i))
+		if (s[i] == '$' && var_pfetch(all->env, s + i) && !simple_quoted(s, i))
 		{
-			tmp = var_pfetch(all->env->var, s + i);
+			tmp = var_pfetch(all->env, s + i);
+			spaced[j++] = ' ';
 			while (*tmp)
 				spaced[j++] = *(tmp++);
+			while (s[i] != ' ')
+				i++;
 		}
 		if (sym_check(s + i) < GENERAL && !quoted(s, i))
 			spacer_shortcut(spaced, s, &i, &j);
 		else
 			spaced[j++] = s[i++];
 	}
-	free(s);
+	//free(s);
 	if (spaced)
 		spaced[j] = '\0';
 	return (spaced);

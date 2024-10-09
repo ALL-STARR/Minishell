@@ -8,6 +8,7 @@ HEADER	= /includes/shell.h
 SHELL_SRCS 	= token/token_utils.c\
 				token/token_utils_1.c\
 				token/token_utils_2.c\
+				token/token_utils_3.c\
 				token/token.c\
 				token/special_split.c\
 				parsing/parse.c\

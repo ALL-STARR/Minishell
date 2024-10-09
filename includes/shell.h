@@ -67,7 +67,7 @@ t_env_list	*new_node(t_env_list *l);
 void		env_l_free(t_env_list *l);
 char		*variable_fetch(t_env_list *e, char *str);
 char		*var_value(char *var);
-char		*var_pfetch(char *e, char *str);
+char		*var_pfetch(t_env_list *e, char *str);
 
 /*token functions*/
 
@@ -83,11 +83,13 @@ int			is_command(t_token *t);
 t_token		*token_delete(t_token *t);
 void		token_free(t_token *t);
 int			quoted(char *s, int index);
-int			dquoted(char *s, int index);
 int			not_a_split(char *s, char sep, int index);
 char		**s_split(char const *str, const char charset);
 void		quote_erase(t_token *l);
 void		spacer_shortcut(char *spac, char *s, int *i, int *j);
+int			simple_quoted(char *s, int index);
+void		spacer_shortcut(char *spac, char *s, int *i, int *j);
+
 
 /*parsing functions*/
 

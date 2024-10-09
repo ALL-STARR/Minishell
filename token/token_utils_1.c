@@ -40,8 +40,8 @@ int	size_count(char *str, t_all *all)
 	size = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' && var_pfetch(all->env->var, str + i))
-			size += ft_strlen(var_pfetch(all->env->var, str + i));
+		if (str[i] == '$' && var_pfetch(all->env, str + i) && !simple_quoted(str, i))
+			size += ft_strlen(var_pfetch(all->env, str + i));
 		if (sym_check(str + i) < GENERAL && !quoted(str, i))
 		{
 			size += 2;
@@ -73,7 +73,7 @@ int	is_command(t_token *t)
 
 /*returns the environment variable*/
 
-char	*env_v_string(char *input, t_env_list *env)
+/*
 {
 	int		i;
 	char	*name;
@@ -91,7 +91,7 @@ char	*env_v_string(char *input, t_env_list *env)
 }
 
 /*gets the size of the environment variable*/
-
+/*
 size_t	env_size(char *input, t_env_list *env)
 {
 	int		i;
@@ -107,4 +107,4 @@ size_t	env_size(char *input, t_env_list *env)
 	ft_strlcpy(name, input, i);
 	value = variable_fetch(env, name);
 	return (ft_strlen(value));
-}
+}*/

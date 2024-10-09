@@ -12,7 +12,7 @@
 
 #include "includes/shell.h"
 
-int	main(int arc, char **arv, char **envp)
+/*int	main(int arc, char **arv, char **envp)
 {
 	char		*input;
 	char		*prompt;
@@ -48,4 +48,4 @@ int	main(int arc, char **arv, char **envp)
 	cmd_l_free(c);
 	total_free(token);
     return 0;
-}
+}*/
