@@ -22,7 +22,7 @@ int	main(int arc, char **arv, char **env)
 
 	all = (t_all *)malloc(sizeof(t_all));
 	all->env = envellope(env);
-	t = tokenizer("\'He>>$SHELL \'|l\"omy  |'love'\"|baby|bubble>>look", all);
+	t = tokenizer("He$SHELL |l\"omy  |'love'\"|baby|bubble>>look", all);
 	printf("\"He>>$SHELL \"|l\"omy  |'love'\"|baby|bubble>>look\n");
 	c = parser(t);
 	while (c->previous != NULL)
@@ -46,8 +46,6 @@ int	main(int arc, char **arv, char **env)
 	cmd_l_free(c);
 	token_l_free(t);
 }
-
-//Still need to implement $ handling
 
 t_token	*tokenizer(char	*input, t_all *all)
 {
@@ -132,7 +130,7 @@ char	*spacer(char *s, t_all *all)
 		if (s[i] == '$' && var_pfetch(all->env, s + i) && !simple_quoted(s, i))
 		{
 			tmp = var_pfetch(all->env, s + i);
-			spaced[j++] = ' ';
+			//spaced[j++] = ' ';
 			while (*tmp)
 				spaced[j++] = *(tmp++);
 			while (s[i] != ' ')

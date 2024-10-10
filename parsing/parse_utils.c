@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:20:25 by thomvan-          #+#    #+#             */
-/*   Updated: 2024/10/01 19:34:04 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/10/10 16:47:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 char	*var_value(char *var)
 {
-	while (var != '=')
+	if (!var)
+		return (NULL);
+	while (*var != '=' && *var != '\0')
 		var++;
-	var++;
 	return (var);
 }
 

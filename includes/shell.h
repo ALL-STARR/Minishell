@@ -68,6 +68,8 @@ void		env_l_free(t_env_list *l);
 char		*variable_fetch(t_env_list *e, char *str);
 char		*var_value(char *var);
 char		*var_pfetch(t_env_list *e, char *str);
+void		env_n_free(t_env_list *t);
+t_env_list	*env_node_delete(t_env_list *env);
 
 /*token functions*/
 
@@ -99,5 +101,13 @@ t_cmd		*new_c_node(t_cmd *c, t_token *t);
 t_cmd		*parser(t_token *t);
 void		cmd_l_free(t_cmd *c);
 
+/*built-in functions*/
+
+void		my_unset(t_all *all);
+void 		my_pwd();
+void		my_echo(char **arg);
+void		my_cd(char **cmd);
+void		my_export(t_all *all);
+void		my_env(t_all *all, t_cmd *cmd);
 
 #endif
