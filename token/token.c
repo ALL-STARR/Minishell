@@ -127,10 +127,10 @@ char	*spacer(char *s, t_all *all)
 	spaced = malloc(sizeof(char) * (size_count(s, all) + 1));
 	while (s[i] && spaced)
 	{
-		if (s[i] == '$' && var_pfetch(all->env, s + i) && !simple_quoted(s, i))
+		if (s[i] == '$' && var_pfetch(all->env, s + i) && !simple_quoted(s, i)
+			&& s[i + 1] != '?')
 		{
 			tmp = var_pfetch(all->env, s + i);
-			//spaced[j++] = ' ';
 			while (*tmp)
 				spaced[j++] = *(tmp++);
 			while (s[i] != ' ')
@@ -141,7 +141,7 @@ char	*spacer(char *s, t_all *all)
 		else
 			spaced[j++] = s[i++];
 	}
-	//free(s);
+	free(s);
 	if (spaced)
 		spaced[j] = '\0';
 	return (spaced);

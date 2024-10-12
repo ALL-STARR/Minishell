@@ -14,12 +14,17 @@
 
 /*pwd*/
 
-void my_pwd()
+void my_pwd(t_cmd *c)
 {
-    char cwd[1024];
+    static char cwd[1024];
 
+	if (c->cmd[1])
+	{
+		perror("pwd: too many arguments\n");
+		return ;
+	}
     if (getcwd(cwd, sizeof(cwd)) != NULL)
-        fprintf(stdout, "%s", cwd);
+        printf(stdout, "%s", cwd);
 	else 
         perror("getcwd error");
 }
@@ -39,6 +44,8 @@ void	my_echo(char **arg)
 	{
 		printf("%s", arg[i]);
 		i++;
+		if (arg[i + flag] != NULL)
+			printf("' '");
 	}
 	if (!flag)
 		printf("\n");
@@ -46,21 +53,42 @@ void	my_echo(char **arg)
 
 /* cd */
 
-void	my_cd(char **cmd)
+void	my_cd(char **cmd, t_all *all)
 {
-	int	err;
+	int			err;
+	char*		tmp;
+	static char	cwd[1024];	
 
 	err = chdir(cmd[1]);
 	if (err == -1)
-		perror("path invalid");
+		perror("cd: no such file in directory");
+	getcwd(cwd, sizeof(cwd));
+	tmp = malloc(sizeof(char) * (ft_strlen(cwd) + 5));
+	while (ft_strncmp(all->env->var, PWD, 3) != 0
+		&& all->env != NULL)
+		all->env = all->env->next;
+	if (all->env)
+	{
+		tmp = strncpy(tmp, "PWD=", 4);
+		ft_strlcat(tmp, cwd, ft_strlen(cwd + 4));
+		free(all->env->var);
+		all->env->var = tmp;
+		return ;
+	}
+	free(tmp)
 }
 
 /*export*/
 
-void	my_export(t_all *all)
+void	my_export(t_all *all, t_cmd *cmd)
 {
 	int	i;
 
+	if (!cmd->cmd[1])
+	{
+		my_env(all, cmd);
+		return ;
+	}
 	i = 1;
 	while (all->env->next != NULL)
 		all->env = all->env->next;
