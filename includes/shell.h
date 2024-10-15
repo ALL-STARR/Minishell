@@ -37,6 +37,8 @@ typedef struct s_token
 typedef struct s_cmd
 {
 	char			**cmd;
+	int				n_redirection;
+	struct t_token	*redirect;
 	struct s_cmd	*next;
 	struct s_cmd	*previous;
 }	t_cmd;
@@ -50,9 +52,9 @@ typedef struct s_all
 
 # define CHAR_SMALLER_THAN 1
 # define CHAR_GREATER_THAN 2
-# define PIPE 3
-# define DOUBLE_SMALL 4
-# define DOUBLE_GREAT 5
+# define DOUBLE_SMALL 3
+# define DOUBLE_GREAT 4
+# define PIPE 5
 # define GENERAL 6
 # define COMMAND 7
 

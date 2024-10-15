@@ -12,7 +12,7 @@
 
 #include "includes/shell.h"
 
-/*int	main(int arc, char **arv, char **envp)
+int	main(int arc, char **arv, char **envp)
 {
 	char		*input;
 	char		*prompt;
@@ -34,18 +34,13 @@
         add_history(input);
 	token = tokenizer(input);
 	c = parser(token);
-	while (c->next != NULL)
+	while (c != NULL)
 	{
-		i = 0;
-		while (c->cmd[i])
-		{
-			printf("%s\n", c->cmd[i]);
-			i++;
-		}
+		
 		c = c->next;
 	}
 	clear_history();
 	cmd_l_free(c);
 	total_free(token);
     return 0;
-}*/
+}

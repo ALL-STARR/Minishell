@@ -38,3 +38,18 @@ void	replace_here(t_all *all)
 	}
 	all->token = first;
 }
+
+void redirect_finder(t_token *t, t_cmd *c)
+{
+	t_cmd *first;
+
+	while (t)
+	{
+		if (t->type < 5)
+		{
+			c->redirect = t;
+			c->redirect->next = t->next;
+			t->previous = t->next->next;
+		}
+	}
+}
