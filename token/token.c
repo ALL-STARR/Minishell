@@ -12,7 +12,7 @@
 
 #include "../includes/shell.h"
 
-int	main(int arc, char **arv, char **env)
+/*int	main(int arc, char **arv, char **env)
 {
 	t_token *t;
 	t_cmd	*c;
@@ -45,7 +45,7 @@ int	main(int arc, char **arv, char **env)
 	}
 	cmd_l_free(c);
 	token_l_free(t);
-}
+}*/
 
 t_token	*tokenizer(char	*input, t_all *all)
 {

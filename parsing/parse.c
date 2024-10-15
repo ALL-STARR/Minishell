@@ -22,6 +22,8 @@ t_cmd	*parser(t_token *t)
 	command = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!command)
 		return (NULL);
+	command->previous = NULL;
+	command->next = NULL;
 	command = cmd_node(t, command);
 	return (command);
 }
@@ -31,13 +33,13 @@ t_cmd	*parser(t_token *t)
 t_cmd	*cmd_node(t_token *t, t_cmd *cmd_l)
 {
 	int		i;
+	t_cmd	*first;
 
-	cmd_l->previous = NULL;
-	cmd_l->next = NULL;
 	i = 0;
 	cmd_l->cmd = malloc(sizeof(char *) * (word_count(t) + 1));
 	if (!cmd_l->cmd)
 		return (NULL);
+	first = cmd_l;
 	while (t->next != NULL)
 	{
 		if (t->type != PIPE)
@@ -45,7 +47,7 @@ t_cmd	*cmd_node(t_token *t, t_cmd *cmd_l)
 		t = t->next;
 		if (t->type == PIPE)
 		{
-			t = t->next; /*if there is a pipe in the parsing it means that there where multiple pipes back to back*/
+			t = t->next;
 			cmd_l->cmd[i] = NULL;
 			cmd_l = new_c_node(cmd_l, t);
 			if (!cmd_l)
@@ -58,7 +60,7 @@ t_cmd	*cmd_node(t_token *t, t_cmd *cmd_l)
 		cmd_l->cmd[i++] = t->content;
 		cmd_l->cmd[i++] = NULL;
 	}
-	return (cmd_l);
+	return (first);
 }
 
 /*counts the number of words before the next PIPE*/
