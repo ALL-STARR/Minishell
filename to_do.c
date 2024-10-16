@@ -9,7 +9,6 @@ TO_DO_LIST
 - readline implementation
 	- history
 	- Ctrl - L
-- recuperer et split PATH
 - handle double_pipe parsing
 - check all error returns
 

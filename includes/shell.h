@@ -38,7 +38,8 @@ typedef struct s_cmd
 {
 	char			**cmd;
 	int				n_redirection;
-	struct t_token	*redirect;
+	struct t_token	*in_red;
+	struct t_token	*out_red;
 	struct s_cmd	*next;
 	struct s_cmd	*previous;
 }	t_cmd;
@@ -50,8 +51,8 @@ typedef struct s_all
 	t_cmd		*cmd;
 }	t_all;
 
-# define CHAR_SMALLER_THAN 1
-# define CHAR_GREATER_THAN 2
+# define SMALLER 1
+# define GREATER 2
 # define DOUBLE_SMALL 3
 # define DOUBLE_GREAT 4
 # define PIPE 5

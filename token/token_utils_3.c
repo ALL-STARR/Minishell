@@ -41,15 +41,28 @@ void	replace_here(t_all *all)
 
 void redirect_finder(t_token *t, t_cmd *c)
 {
-	t_cmd *first;
+	t_cmd	*first;
 
+	c->n_redirection = 0;
 	while (t)
 	{
-		if (t->type < 5)
+		if (t->type == SMALLER || t->type == DOUBLE_SMALL)
 		{
-			c->redirect = t;
-			c->redirect->next = t->next;
-			t->previous = t->next->next;
+			c->n_redirection++;
+			c->in_red = t;
+			c->in_red->next = t->next;
+			t->previous->next = t->next->next;
+			t = t->next;
 		}
+		if (t->type == GREATER || t->type == DOUBLE_GREAT)
+		{
+			c->n_redirection++;
+			c->out_red = t;
+			c->out_red->next = t->next;
+			t->previous->next = t->next->next;
+			t = t->next;
+		}
+		t = t->next;
 	}
+	return (n_red);
 }
