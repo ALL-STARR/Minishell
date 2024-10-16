@@ -6,10 +6,8 @@ TO_DO_LIST
 // - could make token_l_free work from any node V
 // - add  '$' implementation
 // - remove quotes in the tokenization
-- readline implementation
-	- history
-	- Ctrl - L
-- handle double_pipe parsing
 - check all error returns
+- implement redir in parsing
+- adapt free function for the t_cmd list
 
 [[EXECUTION PART]]
