@@ -95,7 +95,6 @@ void		spacer_shortcut(char *spac, char *s, int *i, int *j);
 int			simple_quoted(char *s, int index);
 void		spacer_shortcut(char *spac, char *s, int *i, int *j);
 
-
 /*parsing functions*/
 
 int			word_count(t_token *t);
@@ -103,14 +102,17 @@ t_cmd		*cmd_node(t_token *t, t_cmd *cmd_l);
 t_cmd		*new_c_node(t_cmd *c, t_token *t);
 t_cmd		*parser(t_token *t);
 void		cmd_l_free(t_cmd *c);
+void		redirect_finder(t_token *t, t_cmd *c);
+void		in_red(t_token *t, t_cmd *c, int *in_flag);
+void		out_red(t_token *t, t_cmd *c, int *out_flag);
 
 /*built-in functions*/
 
 void		my_unset(t_all *all);
-void 		my_pwd();
+void		my_pwd(void);
 void		my_echo(char **arg);
 void		my_cd(char **cmd);
-void		my_export(t_all *all);
+void		my_export(t_all *all, t_cmd *c);
 void		my_env(t_all *all, t_cmd *cmd);
 
 #endif

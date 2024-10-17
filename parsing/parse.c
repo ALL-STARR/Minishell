@@ -24,8 +24,21 @@ t_cmd	*parser(t_token *t)
 		return (NULL);
 	command->previous = NULL;
 	command->next = NULL;
+	redirect_finder(t, command);
 	command = cmd_node(t, command);
 	return (command);
+}
+
+/*factorisation of next function (cmd_node)*/
+
+static void	cmd_node_pipe_short(t_token *t, t_cmd *cmd_l, int *i)
+{
+	t = t->next;
+	cmd_l->cmd[*i] = NULL;
+	cmd_l = new_c_node(cmd_l, t);
+	if (!cmd_l)
+		return (NULL);
+	*i = 0;
 }
 
 /*creates cmd_nodes and fills them with the commands*/
@@ -40,20 +53,15 @@ t_cmd	*cmd_node(t_token *t, t_cmd *cmd_l)
 	if (!cmd_l->cmd)
 		return (NULL);
 	first = cmd_l;
+	cmd_l->in_red = NULL;
+	cmd_l->out_red = NULL;
 	while (t->next != NULL)
 	{
 		if (t->type != PIPE)
 			cmd_l->cmd[i++] = t->content;
 		t = t->next;
 		if (t->type == PIPE)
-		{
-			t = t->next;
-			cmd_l->cmd[i] = NULL;
-			cmd_l = new_c_node(cmd_l, t);
-			if (!cmd_l)
-				return (NULL);
-			i = 0;
-		}
+			cmd_node_pipe_short(t_token *t, t_cmd *cmd_l, &i);
 	}
 	if (t->type != PIPE)
 	{
@@ -94,23 +102,33 @@ t_cmd	*new_c_node(t_cmd *c, t_token *t)
 		return (NULL);
 	c->next = new;
 	new->next = NULL;
+	new->in_red = NULL;
+	new->out_red = NULL;
 	new->previous = c;
 	return (new);
 }
 
 void	cmd_l_free(t_cmd *c)
 {
-	t_cmd *tmp;
+	t_cmd	*tmp;
 
 	while (c->previous != NULL)
 		c = c->previous;
 	while (c->next != NULL)
 	{
+		if (c->in_red)
+			free(c->in_red);
+		if (c->out_red)
+			free(c->out_red);
 		free(c->cmd);
 		tmp = c;
 		c = c->next;
 		free(tmp);
 	}
+	if (c->in_red)
+		free(c->in_red);
+	if (c->out_red)
+		free(c->out_red);
 	free(c->cmd);
 	free(c);
 	c->cmd = 0;

@@ -23,8 +23,8 @@ int	main(int arc, char **arv, char **envp)
 	if (arc == 0)
 		return (1);
 	input = readline("write something : ");
-    if (input == NULL) 
-        return(1);
+    if (input == NULL)
+		return(1);
     if (ft_strncmp(input, "exit", ft_strlen(input)) == 0) 
 	{
     	free(input);

@@ -7,7 +7,8 @@ TO_DO_LIST
 // - add  '$' implementation
 // - remove quotes in the tokenization
 - check all error returns
-- implement redir in parsing
-- adapt free function for the t_cmd list
+// - implement redir in parsing
+- adapt free function for the t_cmd list - should be good needs testing
+- check parsing for built-ins
 
 [[EXECUTION PART]]
