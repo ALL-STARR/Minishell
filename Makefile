@@ -14,9 +14,8 @@ SHELL_SRCS 	= token/token_utils.c\
 				parsing/parse.c\
 				env.c\
 				shell.c\
-
-
-
+				pipex_bonus/ft_split.c\
+				pipex_bonus/pipex_bonus.c
 
 SHELL_SRC	= ${SHELL_SRCS}
 
@@ -34,7 +33,7 @@ CC		= gcc -g #-fsanitize=address
 
 FLAGS	= -Wall -Wextra -Werror
 
-READ_FLAGS = -L/Users/$(shell whoami)/homebrew/opt/readline/lib -I/Users/$(shell whoami)/homebrew/opt/readline/include -lreadline
+READ_FLAGS = -L/Users/raneuman/.brew/opt/readline/lib -I/Users/raneuman/.brew/opt/readline/include -lreadline
 
 LIB		= ar -rc
 

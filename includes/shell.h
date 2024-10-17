@@ -110,4 +110,10 @@ void		my_cd(char **cmd);
 void		my_export(t_all *all);
 void		my_env(t_all *all, t_cmd *cmd);
 
+/*pipex_bonus functions*/
+
+void	pipex(int arc, t_cmd *cmd, char **env);
+
+char	**ft_split(char const *s, char c);
+
 #endif

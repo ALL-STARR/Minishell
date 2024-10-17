@@ -12,12 +12,13 @@
 
 #include "includes/shell.h"
 
-/*int	main(int arc, char **arv, char **envp)
+int	main(int arc, char **arv, char **env)
 {
 	char		*input;
 	char		*prompt;
 	t_token		*token;
 	t_cmd		*c;
+    t_all       *all;
 	int			i;
 
 	if (arc == 0)
@@ -32,20 +33,13 @@
     }
     if (*input) 
         add_history(input);
-	token = tokenizer(input);
+	token = tokenizer(input, all);
 	c = parser(token);
-	while (c->next != NULL)
-	{
-		i = 0;
-		while (c->cmd[i])
-		{
-			printf("%s\n", c->cmd[i]);
-			i++;
-		}
-		c = c->next;
-	}
+    while (c->previous != NULL)
+        c = c->previous;
+    pipex(arc, c, env);
 	clear_history();
 	cmd_l_free(c);
 	total_free(token);
     return 0;
-}*/
+}

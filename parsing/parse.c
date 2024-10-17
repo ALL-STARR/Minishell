@@ -114,5 +114,5 @@ void	cmd_l_free(t_cmd *c)
 	c->cmd = 0;
 	c->next = 0;
 	c->previous = 0;
-	system("leaks minishell");
+	//system("leaks minishell");
 }
