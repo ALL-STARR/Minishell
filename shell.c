@@ -37,7 +37,7 @@ int	main(int arc, char **arv, char **envp)
 	all->env = envellope(envp);
 	all->token = tokenizer(input, all);
 	tok = all->token;
-	/*while (all->token)
+	while (all->token)
 	{
 		printf("%s\n", all->token->content);
 		all->token = all->token->next;
@@ -51,7 +51,7 @@ int	main(int arc, char **arv, char **envp)
 			printf("out_red is %s", all->cmd->out_red->content);
 		printf("\n");
 		all->cmd = all->cmd->next;
-	}*/
+	}
 	clear_history();
 	cmd_l_free(c);
 	total_free(tok);

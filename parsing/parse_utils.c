@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:20:25 by thomvan-          #+#    #+#             */
-/*   Updated: 2024/10/20 15:23:39 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/10/20 17:21:38 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	redirect_finder(t_token *t, t_cmd *c)
 	out_flag = 0;
 	while (t)
 	{
-		if ((t->type == SMALLER || t->type == DOUBLE_SMALL)
+		if ((t->type == SMALLER)
 			&& t->next->type > PIPE)
 			in_red(t, c, &in_flag);
 		if ((t->type == GREATER || t->type == DOUBLE_GREAT)
