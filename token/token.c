@@ -22,8 +22,8 @@
 
 	all = (t_all *)malloc(sizeof(t_all));
 	all->env = envellope(env);
-	t = tokenizer("He$SHELL |l\"omy  |'love'\"|baby|bubble>>look", all);
-	printf("\"He>>$SHELL \"|l\"omy  |'love'\"|baby|bubble>>look\n");
+	t = tokenizer("He<<$SHELL |l\"omy  |'love'\"|baby|bubble>>look", all);
+	printf("He<<$SHELL |l\"omy  |'love'\"|baby|bubble>>look\n");
 	c = parser(t);
 	while (c->previous != NULL)
 		c = c->previous;

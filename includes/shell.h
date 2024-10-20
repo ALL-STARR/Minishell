@@ -38,8 +38,8 @@ typedef struct s_cmd
 {
 	char			**cmd;
 	int				n_redirection;
-	struct t_token	*in_red;
-	struct t_token	*out_red;
+	struct s_token	*in_red;
+	struct s_token	*out_red;
 	struct s_cmd	*next;
 	struct s_cmd	*previous;
 }	t_cmd;

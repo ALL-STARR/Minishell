@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 19:20:25 by thomvan-          #+#    #+#             */
-/*   Updated: 2024/10/17 14:40:35 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/10/20 15:23:39 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	redirect_finder(t_token *t, t_cmd *c)
 			in_red(t, c, &in_flag);
 		if ((t->type == GREATER || t->type == DOUBLE_GREAT)
 			&& t->next->type > PIPE)
-			out_red(t, c, out_flag);
+			out_red(t, c, &out_flag);
 		t = t->next;
 	}
 	return ;

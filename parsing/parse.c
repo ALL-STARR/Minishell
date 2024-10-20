@@ -31,7 +31,7 @@ t_cmd	*parser(t_token *t)
 
 /*factorisation of next function (cmd_node)*/
 
-static void	cmd_node_pipe_short(t_token *t, t_cmd *cmd_l, int *i)
+static t_cmd	*cmd_node_pipe_short(t_token *t, t_cmd *cmd_l, int *i)
 {
 	t = t->next;
 	cmd_l->cmd[*i] = NULL;
@@ -39,6 +39,7 @@ static void	cmd_node_pipe_short(t_token *t, t_cmd *cmd_l, int *i)
 	if (!cmd_l)
 		return (NULL);
 	*i = 0;
+	return (cmd_l);
 }
 
 /*creates cmd_nodes and fills them with the commands*/
@@ -61,7 +62,7 @@ t_cmd	*cmd_node(t_token *t, t_cmd *cmd_l)
 			cmd_l->cmd[i++] = t->content;
 		t = t->next;
 		if (t->type == PIPE)
-			cmd_node_pipe_short(t_token *t, t_cmd *cmd_l, &i);
+			cmd_l = cmd_node_pipe_short(t,cmd_l, &i);
 	}
 	if (t->type != PIPE)
 	{
@@ -80,11 +81,13 @@ int	word_count(t_token *t)
 	i = 0;
 	while (t->next != NULL && t->type != PIPE)
 	{
+		//printf("content is %s\n", t->content);
 		t = t->next;
 		i++;
 	}
 	if (t->type != PIPE)
 		i++;
+	//printf("content is %s\n", t->content);
 	return (i);
 }
 
@@ -131,8 +134,8 @@ void	cmd_l_free(t_cmd *c)
 		free(c->out_red);
 	free(c->cmd);
 	free(c);
-	c->cmd = 0;
-	c->next = 0;
-	c->previous = 0;
-	system("leaks minishell");
+	// c->cmd = 0;
+	// c->next = 0;
+	// c->previous = 0;
+	// system("leaks minishell");
 }

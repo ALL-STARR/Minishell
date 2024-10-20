@@ -12,9 +12,9 @@ SHELL_SRCS 	= token/token_utils.c\
 				token/token.c\
 				token/special_split.c\
 				parsing/parse.c\
+				parsing/parse_utils.c\
 				env.c\
 				shell.c\
-
 
 
 
@@ -30,7 +30,7 @@ FT_FOLDER = ./libft
 
 FT = ${FT_FOLDER}/libft.a
 
-CC		= gcc -g #-fsanitize=address
+CC		= gcc -g -fsanitize=address
 
 FLAGS	= -Wall -Wextra -Werror
 

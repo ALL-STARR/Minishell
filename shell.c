@@ -16,8 +16,9 @@ int	main(int arc, char **arv, char **envp)
 {
 	char		*input;
 	char		*prompt;
-	t_token		*token;
+	t_token		*tok;
 	t_cmd		*c;
+	t_all		*all;
 	int			i;
 
 	if (arc == 0)
@@ -30,17 +31,29 @@ int	main(int arc, char **arv, char **envp)
     	free(input);
     	return (1);
     }
+	all = (t_all *)malloc(sizeof(t_all));
     if (*input) 
         add_history(input);
-	token = tokenizer(input);
-	c = parser(token);
-	while (c != NULL)
+	all->env = envellope(envp);
+	all->token = tokenizer(input, all);
+	tok = all->token;
+	/*while (all->token)
 	{
-		
-		c = c->next;
+		printf("%s\n", all->token->content);
+		all->token = all->token->next;
 	}
+	all->cmd = parser(tok);
+	c = all->cmd;
+	while (all->cmd != NULL)
+	{
+		printf("command is %s", *all->cmd->cmd);
+		if (all->cmd->out_red->content)
+			printf("out_red is %s", all->cmd->out_red->content);
+		printf("\n");
+		all->cmd = all->cmd->next;
+	}*/
 	clear_history();
 	cmd_l_free(c);
-	total_free(token);
+	total_free(tok);
     return 0;
 }

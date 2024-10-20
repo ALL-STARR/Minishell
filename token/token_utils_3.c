@@ -21,7 +21,7 @@ void	spacer_shortcut(char *spac, char *s, int *i, int *j)
 	spac[(*j)++] = ' ';
 }
 
-void	replace_here(t_all *all)
+/*void	replace_here(t_all *all)
 {
 	t_token	*first;
 
@@ -37,3 +37,4 @@ void	replace_here(t_all *all)
 	}
 	all->token = first;
 }
+*/
