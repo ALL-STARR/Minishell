@@ -21,20 +21,29 @@ void	spacer_shortcut(char *spac, char *s, int *i, int *j)
 	spac[(*j)++] = ' ';
 }
 
-/*void	replace_here(t_all *all)
+void	replace_here(t_all *all)
 {
+	char	*str;
+	int		index;
 	t_token	*first;
 
 	first = all->token;
-	while (all->token != NULL)
+	index = -1;
+	while (all->token)
 	{
 		if (all->token->type == DOUBLE_SMALL)
-		{
-			token_delete(all->token);
-			all->token->content =; //heredocfunction();
-		}
+			index = all->token->index;
 		all->token = all->token->next;
 	}
 	all->token = first;
+	while (index && all->token->index != index)
+		all->token = all->token->next;
+	if (index)
+	{
+		all->token = token_delete(all->token);
+		str = all->token->content;
+		all->token->content =; //heredoc_function
+		free(str);
+	}
+	all->token = first;
 }
-*/

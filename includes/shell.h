@@ -94,6 +94,7 @@ void		quote_erase(t_token *l);
 void		spacer_shortcut(char *spac, char *s, int *i, int *j);
 int			simple_quoted(char *s, int index);
 void		spacer_shortcut(char *spac, char *s, int *i, int *j);
+void		replace_here(t_all *all);
 
 /*parsing functions*/
 

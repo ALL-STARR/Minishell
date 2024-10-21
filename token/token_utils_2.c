@@ -29,6 +29,8 @@ t_token	*token_delete(t_token *t)
 {
 	t_token	*tmp;
 
+	if (!t)
+		return (NULL);
 	if (t->next == NULL && t->previous == NULL)
 		return (token_free(t), NULL);
 	else if (t->previous == NULL)
@@ -40,9 +42,8 @@ t_token	*token_delete(t_token *t)
 	else if (t->next == NULL)
 	{
 		tmp = t->previous;
-		token_free(t);
 		tmp->next = NULL;
-		return (NULL);
+		return (token_free(t), NULL);
 	}
 	else
 	{

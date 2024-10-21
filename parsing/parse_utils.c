@@ -30,7 +30,6 @@ void	redirect_finder(t_token *t, t_cmd *c)
 	c->n_redirection = 0;
 	in_flag = 0;
 	out_flag = 0;
-	printf("%s\n", t->content);
 	if ((t->type == SMALLER)
 		&& t->next->type > PIPE && t->next)
 		in_red(t, c);

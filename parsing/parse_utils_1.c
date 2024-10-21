@@ -50,12 +50,10 @@ int	word_count(t_token *t)
 	i = 0;
 	while (t->next != NULL && t->type != PIPE)
 	{
-		//printf("content is %s\n", t->content);
 		t = t->next;
 		i++;
 	}
 	if (t->type != PIPE)
 		i++;
-	//printf("content is %s\n", t->content);
 	return (i);
 }

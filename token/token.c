@@ -24,9 +24,15 @@ int	main(int arc, char **arv, char **env)
 	all = (t_all *)malloc(sizeof(t_all));
 	all->env = envellope(env);
 	str = NULL;
-	t = tokenizer("He$SHELL |l\"omy  |'love'\"|baby|bubble look", all);
+	t = tokenizer("He<<$SHELL |l\"omy  |'love'\"|baby|bubble look", all);
 	all->token = t;
-	printf("He<$SHELL |l\"omy  |'love'\"|baby|bubble look\n");
+	while (t)
+	{
+		printf("token go %s and type is %d\n", t->content, t->type);
+		t = t->next;
+	}
+	t = all->token;
+	printf("He<<$SHELL |l\"omy  |'love'\"|baby|bubble look\n");
 	c = parser(t);
 	all->cmd = c;
 	while (c->previous != NULL)
@@ -57,6 +63,8 @@ t_token	*tokenizer(char	*input, t_all *all)
 	if (token_list == NULL)
 		return (NULL);
 	type_assign(token_list);
+	all->token = token_list;
+	replace_here(all);
 	free(input);
 	free(chop);
 	return (token_list);
