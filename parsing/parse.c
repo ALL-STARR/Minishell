@@ -12,6 +12,14 @@
 
 #include "../includes/shell.h"
 
+static void	cmd_init(t_cmd *c)
+{
+	c->previous = NULL;
+	c->next = NULL;
+	c->in_red = NULL;
+	c->out_red = NULL;
+}
+
 t_cmd	*parser(t_token *t)
 {
 	t_cmd	*command;
@@ -22,9 +30,7 @@ t_cmd	*parser(t_token *t)
 	command = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!command)
 		return (NULL);
-	command->previous = NULL;
-	command->next = NULL;
-	redirect_finder(t, command);
+	cmd_init(command);
 	command = cmd_node(t, command);
 	return (command);
 }
@@ -59,7 +65,11 @@ t_cmd	*cmd_node(t_token *t, t_cmd *cmd_l)
 	while (t->next != NULL)
 	{
 		if (t->type != PIPE)
+		{
+			if (t->next->type != PIPE)
+				redirect_finder(t, cmd_l);
 			cmd_l->cmd[i++] = t->content;
+		}
 		t = t->next;
 		if (t->type == PIPE)
 			cmd_l = cmd_node_pipe_short(t,cmd_l, &i);
@@ -72,24 +82,6 @@ t_cmd	*cmd_node(t_token *t, t_cmd *cmd_l)
 	return (first);
 }
 
-/*counts the number of words before the next PIPE*/
-
-int	word_count(t_token *t)
-{
-	int	i;
-
-	i = 0;
-	while (t->next != NULL && t->type != PIPE)
-	{
-		//printf("content is %s\n", t->content);
-		t = t->next;
-		i++;
-	}
-	if (t->type != PIPE)
-		i++;
-	//printf("content is %s\n", t->content);
-	return (i);
-}
 
 /*creates a new cmd_node and returns it*/
 
@@ -111,31 +103,3 @@ t_cmd	*new_c_node(t_cmd *c, t_token *t)
 	return (new);
 }
 
-void	cmd_l_free(t_cmd *c)
-{
-	t_cmd	*tmp;
-
-	while (c->previous != NULL)
-		c = c->previous;
-	while (c->next != NULL)
-	{
-		if (c->in_red)
-			free(c->in_red);
-		if (c->out_red)
-			free(c->out_red);
-		free(c->cmd);
-		tmp = c;
-		c = c->next;
-		free(tmp);
-	}
-	if (c->in_red)
-		free(c->in_red);
-	if (c->out_red)
-		free(c->out_red);
-	free(c->cmd);
-	free(c);
-	// c->cmd = 0;
-	// c->next = 0;
-	// c->previous = 0;
-	// system("leaks minishell");
-}

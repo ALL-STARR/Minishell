@@ -61,7 +61,7 @@ typedef struct s_all
 
 /*general functions*/
 
-void		total_free(t_token *t);
+void		total_free(t_all *all);
 
 /*environment_list functions*/
 
@@ -103,8 +103,8 @@ t_cmd		*new_c_node(t_cmd *c, t_token *t);
 t_cmd		*parser(t_token *t);
 void		cmd_l_free(t_cmd *c);
 void		redirect_finder(t_token *t, t_cmd *c);
-void		in_red(t_token *t, t_cmd *c, int *in_flag);
-void		out_red(t_token *t, t_cmd *c, int *out_flag);
+void		in_red(t_token *t, t_cmd *c);
+void		out_red(t_token *t, t_cmd *c);
 
 /*built-in functions*/
 

@@ -13,6 +13,7 @@ SHELL_SRCS 	= token/token_utils.c\
 				token/special_split.c\
 				parsing/parse.c\
 				parsing/parse_utils.c\
+				parsing/parse_utils_1.c\
 				env.c\
 				shell.c\
 

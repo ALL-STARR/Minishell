@@ -14,9 +14,12 @@
 
 /*frees the lists*/
 
-void	total_free(t_token *t)
+void	total_free(t_all *all)
 {
-	token_l_free(t);
+	token_l_free(all->token);
+	cmd_l_free(all->cmd);
+	env_l_free(all->env);
+	free(all);
 	return ;
 }
 
