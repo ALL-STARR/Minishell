@@ -24,7 +24,7 @@ int	main(int arc, char **arv, char **env)
 	all = (t_all *)malloc(sizeof(t_all));
 	all->env = envellope(env);
 	str = NULL;
-	t = tokenizer("He<<$SHELL |l\"omy  |'love'\"|baby|bubble look", all);
+	t = tokenizer("He<$SHELL |l\"omy  |'love'\"|baby|bubble look", all);
 	all->token = t;
 	while (t)
 	{
@@ -32,7 +32,7 @@ int	main(int arc, char **arv, char **env)
 		t = t->next;
 	}
 	t = all->token;
-	printf("He<<$SHELL |l\"omy  |'love'\"|baby|bubble look\n");
+	printf("He<$SHELL |l\"omy  |'love'\"|baby|bubble look\n");
 	c = parser(t);
 	all->cmd = c;
 	while (c->previous != NULL)

@@ -104,8 +104,8 @@ t_cmd		*new_c_node(t_cmd *c, t_token *t);
 t_cmd		*parser(t_token *t);
 void		cmd_l_free(t_cmd *c);
 void		redirect_finder(t_token *t, t_cmd *c);
-void		in_red(t_token *t, t_cmd *c);
-void		out_red(t_token *t, t_cmd *c);
+t_token		*in_red(t_token *t, t_cmd *c);
+t_token		*out_red(t_token *t, t_cmd *c);
 
 /*built-in functions*/
 

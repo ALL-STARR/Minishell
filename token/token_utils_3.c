@@ -24,9 +24,12 @@ void	spacer_shortcut(char *spac, char *s, int *i, int *j)
 void	replace_here(t_all *all)
 {
 	char	*str;
+	char	*fill;
 	int		index;
 	t_token	*first;
 
+	fill = malloc(sizeof(char) * 6);
+	ft_strlcpy(fill, "hello", 6);
 	first = all->token;
 	index = -1;
 	while (all->token)
@@ -36,13 +39,13 @@ void	replace_here(t_all *all)
 		all->token = all->token->next;
 	}
 	all->token = first;
-	while (index && all->token->index != index)
+	while (index > -1 && all->token->index != index)
 		all->token = all->token->next;
-	if (index)
+	if (index > -1)
 	{
 		all->token = token_delete(all->token);
 		str = all->token->content;
-		all->token->content =; //heredoc_function
+		all->token->content = fill; //heredoc_function
 		free(str);
 	}
 	all->token = first;

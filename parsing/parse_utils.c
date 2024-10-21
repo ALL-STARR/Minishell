@@ -32,14 +32,14 @@ void	redirect_finder(t_token *t, t_cmd *c)
 	out_flag = 0;
 	if ((t->type == SMALLER)
 		&& t->next->type > PIPE && t->next)
-		in_red(t, c);
+		t = in_red(t, c);
 	if ((t->type == GREATER || t->type == DOUBLE_GREAT)
 		&& t->next->type > PIPE && t->next)
-		out_red(t, c);
+		t = out_red(t, c);
 	return ;
 }
 
-void	in_red(t_token *t, t_cmd *c)
+t_token	*in_red(t_token *t, t_cmd *c)
 {
 	int	round;
 
@@ -51,9 +51,10 @@ void	in_red(t_token *t, t_cmd *c)
 		t = token_delete(t);
 		round--;
 	}
+	return (t);
 }
 
-void	out_red(t_token *t, t_cmd *c)
+t_token	*out_red(t_token *t, t_cmd *c)
 {
 	int	round;
 
@@ -65,4 +66,5 @@ void	out_red(t_token *t, t_cmd *c)
 		t = token_delete(t);
 		round--;
 	}
+	return (t);
 }
