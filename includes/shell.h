@@ -116,4 +116,10 @@ void		my_cd(char **cmd);
 void		my_export(t_all *all, t_cmd *c);
 void		my_env(t_all *all, t_cmd *cmd);
 
+/*extra functions*/
+
+void		token_list_visualizer(t_all *all);
+void		cmd_list_visualizer(t_all *all);
+
+
 #endif

@@ -30,9 +30,9 @@ t_token	*redirect_finder(t_token *t, t_cmd *c)
 	c->n_redirection = 0;
 	in_flag = 0;
 	out_flag = 0;
-	if ((t->type == SMALLER))
+	if (t->type == SMALLER)
 		t = in_red(t, c);
-	if ((t->type == GREATER || t->type == DOUBLE_GREAT))
+	if (t->type == GREATER || t->type == DOUBLE_GREAT)
 		t = out_red(t, c);
 	return (t);
 }
@@ -42,6 +42,7 @@ t_token	*in_red(t_token *t, t_cmd *c)
 	int	round;
 
 	round = 2;
+	c->n_redirection++;
 	while (round)
 	{
 		c->in_red = new_t_node(c->in_red);
@@ -62,6 +63,7 @@ t_token	*out_red(t_token *t, t_cmd *c)
 	int	round;
 
 	round = 2;
+	c->n_redirection++;
 	while (round)
 	{
 		c->out_red = new_t_node(c->in_red);

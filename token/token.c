@@ -24,31 +24,14 @@ int	main(int arc, char **arv, char **env)
 	all = (t_all *)malloc(sizeof(t_all));
 	all->env = envellope(env);
 	str = NULL;
+	printf("He<$SHELL |l\"omy  |'love'\"|baby|bubble look\n");
 	t = tokenizer("He<$SHELL |l\"omy  |'love'\"|baby|bubble look", all);
 	all->token = t;
-	while (t)
-	{
-		printf("token go %s and type is %d\n", t->content, t->type);
-		t = t->next;
-	}
+	token_list_visualizer(all);
 	t = all->token;
-	printf("He<$SHELL |l\"omy  |'love'\"|baby|bubble look\n");
 	c = parser(t);
 	all->cmd = c;
-	while (c->previous != NULL)
-		c = c->previous;
-	while (c != NULL)
-	{
-		i = 0;
-		while (c->cmd[i])
-		{
-			printf("%s", c->cmd[i]);
-			i++;
-		}
-		printf("\n");
-		c = c->next;
-	}
-	i = 0;
+	cmd_list_visualizer(all);
 	total_free(all);
 }
 
