@@ -66,8 +66,7 @@ t_cmd	*cmd_node(t_token *t, t_cmd *cmd_l)
 	{
 		if (t->type != PIPE)
 		{
-			if (t->next->type != PIPE)
-				redirect_finder(t, cmd_l);
+			t = redirect_finder(t, cmd_l);
 			cmd_l->cmd[i++] = t->content;
 		}
 		t = t->next;

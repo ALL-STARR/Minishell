@@ -45,8 +45,9 @@ void	replace_here(t_all *all)
 	{
 		all->token = token_delete(all->token);
 		str = all->token->content;
-		all->token->content = fill; //heredoc_function
-		free(str);
+		all->token->content = fill; //heredoc_function;
 	}
+	else
+		free(fill);
 	all->token = first;
 }
