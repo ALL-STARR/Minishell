@@ -12,10 +12,15 @@ SHELL_SRCS 	= token/token_utils.c\
 				token/token.c\
 				token/special_split.c\
 				parsing/parse.c\
+				parsing/parse_utils.c\
+				parsing/parse_utils_1.c\
 				env.c\
 				shell.c\
-				pipex_bonus/ft_split.c\
-				pipex_bonus/pipex_bonus.c
+				exec/exec_utils.c\
+				exec/ft_split.c\
+				exec/pipex.c\
+				exec/handle_redirect.c
+
 
 SHELL_SRC	= ${SHELL_SRCS}
 
