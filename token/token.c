@@ -24,8 +24,8 @@ int	main(int arc, char **arv, char **env)
 	all = (t_all *)malloc(sizeof(t_all));
 	all->env = envellope(env);
 	str = NULL;
-	printf("He<$SHELL |l\"omy  |'love'\"|baby|bubble look\n");
-	t = tokenizer("He<$SHELL |l\"omy  |'love'\"|baby|bubble look", all);
+	printf("He<$SHELL |l\"omy  |'love'\"|baby|bubble <look >out >wow <gril \n");
+	t = tokenizer("He<$SHELL |l\"omy  |'love'\"|baby|bubble <look >out >wow <gril", all);
 	all->token = t;
 	token_list_visualizer(all);
 	t = all->token;
@@ -143,6 +143,8 @@ void	token_l_free(t_token *t)
 {
 	t_token	*tmp;
 
+	if (!t)
+		return ;
 	while (t->previous != NULL)
 		t = t->previous;
 	while (t->next != NULL)

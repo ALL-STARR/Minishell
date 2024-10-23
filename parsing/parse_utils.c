@@ -24,16 +24,14 @@ char	*var_value(char *var)
 t_token	*redirect_finder(t_token *t, t_cmd *c)
 {
 	t_cmd	*first;
-	int		in_flag;
-	int		out_flag;
 
-	c->n_redirection = 0;
-	in_flag = 0;
-	out_flag = 0;
-	if (t->type == SMALLER)
-		t = in_red(t, c);
-	if (t->type == GREATER || t->type == DOUBLE_GREAT)
-		t = out_red(t, c);
+	while (t && t->type < PIPE)
+	{
+		if (t->type == SMALLER)
+			t = (in_red(t, c));
+		if (t && (t->type == GREATER || t->type == DOUBLE_GREAT))
+			t =  (out_red(t, c));
+	}
 	return (t);
 }
 
@@ -46,11 +44,14 @@ t_token	*in_red(t_token *t, t_cmd *c)
 	while (round)
 	{
 		c->in_red = new_t_node(c->in_red);
+		if (!c)
+			return (NULL);
 		if (t->type == PIPE || !t)
 			c->in_red->content = NULL;
 		else
 		{
 			c->in_red->content = ft_strdup(t->content);
+			c->in_red->type = t->type;
 			t = token_delete(t);
 		}
 		round--;
@@ -66,12 +67,15 @@ t_token	*out_red(t_token *t, t_cmd *c)
 	c->n_redirection++;
 	while (round)
 	{
-		c->out_red = new_t_node(c->in_red);
+		c->out_red = new_t_node(c->out_red);
+		if (!c)
+			return (NULL);
 		if (t->type == PIPE || !t)
 			c->out_red->content = NULL;
 		else
 		{
 			c->out_red->content = ft_strdup(t->content);
+			c->out_red->type = t->type;
 			t = token_delete(t);
 		}
 		round--;

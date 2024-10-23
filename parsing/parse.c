@@ -61,23 +61,24 @@ t_cmd	*cmd_node(t_token *t, t_cmd *cmd_l)
 	if (!cmd_l->cmd)
 		return (NULL);
 	first = cmd_l;
-	cmd_l->in_red = NULL;
-	cmd_l->out_red = NULL;
-	while (t->next != NULL)
+	while (t && t->next != NULL)
 	{
 		if (t->type != PIPE)
 		{
 			t = redirect_finder(t, cmd_l);
+			if (!t)
+				break;
 			cmd_l->cmd[i++] = t->content;
 		}
 		t = t->next;
-		if (t->type == PIPE)
+		if (t && t->type == PIPE)
 			cmd_l = cmd_node_pipe_short(t,cmd_l, &i);
 	}
-	if (t->type != PIPE)
+	cmd_l->cmd[i] = NULL;
+	if (t && t->type != PIPE)
 	{
 		cmd_l->cmd[i++] = t->content;
-		cmd_l->cmd[i++] = NULL;
+		cmd_l->cmd[i] = NULL;
 	}
 	return (first);
 }
