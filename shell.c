@@ -38,7 +38,9 @@ int	main(int arc, char **arv, char **envp)
 			add_history(input);
 		all->env = envellope(envp);
 		all->token = tokenizer(input, all);
-		all->cmd = parser(all->token);
+		all->cmd = parser(all);
+		if (all->token)
+			printf("%s\n", all->token->content);
 		token_list_visualizer(all);
 		cmd_list_visualizer(all);
 	}
