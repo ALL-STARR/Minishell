@@ -20,34 +20,3 @@ void	spacer_shortcut(char *spac, char *s, int *i, int *j)
 		spac[(*j)++] = s[(*i)++];
 	spac[(*j)++] = ' ';
 }
-
-void	replace_here(t_all *all)
-{
-	char	*str;
-	char	*fill;
-	int		index;
-	t_token	*first;
-
-	fill = malloc(sizeof(char) * 6);
-	ft_strlcpy(fill, "hello", 6);
-	first = all->token;
-	index = -1;
-	while (all->token)
-	{
-		if (all->token->type == DOUBLE_SMALL)
-			index = all->token->index;
-		all->token = all->token->next;
-	}
-	all->token = first;
-	while (index > -1 && all->token->index != index)
-		all->token = all->token->next;
-	if (index > -1)
-	{
-		all->token = token_delete(all->token);
-		str = all->token->content;
-		all->token->content = fill; //heredoc_function;
-	}
-	else
-		free(fill);
-	all->token = first;
-}

@@ -12,7 +12,7 @@
 
 #include "../includes/shell.h"
 
-int	main(int arc, char **arv, char **env)
+/*int	main(int arc, char **arv, char **env)
 {
 	t_token *t;
 	t_cmd	*c;
@@ -24,8 +24,8 @@ int	main(int arc, char **arv, char **env)
 	all = (t_all *)malloc(sizeof(t_all));
 	all->env = envellope(env);
 	str = NULL;
-	printf("He<$SHELL |l\"omy  |'love'\"|baby|bubble <look >out >wow <gril \n");
-	t = tokenizer("He<$SHELL |l\"omy  |'love'\"|baby|bubble <look >out >wow <gril", all);
+	printf("He<<$SHELL |l\"omy  |'love'\"|baby||bubble <look >out >wow <gril \n");
+	t = tokenizer("He<<$SHELL |l\"omy  |'love'\"|baby||bubble <look >out >wow <gril", all);
 	all->token = t;
 	token_list_visualizer(all);
 	t = all->token;
@@ -33,7 +33,7 @@ int	main(int arc, char **arv, char **env)
 	all->cmd = c;
 	cmd_list_visualizer(all);
 	total_free(all);
-}
+}*/
 
 t_token	*tokenizer(char	*input, t_all *all)
 {
@@ -47,7 +47,6 @@ t_token	*tokenizer(char	*input, t_all *all)
 		return (NULL);
 	type_assign(token_list);
 	all->token = token_list;
-	replace_here(all);
 	free(input);
 	free(chop);
 	return (token_list);

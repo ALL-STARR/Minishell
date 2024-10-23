@@ -38,6 +38,7 @@ typedef struct s_cmd
 {
 	char			**cmd;
 	int				n_redirection;
+	char			*heredoc_name;
 	struct s_token	*in_red;
 	struct s_token	*out_red;
 	struct s_cmd	*next;
@@ -94,7 +95,6 @@ void		quote_erase(t_token *l);
 void		spacer_shortcut(char *spac, char *s, int *i, int *j);
 int			simple_quoted(char *s, int index);
 void		spacer_shortcut(char *spac, char *s, int *i, int *j);
-void		replace_here(t_all *all);
 
 /*parsing functions*/
 

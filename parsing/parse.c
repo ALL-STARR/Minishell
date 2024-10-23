@@ -54,13 +54,11 @@ static t_cmd	*cmd_node_pipe_short(t_token *t, t_cmd *cmd_l, int *i)
 t_cmd	*cmd_node(t_token *t, t_cmd *cmd_l)
 {
 	int		i;
-	t_cmd	*first;
 
 	i = 0;
 	cmd_l->cmd = malloc(sizeof(char *) * (word_count(t) + 1));
 	if (!cmd_l->cmd)
 		return (NULL);
-	first = cmd_l;
 	while (t && t->next != NULL)
 	{
 		if (t->type != PIPE)
@@ -68,11 +66,16 @@ t_cmd	*cmd_node(t_token *t, t_cmd *cmd_l)
 			t = redirect_finder(t, cmd_l);
 			if (!t)
 				break;
-			cmd_l->cmd[i++] = t->content;
+			if (t->type != PIPE)
+				cmd_l->cmd[i++] = t->content;
 		}
-		t = t->next;
+		if (t->type != PIPE)
+			t = t->next;
 		if (t && t->type == PIPE)
+		{
 			cmd_l = cmd_node_pipe_short(t,cmd_l, &i);
+			t = t->next;
+		}
 	}
 	cmd_l->cmd[i] = NULL;
 	if (t && t->type != PIPE)

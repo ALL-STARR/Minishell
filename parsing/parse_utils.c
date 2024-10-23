@@ -27,7 +27,7 @@ t_token	*redirect_finder(t_token *t, t_cmd *c)
 
 	while (t && t->type < PIPE)
 	{
-		if (t->type == SMALLER)
+		if (t->type == SMALLER || t->type == DOUBLE_SMALL)
 			t = (in_red(t, c));
 		if (t && (t->type == GREATER || t->type == DOUBLE_GREAT))
 			t =  (out_red(t, c));
