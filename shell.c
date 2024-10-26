@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rachou <rachou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/16 16:06:54 by marvin            #+#    #+#             */
-/*   Updated: 2024/10/04 16:22:46 by thomvan-         ###   ########.fr       */
+/*   Created: 2024/10/26 15:21:47 by rachou            #+#    #+#             */
+/*   Updated: 2024/10/26 15:21:53 by rachou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	main(int arc, char **arv, char **envp)
 		if (ft_strncmp(input, "exit", ft_strlen(input)) == 0) 
 		{
 			free(input);
+			printf("exit\n");
 			return (1);
 		}
 		all = (t_all *)malloc(sizeof(t_all));
