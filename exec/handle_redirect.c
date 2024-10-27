@@ -6,7 +6,7 @@
 /*   By: rachou <rachou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 09:33:59 by rachou            #+#    #+#             */
-/*   Updated: 2024/10/26 17:30:12 by rachou           ###   ########.fr       */
+/*   Updated: 2024/10/27 14:56:24 by rachou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ static void handle_output_red(t_token *out_red)
     fd = open(out_red->content, O_WRONLY | O_TRUNC | O_CREAT, 0777);
     if (fd == -1)
     {
-        perror("open");
+        perror("OPEN OUT_RED");
         return;
     }
     
     if (dup2(fd, STDOUT_FILENO) == -1)
     {
-        perror("dup2");
+        perror("DUP2");
         return;
     }
     close(fd);
@@ -39,12 +39,12 @@ static void handle_append_red(t_token *out_red)
     fd = open(out_red->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
     if (fd == -1)
     {
-        perror("open");
+        perror("OPEN OUT_RED");
         return;
     }
     if (dup2(fd, STDOUT_FILENO) == -1)
     {
-        perror("dup2");
+        perror("DUP2");
         return;
     }
     close(fd);
@@ -57,12 +57,12 @@ static void handle_input_red(t_token *in_red)
     fd = open(in_red->content, O_RDONLY);
     if (fd == -1)
     {
-        perror("open");
+        perror("OPEN INPUT");
         return;
     }
     if (dup2(fd, STDIN_FILENO) == -1)
     {
-        perror("dup2");
+        perror("DUP2");
         return;
     }
     close(fd);
@@ -76,7 +76,7 @@ static void handle_heredoc(t_token *in_red)
     fd = open(".surprise.txt", O_WRONLY | O_TRUNC | O_CREAT, 0777);
     if (fd == -1)
     {
-        perror("open");
+        perror("OPEN_HEREDOC");
         return;
     }
     while(1)
@@ -89,10 +89,11 @@ static void handle_heredoc(t_token *in_red)
         }
         ft_putendl_fd(input, fd);
     }
-    fd = open(".suprise.txt", O_RDONLY);
-    if (dup2(fd, 0) == -1)
+    close(fd);
+    fd = open(".surprise.txt", O_RDONLY);
+    if (dup2(fd, STDIN_FILENO) == -1)
     {
-       perror("dup2");
+       perror("DUP2 HEREDOC");
        return;
     }
     close(fd);
