@@ -6,7 +6,7 @@
 /*   By: rachou <rachou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 11:48:07 by raneuman          #+#    #+#             */
-/*   Updated: 2024/10/26 17:33:17 by rachou           ###   ########.fr       */
+/*   Updated: 2024/10/28 08:57:14 by rachou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void ft_pipe(int arc, t_cmd *cmd, t_env_list *env_list)
         {
             if (current_cmd->next)
                 close(tube[0]);
-            child_pipe_redirect(current_cmd, tube, prev_tube, env_list);
             handle_redirections(current_cmd);
+            child_pipe_redirect(current_cmd, tube, prev_tube, env_list);
             ft_exec(current_cmd->cmd, env_list);
             exit(1);
         }
