@@ -16,7 +16,8 @@
 
 void	type_assign(t_token *t)
 {
-	
+	if (!t)
+		return;
 	while (t->next != NULL)
 	{
 		t->type = sym_check(t->content);
@@ -24,7 +25,8 @@ void	type_assign(t_token *t)
 			t->type = 7;
 		t = t->next;
 	}
-	t->type = sym_check(t->content);
+	if (t->type)
+		t->type = sym_check(t->content);
 	if (is_command(t))
 		t->type = 7;
 	quote_erase(t);

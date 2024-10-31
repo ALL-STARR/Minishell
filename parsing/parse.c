@@ -27,6 +27,8 @@ t_cmd	*parser(t_all *all)
 	int		how_many;
 	int		pipes;
 
+	if (!all->token)
+		return (NULL);
 	how_many = 0;
 	command = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!command)
@@ -59,6 +61,7 @@ t_cmd	*cmd_node(t_all *all, t_cmd *cmd_l)
 
 	i = 0;
 	cmd_l->cmd = malloc(sizeof(char *) * (word_count(all->token) + 1));
+	leftover = NULL;
 	if (!cmd_l->cmd)
 		return (NULL);
 	first = cmd_l;
@@ -79,11 +82,7 @@ t_cmd	*cmd_node(t_all *all, t_cmd *cmd_l)
 		if (all->token->type != PIPE && all->token->next)
 			all->token = all->token->next;
 		if (all->token && all->token->type == PIPE)
-		{
 			cmd_l = cmd_node_pipe_short(all,cmd_l, &i);
-			// if (all->token->next)
-			// 	all->token = all->token->next;
-		}
 	}
 	cmd_l->cmd[i] = NULL;
 	if (all->token && all->token->type != PIPE)
@@ -91,7 +90,8 @@ t_cmd	*cmd_node(t_all *all, t_cmd *cmd_l)
 		cmd_l->cmd[i++] = all->token->content;
 		cmd_l->cmd[i] = NULL;
 	}
-	all->token = leftover;
+	if (leftover)
+		all->token = leftover;
 	return (first);
 }
 
