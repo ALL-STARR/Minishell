@@ -161,5 +161,9 @@ int		handle_built_in(t_cmd *cmd, t_all *all);
 void		token_list_visualizer(t_all *all);
 void		cmd_list_visualizer(t_all *all);
 
+/*signal functions*/
+
+void		init_signal(void);
+void		sigint_handler(int sig);
 
 #endif

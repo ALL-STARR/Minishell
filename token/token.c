@@ -134,7 +134,7 @@ char	*spacer(char *s, t_all *all)
 		else
 			spaced[j++] = s[i++];
 	}
-	//free(s);
+	free(s);
 	if (spaced)
 		spaced[j] = '\0';
 	return (spaced);

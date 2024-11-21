@@ -21,14 +21,17 @@ int	main(int arc, char **arv, char **envp)
 	{
 		all = (t_all *)malloc(sizeof(t_all));
 		all->env = envellope(envp);
+		init_signal();
 		while (1)
 		{
 			input = readline("Write something here: ");
 			if (input > 0 && *input)
 				add_history(input);
 			if (input <= 0)
+			{
+				free(input);
 				break;
-			printf("%p\n", input);
+			}
 			all->token = tokenizer(input, all);
 			all->cmd = parser(all);
 			ft_pipex(all->cmd, all->env, all);
