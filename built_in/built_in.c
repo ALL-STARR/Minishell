@@ -37,7 +37,6 @@ void	my_echo(char **arg)
 	flag = 0;
 	if (!ft_strncmp(arg[i], "-n", 2))
 		flag = 1;
-	printf("ḧello\n");
 	while (arg[i + flag] != NULL)
 	{
 		printf("%s", arg[i + flag]);

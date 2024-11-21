@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rachou <rachou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 11:48:07 by raneuman          #+#    #+#             */
-/*   Updated: 2024/11/20 23:14:25 by rachou           ###   ########.fr       */
+/*   Updated: 2024/11/21 17:40:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,14 @@ pid_t create_process(t_cmd *current_cmd, int *tube, int prev_tube, t_env_list *e
 {
     pid_t pid;
 
+    if (handle_built_in(current_cmd, all))
+            return (0);
     pid = fork();
     if (pid == -1)
     {
         perror("FORK");
         return -1;
     }
-    if (handle_built_in(current_cmd, all))
-            return (0);
     if (pid == 0)
     {
         handle_pipe_redirect(current_cmd, tube, prev_tube, env_list);

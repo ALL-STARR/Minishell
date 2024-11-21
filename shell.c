@@ -24,8 +24,11 @@ int	main(int arc, char **arv, char **envp)
 		while (1)
 		{
 			input = readline("Write something here: ");
-			if (*input) 
+			if (input > 0 && *input)
 				add_history(input);
+			if (input <= 0)
+				break;
+			printf("%p\n", input);
 			all->token = tokenizer(input, all);
 			all->cmd = parser(all);
 			ft_pipex(all->cmd, all->env, all);
