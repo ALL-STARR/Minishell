@@ -12,40 +12,30 @@
 
 #include "includes/shell.h"
 
-/*int	main(int arc, char **arv, char **envp)
+int	main(int arc, char **arv, char **envp)
 {
 	char		*input;
-	char		*prompt;
-	t_token		*token;
-	t_cmd		*c;
-	int			i;
+	t_all		*all;
 
-	if (arc == 0)
-		return (1);
-	input = readline("write something : ");
-    if (input == NULL) 
-        return(1);
-    if (ft_strncmp(input, "exit", ft_strlen(input)) == 0) 
+	if (arc == 1)
 	{
-    	free(input);
-    	return (1);
-    }
-    if (*input) 
-        add_history(input);
-	token = tokenizer(input);
-	c = parser(token);
-	while (c->next != NULL)
-	{
-		i = 0;
-		while (c->cmd[i])
+		all = (t_all *)malloc(sizeof(t_all));
+		all->env = envellope(envp);
+		while (1)
 		{
-			printf("%s\n", c->cmd[i]);
-			i++;
+			input = readline("Write something here: ");
+			if (*input) 
+				add_history(input);
+			all->token = tokenizer(input, all);
+			all->cmd = parser(all);
+			ft_pipex(all->cmd, all->env, all);
+			//token_list_visualizer(all);
+			//cmd_list_visualizer(all);
 		}
-		c = c->next;
+		clear_history();
+		total_free(all);
 	}
-	clear_history();
-	cmd_l_free(c);
-	total_free(token);
+	else
+		printf("Wrong amount of arguments!\n");
     return 0;
-}*/
+}

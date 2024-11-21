@@ -12,52 +12,43 @@
 
 #include "../includes/shell.h"
 
-int	main(int arc, char **arv, char **env)
+/*int	main(int arc, char **arv, char **env)
 {
 	t_token *t;
 	t_cmd	*c;
 	int		i;
 	t_all	*all;
+	char	*str;
 	
 
 	all = (t_all *)malloc(sizeof(t_all));
 	all->env = envellope(env);
-	t = tokenizer("He$SHELL |l\"omy  |'love'\"|baby|bubble>>look", all);
-	printf("\"He>>$SHELL \"|l\"omy  |'love'\"|baby|bubble>>look\n");
+	str = NULL;
+	printf("He<<$SHELL |l\"omy  |'love'\"|baby||bubble <look >out >wow <gril \n");
+	t = tokenizer("He<<$SHELL |l\"omy  |'love'\"|baby||bubble <look >out >wow <gril", all);
+	all->token = t;
+	token_list_visualizer(all);
+	t = all->token;
 	c = parser(t);
-	while (c->previous != NULL)
-		c = c->previous;
-	while (c->next != NULL)
-	{
-		i = 0;
-		while (c->cmd[i])
-		{
-			printf("%s\n", c->cmd[i]);
-			i++;
-		}
-		c = c->next;
-	}
-	i = 0;
-	while (c->cmd[i])
-	{
-		printf("%s\n", c->cmd[i]);
-		i++;
-	}
-	cmd_l_free(c);
-	token_l_free(t);
-}
+	all->cmd = c;
+	cmd_list_visualizer(all);
+	total_free(all);
+}*/
 
 t_token	*tokenizer(char	*input, t_all *all)
 {
 	char	**chop;
 	t_token	*token_list;
 
+	if (!input)
+		return (NULL);
 	input = spacer(input, all);
 	chop = s_split(input, ' ');
 	token_list = token_node(chop);
 	if (token_list == NULL)
 		return (NULL);
 	type_assign(token_list);
+	all->token = token_list;
 	free(input);
 	free(chop);
 	return (token_list);
@@ -71,6 +62,8 @@ t_token	*token_node(char **chopped)
 	t_token	*first;
 	int		i;
 
+	if (!(*chopped))
+		return (NULL);
 	tok = (t_token *)malloc(sizeof(t_token));
 	if (!tok)
 		return (NULL);
@@ -141,7 +134,7 @@ char	*spacer(char *s, t_all *all)
 		else
 			spaced[j++] = s[i++];
 	}
-	free(s);
+	//free(s);
 	if (spaced)
 		spaced[j] = '\0';
 	return (spaced);
@@ -153,6 +146,8 @@ void	token_l_free(t_token *t)
 {
 	t_token	*tmp;
 
+	if (!t)
+		return ;
 	while (t->previous != NULL)
 		t = t->previous;
 	while (t->next != NULL)

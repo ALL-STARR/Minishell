@@ -12,11 +12,19 @@ SHELL_SRCS 	= token/token_utils.c\
 				token/token.c\
 				token/special_split.c\
 				parsing/parse.c\
+				parsing/parse_utils.c\
+				parsing/parse_utils_1.c\
 				env.c\
 				shell.c\
-
-
-
+				utils/extra.c\
+				exec/exec_utils.c\
+				exec/ft_split.c\
+				exec/pipex.c\
+				exec/handle_redirect.c\
+				exec/handle_heredoc.c\
+				exec/exec_built_in.c\
+				built_in/built_in.c\
+				built_in/built_in_1.c
 
 SHELL_SRC	= ${SHELL_SRCS}
 
@@ -34,7 +42,7 @@ CC		= gcc -g #-fsanitize=address
 
 FLAGS	= -Wall -Wextra -Werror
 
-READ_FLAGS = -L/Users/$(shell whoami)/homebrew/opt/readline/lib -I/Users/$(shell whoami)/homebrew/opt/readline/include -lreadline
+READ_FLAGS = -L/Users/rachou/.brew/opt/readline/lib -I/Users/rachou/.brew/opt/readline/include -lreadline
 
 LIB		= ar -rc
 
