@@ -23,6 +23,7 @@ void	sigint_handler(int sig)
 
 void	init_signal(void)
 {
+	
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 }

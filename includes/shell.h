@@ -20,6 +20,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include "libft.h"
+# include <termios.h>
 
 typedef struct s_env_list
 {

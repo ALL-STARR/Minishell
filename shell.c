@@ -14,8 +14,8 @@
 
 int	main(int arc, char **arv, char **envp)
 {
-	char		*input;
-	t_all		*all;
+	char					*input;
+	t_all					*all;
 
 	if (arc == 1)
 	{
@@ -29,6 +29,7 @@ int	main(int arc, char **arv, char **envp)
 				add_history(input);
 			if (input <= 0)
 			{
+				printf("exit\n");
 				free(input);
 				break;
 			}
