@@ -24,12 +24,12 @@
 	all = (t_all *)malloc(sizeof(t_all));
 	all->env = envellope(env);
 	str = NULL;
-	printf("He<<$SHELL |l\"omy  |'love'\"|baby||bubble <look >out >wow <gril \n");
-	t = tokenizer("He<<$SHELL |l\"omy  |'love'\"|baby||bubble <look >out >wow <gril", all);
+	printf("He<< EOF $SHELL |l\"omy  |'love'\"|baby||bubble <look >out >wow <gril \n");
+	t = tokenizer("He<< EOF $SHELL |l\"omy  |'love'\"|baby||bubble <look >out >wow <gril", all);
 	all->token = t;
 	token_list_visualizer(all);
 	t = all->token;
-	c = parser(t);
+	c = parser(all);
 	all->cmd = c;
 	cmd_list_visualizer(all);
 	total_free(all);
@@ -126,7 +126,7 @@ char	*spacer(char *s, t_all *all)
 			tmp = var_pfetch(all->env, s + i);
 			while (*tmp)
 				spaced[j++] = *(tmp++);
-			while (s[i] != ' ')
+			while (s[i] != ' ' && s[i])
 				i++;
 		}
 		if (sym_check(s + i) < GENERAL && !quoted(s, i))
