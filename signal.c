@@ -11,21 +11,26 @@
 /* ************************************************************************** */
 
 #include "includes/shell.h"
+#include <readline/readline.h>
 
 void	sigint_handler(int sig)
 {
 	printf("\n");
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	//rl_replace_line("", 0);
 	printf(">");
 	rl_redisplay();
-
 	(void) sig;
 }
 
 void	init_signal(void)
 {
-	
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
+}
+
+void	reset_signal(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }

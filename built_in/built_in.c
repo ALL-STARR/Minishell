@@ -35,13 +35,15 @@ void	my_echo(char **arg)
 
 	i = 1;
 	flag = 0;
+	if (!arg[1])
+		return ;
 	if (!ft_strncmp(arg[i], "-n", 2))
 		flag = 1;
 	while (arg[i + flag] != NULL)
 	{
 		printf("%s", arg[i + flag]);
 		i++;
-		if (arg[i + flag] != NULL)
+		if (arg[i + flag] != NULL && arg[i + flag][0])
 			printf(" ");
 	}
 	if (!flag)
@@ -50,14 +52,17 @@ void	my_echo(char **arg)
 
 void	my_env(t_cmd *cmd, t_all *all)
 {
+	t_env_list	*current;
+
+	current = all->env;
 	if (cmd->cmd[1])
 	{
 		printf("Too many arguments !\n");
 		return ;
 	}
-	while (all->env != NULL)
+	while (current)
 	{
 		printf("%s\n", all->env->var);
-		all->env = all->env->next;
+		current = current->next;
 	}
 }

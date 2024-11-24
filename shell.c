@@ -21,24 +21,25 @@ int	main(int arc, char **arv, char **envp)
 	{
 		all = (t_all *)malloc(sizeof(t_all));
 		all->env = envellope(envp);
-		init_signal();
 		while (1)
 		{
+			init_signal();
 			printf(">");
 			input = readline("");
 			if (input > 0 && *input)
 				add_history(input);
 			if (input <= 0)
 			{
-				printf("exit\n");
+				write(1, "exit\n", 6);
 				free(input);
 				break;
 			}
 			all->token = tokenizer(input, all);
 			all->cmd = parser(all);
-			ft_pipex(all->cmd, all->env, all);
+			reset_signal();
 			//token_list_visualizer(all);
 			//cmd_list_visualizer(all);
+			ft_pipex(all->cmd, all->env, all);
 		}
 		clear_history();
 		total_free(all);

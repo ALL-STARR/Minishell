@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 11:48:07 by raneuman          #+#    #+#             */
-/*   Updated: 2024/11/21 17:40:55 by marvin           ###   ########.fr       */
+/*   Updated: 2024/11/24 15:28:55 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void	ft_exec(char **cmd, t_env_list *env_list)
 	env_array = env_list_to_array(env_list, 0);
 	if (env_array)
 	{
+
 		if (execve(path, cmd, env_array) == -1)
 		{
 			perror("EXEC");

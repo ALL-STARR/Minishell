@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include "libft.h"
 # include <termios.h>
+# include <stdbool.h>
 
 typedef struct s_env_list
 {
@@ -66,6 +67,8 @@ typedef struct s_all
 # define GENERAL 6
 # define COMMAND 7
 
+int			err_global;
+
 /*general functions*/
 
 void		total_free(t_all *all);
@@ -78,6 +81,7 @@ void		env_l_free(t_env_list *l);
 char		*variable_fetch(t_env_list *e, char *str);
 char		*var_value(char *var);
 char		*var_pfetch(t_env_list *e, char *str);
+char		*var_bfetch(t_env_list *e, char *str);
 void		env_n_free(t_env_list *t);
 t_env_list	*env_node_delete(t_env_list *env);
 
@@ -118,8 +122,8 @@ t_token		*out_red(t_token *t, t_cmd *c);
 int			my_pwd(t_cmd *cmd);
 void		my_unset(t_cmd *cmd, t_all *all);
 void		my_echo(char **arg);
-//void		my_cd(char **cmd, t_all *all);
-t_all		*my_export(t_all *all);
+void		my_cd(char **cmd, t_all *all);
+void		my_export(t_all *all);
 void		my_env(t_cmd *cmd, t_all *all);
 
 /*exec functions*/
@@ -166,5 +170,6 @@ void		cmd_list_visualizer(t_all *all);
 
 void		init_signal(void);
 void		sigint_handler(int sig);
+void		reset_signal(void);
 
 #endif

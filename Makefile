@@ -39,13 +39,15 @@ FT_FOLDER = ./libft
 
 FT = ${FT_FOLDER}/libft.a
 
-CC		= gcc -g #-fsanitize=address
+CC		= gcc -g -fsanitize=address
 
 FLAGS	= -Wall -Wextra -Werror
 
-READ_FLAGS = -L/Users/rachou/.brew/opt/readline/lib -I/Users/rachou/.brew/opt/readline/include -lreadline
+RDL_PAT	= $(shell brew --prefix readline)
 
-LIB		= ar -rc
+RDL_LIB = -lreadline -lhistory -L $(RDL_PAT)/lib
+
+READ_FLAGS = -L Users/thomvan-/.brew/opt/readline/lib -I Users/thomvan-/.brew/opt/readline/include -lreadline
 
 RM		= rm -f
 
@@ -60,22 +62,22 @@ INCLUDES = -I ./includes ./libft/includes
 all: ${NAME}
 
 $(NAME): $(OBJS) ${FT}
-	$(CC) $(FLAGS) -o $(NAME)  $(OBJS) ${FT} ${READ_FLAGS}
+	@$(CC) $(FLAGS) -o $(NAME)  $(OBJS) ${FT} ${RDL_LIB}
 
 ${FT}: 
-		${MAKE_FT}
+	@${MAKE_FT}
 
 %.o: %.c ${HEADER}
-	${CC} ${FLAGS} -c ${INCLUDES} $< -o $@
+	@${CC} ${FLAGS} -c ${INCLUDES} $< -o $@
 
 re: fclean all
 
 clean:
-		${RM} ${OBJS}
+	@${RM} ${OBJS}
 
 fclean: clean
-		${RM} ${NAME}
-		${MAKE_FT} fclean
+	@${RM} ${NAME}
+	@${MAKE_FT} fclean
 
 # -----------------------------------.phony--------------------------------------
 

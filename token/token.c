@@ -120,18 +120,18 @@ char	*spacer(char *s, t_all *all)
 	spaced = malloc(sizeof(char) * (size_count(s, all) + 1));
 	while (s[i] && spaced)
 	{
-		if (s[i] == '$' && var_pfetch(all->env, s + i) && !simple_quoted(s, i)
+		if (s[i] == '$' && !simple_quoted(s, i)
 			&& s[i + 1] != '?')
 		{
 			tmp = var_pfetch(all->env, s + i);
-			while (*tmp)
+			while (tmp && *tmp)
 				spaced[j++] = *(tmp++);
-			while (s[i] != ' ')
+			while (s[i] != ' ' && s[i] && s[i] != 34)
 				i++;
 		}
 		if (sym_check(s + i) < GENERAL && !quoted(s, i))
 			spacer_shortcut(spaced, s, &i, &j);
-		else
+		else if (s[i])
 			spaced[j++] = s[i++];
 	}
 	free(s);
