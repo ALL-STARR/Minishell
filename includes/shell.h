@@ -79,7 +79,7 @@ void		total_free(t_all *all);
 t_env_list	*envellope(char **env);
 t_env_list	*new_node(t_env_list *l);
 void		env_l_free(t_env_list *l);
-char		*variable_fetch(t_env_list *e, char *str);
+char		*var_fetch(t_env_list *e, char *str);
 char		*var_value(char *var);
 char		*var_pfetch(t_env_list *e, char *str);
 char		*var_bfetch(t_env_list *e, char *str);
@@ -120,7 +120,7 @@ t_token		*out_red(t_token *t, t_cmd *c);
 
 /*built-in functions*/
 
-int			my_pwd(t_cmd *cmd);
+int			my_pwd(t_all *all);
 void		my_unset(t_cmd *cmd, t_all *all);
 void		my_echo(char **arg);
 void		my_cd(char **cmd, t_all *all);

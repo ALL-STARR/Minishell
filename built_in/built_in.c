@@ -12,18 +12,17 @@
 
 #include "../includes/shell.h"
 
-int	my_pwd(t_cmd *cmd)
+int	my_pwd(t_all *all)
 {
 	char	*wd;
 
-	if (cmd->cmd[1])
+	if (all->cmd->cmd[1])
 	{
 		printf("Too many arguments !\n");
 		return (0);
 	}
-	(void)cmd;
 	wd = NULL;
-	wd = getcwd(wd, sizeof(size_t));
+	wd = var_fetch(all->env, "PWD");
 	printf("%s\n", wd);
 	return (0);
 }

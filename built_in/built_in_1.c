@@ -130,11 +130,13 @@ void	my_cd(char **cmd, t_all *all)
 	char*		tmp;
 	static char	cwd[1024];	
 
-	err = chdir(cmd[1]);
+	if (!cmd[1])
+		chdir("/home");
+	else 
+		err = chdir(cmd[1]);
 	if (err == -1)
 		perror("chdir :");
 	getcwd(cwd, sizeof(cwd));
-	printf("cwd = %s", cwd);
 	tmp = malloc(sizeof(char) * (ft_strlen(cwd) + 5));
 	while (ft_strncmp(all->env->var, "PWD", 3) != 0
 		&& all->env != NULL)
@@ -143,8 +145,9 @@ void	my_cd(char **cmd, t_all *all)
 	{
 		tmp = strncpy(tmp, "PWD=", 4);
 		ft_strlcat(tmp, cwd, ft_strlen(cwd + 4));
+		printf("%s\n", tmp);
 		all->env->var = tmp;
+		printf("%s\n", all->env->var);
 		return ;
 	}
-	free(tmp);
 }

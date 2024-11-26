@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rachou <rachou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 11:57:54 by rachou            #+#    #+#             */
-/*   Updated: 2024/11/20 23:23:22 by rachou           ###   ########.fr       */
+/*   Updated: 2024/11/26 15:32:08 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	handle_heredoc(t_token *in_red)
 		input = readline("> ");
 		if (!input)
 		{
-			printf("EMPTY INPUT HEREDOC\n");
+			printf("warning: here-document delimited ");
+			printf("by end-of-file (wanted '%s')\n", delimiter);
 			break;
 		}
 		if (ft_strcmp(input, delimiter) == 0)

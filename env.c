@@ -74,7 +74,7 @@ char	*var_fetch(t_env_list *e, char *str)
 	flag = 0;
 	while (e != NULL)
 	{
-		if (ft_strnstr(e->var, str, ft_strlen(str)))
+		if (ft_strncmp(e->var, str, ft_strlen(str)) == 0)
 		{
 			flag = 1;
 			break ;
@@ -82,7 +82,7 @@ char	*var_fetch(t_env_list *e, char *str)
 		e = e->next;
 	}
 	if (flag)
-		return (e->var + (ft_strlen(str) + 1));
+		return (e->var + (ft_strlen(str)) + 1);
 	return (NULL);
 }
 

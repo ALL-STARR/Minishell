@@ -31,7 +31,7 @@ int	main(int arc, char **arv, char **envp)
 		while (1)
 		{
 			init_signal();
-			input = readline(">");
+			input = readline("Minishell>");
 			if (input > 0 && *input)
 				add_history(input);
 			if (input <= 0)
@@ -42,7 +42,6 @@ int	main(int arc, char **arv, char **envp)
 			}
 			all->token = tokenizer(input, all);
 			all->cmd = parser(all);
-			reset_signal();
 			//token_list_visualizer(all);
 			//cmd_list_visualizer(all);
 			ft_pipex(all->cmd, all->env, all);

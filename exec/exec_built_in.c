@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 09:53:47 by rachou            #+#    #+#             */
-/*   Updated: 2024/11/24 14:06:18 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/11/26 17:08:46 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int	handle_built_in(t_cmd *cmd, t_all *all)
 
 int	built_in_subshell(t_cmd *cmd, t_all *all)
 {
-	/*if ((ft_strcmp(cmd->cmd[0], "cd") == 0) && (ft_strlen(cmd->cmd[0]) == 2))
+	if ((ft_strcmp(cmd->cmd[0], "cd") == 0) && (ft_strlen(cmd->cmd[0]) == 2))
 	{
 		//printf("1\n");
 		my_cd(cmd->cmd, all);
 		return (1);
-	}*/
+	}
 	if ((ft_strcmp(cmd->cmd[0], "export") == 0) && (ft_strlen(cmd->cmd[0]) == 6))
 	{
 		my_export(all);
@@ -54,7 +54,7 @@ int	built_in_shell(t_cmd *cmd, t_all *all)
 	}
 	if ((ft_strcmp(cmd->cmd[0], "pwd") == 0) && (ft_strlen(cmd->cmd[0]) == 3))
 	{
-		my_pwd(cmd);
+		my_pwd(all);
 		return (1);
 	}
 	else if ((ft_strcmp(cmd->cmd[0], "env") == 0) && (ft_strlen(cmd->cmd[0]) == 3))

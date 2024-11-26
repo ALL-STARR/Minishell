@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 11:48:07 by raneuman          #+#    #+#             */
-/*   Updated: 2024/11/26 14:54:16 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/11/26 16:24:56 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ pid_t create_process(t_cmd *current_cmd, int *tube, int prev_tube, t_env_list *e
     if (pid == 0)
     {
         handle_pipe_redirect(current_cmd, tube, prev_tube, env_list);
+        reset_signal();
         ft_exec(current_cmd->cmd, env_list);
     }
     else
@@ -136,7 +137,6 @@ void	ft_exec(char **cmd, t_env_list *env_list)
 	env_array = env_list_to_array(env_list, 0);
 	if (env_array)
 	{
-
 		if (execve(path, cmd, env_array) == -1)
 		{
 			perror("EXEC");
