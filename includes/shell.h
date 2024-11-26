@@ -29,6 +29,7 @@ typedef struct s_env_list
 	char				*env_name;
 	char				*env_value;
 	struct s_env_list	*next;
+	struct s_env_list	*previous;
 }	t_env_list;
 
 typedef struct s_token
@@ -67,7 +68,7 @@ typedef struct s_all
 # define GENERAL 6
 # define COMMAND 7
 
-int			err_global;
+extern int			err_global;
 
 /*general functions*/
 

@@ -12,6 +12,13 @@
 
 #include "includes/shell.h"
 
+static void	l_reset(t_token *t, t_cmd *c)
+{
+	token_l_free(t);
+	cmd_l_free(c);
+}
+
+
 int	main(int arc, char **arv, char **envp)
 {
 	char					*input;
@@ -24,8 +31,7 @@ int	main(int arc, char **arv, char **envp)
 		while (1)
 		{
 			init_signal();
-			printf(">");
-			input = readline("");
+			input = readline(">");
 			if (input > 0 && *input)
 				add_history(input);
 			if (input <= 0)
@@ -40,9 +46,11 @@ int	main(int arc, char **arv, char **envp)
 			//token_list_visualizer(all);
 			//cmd_list_visualizer(all);
 			ft_pipex(all->cmd, all->env, all);
+			l_reset(all->token, all->cmd);
 		}
 		clear_history();
-		total_free(all);
+		env_l_free(all->env);
+		free(all);
 	}
 	else
 		printf("Wrong amount of arguments!\n");

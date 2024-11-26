@@ -39,15 +39,19 @@ FT_FOLDER = ./libft
 
 FT = ${FT_FOLDER}/libft.a
 
-CC		= gcc -g -fsanitize=address
+CC		= gcc -g #-fsanitize=address
 
 FLAGS	= -Wall -Wextra -Werror
 
 RDL_PAT	= $(shell brew --prefix readline)
 
-RDL_LIB = -lreadline -lhistory -L $(RDL_PAT)/lib
+ifeq ($(CURRENT_USER), thomvan-)
+	READ_FLAGS = -L/Users/$(shell whoami)/homebrew/opt/readline/lib -I/Users/$(shell whoami)/homebrew/opt/readline/include -lreadline
+else
+	READ_FLAGS = -L Users/$(shell whoami)/.brew/opt/readline/lib -I Users/$(shell whoami)/.brew/opt/readline/include -lreadline
+endif
 
-READ_FLAGS = -L Users/thomvan-/.brew/opt/readline/lib -I Users/thomvan-/.brew/opt/readline/include -lreadline
+RDL_LIB = -lreadline -lhistory -L $(RDL_PAT)/lib
 
 RM		= rm -f
 
@@ -62,7 +66,8 @@ INCLUDES = -I ./includes ./libft/includes
 all: ${NAME}
 
 $(NAME): $(OBJS) ${FT}
-	@$(CC) $(FLAGS) -o $(NAME)  $(OBJS) ${FT} ${RDL_LIB}
+	@$(CC) $(FLAGS) -o $(NAME)  $(OBJS) ${FT} ${READ_FLAGS}
+	make clean
 
 ${FT}: 
 	@${MAKE_FT}
