@@ -84,3 +84,13 @@ ________________________________________
 //    si built_in = cd, export, unset, exit
 //    si built_in = echo, pwd, env ->rediriger les pipes
 ___________________________
+
+
+ echo "
+> sjdhfksjfh
+> sdjfhsjdf
+> "
+
+sjdhfksjfh
+sdjfhsjdf
+

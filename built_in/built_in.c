@@ -62,7 +62,7 @@ void	my_env(t_cmd *cmd, t_all *all)
 	}
 	while (current)
 	{
-		printf("%s\n", all->env->var);
+		printf("%s\n", current->var);
 		current = current->next;
 	}
 }
