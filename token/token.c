@@ -124,6 +124,7 @@ char	*spacer(char *s, t_all *all)
 			&& s[i + 1] != '?')
 		{
 			tmp = var_pfetch(all->env, s + i);
+			//printf("%s\n", tmp);
 			while (tmp && *tmp)
 				spaced[j++] = *(tmp++);
 			while (s[i] != ' ' && s[i] && s[i] != 34)

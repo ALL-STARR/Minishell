@@ -14,15 +14,19 @@
 
 int	my_pwd(t_all *all)
 {
-	char	*wd;
+	char		*wd;
+	t_env_list	*cpy;
 
+	cpy = all->env;
 	if (all->cmd->cmd[1])
 	{
 		printf("Too many arguments !\n");
 		return (0);
 	}
 	wd = NULL;
-	wd = var_fetch(all->env, "PWD");
+	wd = var_fetch(cpy, "PWD");
+	if (!wd)
+		perror("env variable doesn't exist\n");
 	printf("%s\n", wd);
 	return (0);
 }

@@ -94,3 +94,9 @@ ___________________________
 sjdhfksjfh
 sdjfhsjdf
 
+
+
+while (cmd->next != NULL)
+    cmd = cmd->next;
+while (cmd->in_red->next != NULL)
+    cmd->in_red = cmd->in_red->next;
