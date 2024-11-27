@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 13:52:57 by raneuman          #+#    #+#             */
-/*   Updated: 2024/11/26 14:54:04 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/11/27 19:21:59 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ char	*get_path(char **cmd, t_env_list *env_list, int i)//Vérifie si la cmd est 
 	{
 		path = ft_strjoin(split_path[i], "/");
 		full_path = ft_strjoin(path, cmd[0]);
-		if (!path)
-			free(path);
+		free(path);
 		if (!full_path)//Si path ou full_path ne sont pas construits correctement je free.
 			free(full_path);
 		if (!access(full_path, X_OK))//Vérifie si le chemin construit est exécutable.

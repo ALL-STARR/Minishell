@@ -57,7 +57,7 @@ void	my_export(t_all *all)
 			printf("=\"%s\"\n", current->env_value);
 			current = current->next;
 		}
-		return;
+		return ;
 	}
 	tok_rlt = ft_split(next_content->content, '=');
 	next_content->tok_name = tok_rlt[0];
@@ -76,7 +76,7 @@ void	my_export(t_all *all)
 				current->var = ft_strjoin(current->var, current->env_value);
 			}
 			found = true;
-			break;
+			break ;
 		}
 		current = current->next;
 	}
@@ -84,7 +84,7 @@ void	my_export(t_all *all)
 	{
 		new_node = malloc(sizeof(t_env_list));
 		if (!new_node)
-			return;
+			return ;
 		new_node->env_name = ft_strdup(tok_rlt[0]);
 		new_node->env_value = ft_strdup(tok_rlt[1]);
 		new_node->var = ft_strjoin(new_node->env_name, "=");
@@ -92,7 +92,7 @@ void	my_export(t_all *all)
 		new_node->next = NULL;
 		if (all->env == NULL)
 			all->env = new_node;
-		else 
+		else
 		{
 			current = all->env;
 			while (current->next != NULL)
@@ -102,7 +102,7 @@ void	my_export(t_all *all)
 	}
 }
 
-void my_unset(t_cmd *cmd, t_all *all)
+void	my_unset(t_cmd *cmd, t_all *all)
 {
 	t_env_list	*current;
 	t_token		*next_content;
@@ -119,7 +119,7 @@ void my_unset(t_cmd *cmd, t_all *all)
 		if (strcmp(current->env_name, tok_rlt[0]) == 0)
 		{
 			printf("test\n");
-			break;
+			break ;
 		}
 		current = current->next;
 	}
@@ -128,7 +128,7 @@ void my_unset(t_cmd *cmd, t_all *all)
 void	my_cd(char **cmd, t_all *all)
 {
 	int			err;
-	char*		tmp;
+	char		*tmp;
 	t_env_list	*cpy;
 	int			i;
 	static char	cwd[1024];	
@@ -140,7 +140,7 @@ void	my_cd(char **cmd, t_all *all)
 		printf("please insert absolute or relative path\n");
 		return ;
 	}
-	else 
+	else
 		err = chdir(cmd[1]);
 	if (err == -1)
 		perror("chdir :");

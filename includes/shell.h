@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	SHELL_H
+#ifndef SHELL_H
 # define SHELL_H
 
 # include <unistd.h>
@@ -68,7 +68,7 @@ typedef struct s_all
 # define GENERAL 6
 # define COMMAND 7
 
-extern int			err_global;
+extern int			g_err_global;
 
 /*general functions*/
 
@@ -129,38 +129,37 @@ void		my_env(t_cmd *cmd, t_all *all);
 
 /*exec functions*/
 
-void	ft_pipex(t_cmd *cmd, t_env_list *env_list, t_all *all);
-int 	init_pids_and_count(t_cmd *cmd, pid_t **pids);
-int		create_pipe(int tube[2], pid_t *pids, t_cmd *current_cmd);
-pid_t 	create_process(t_cmd *current_cmd, int *tube, int prev_tube, t_env_list *env_list, t_all *all);
-void	pipe_redirect(t_cmd *current_cmd, int *tube, int prev_tube, t_env_list *env_list);
-void 	handle_pipe_redirect(t_cmd *current_cmd, int *tube, int prev_tube, t_env_list *env_list);
-void	ft_exec(char **cmd, t_env_list *env_list);
-void 	close_unused_pipes(int *prev_tube, int *tube, t_cmd *current_cmd);
-void 	wait_for_children(pid_t *pids, int cmd_count);
+void		ft_pipex(t_cmd *cmd, t_env_list *env_list, t_all *all);
+int			init_pids_and_count(t_cmd *cmd, pid_t **pids);
+int			create_pipe(int tube[2], pid_t *pids, t_cmd *current_cmd);
+pid_t		create_process(t_cmd *current_cmd, int *tube, int prev_tube, t_env_list *env_list, t_all *all);
+void		pipe_redirect(t_cmd *current_cmd, int *tube, int prev_tube, t_env_list *env_list);
+void		handle_pipe_redirect(t_cmd *current_cmd, int *tube, int prev_tube, t_env_list *env_list);
+void		ft_exec(char **cmd, t_env_list *env_list);
+void		close_unused_pipes(int *prev_tube, int *tube, t_cmd *current_cmd);
+void		wait_for_children(pid_t *pids, int cmd_count);
 
-char	*get_path(char **cmd, t_env_list *env_list, int i);
-int		check_path(t_env_list *env_list);
-char	**env_list_to_array(t_env_list *env_list, int i);
-char	*ft_free_tab(char **cmd);
-int 	ft_strcmp(char *str1, char *str2);
+char		*get_path(char **cmd, t_env_list *env_list, int i);
+int			check_path(t_env_list *env_list);
+char		**env_list_to_array(t_env_list *env_list, int i);
+char		*ft_free_tab(char **cmd);
+int			ft_strcmp(char *str1, char *str2);
 
-char	**ft_split(char const *s, char c);
-char	**ft_split_wds(char const *s, char c, char **dst, int num_wds);
-char	**ft_free_split(char **ptr, int i);
-char	*ft_put(char *wds, char const *s, int i, int len_wds);
-int		ft_cnt_wds(char const *str, char c);
+char		**ft_split(char const *s, char c);
+char		**ft_split_wds(char const *s, char c, char **dst, int num_wds);
+char		**ft_free_split(char **ptr, int i);
+char		*ft_put(char *wds, char const *s, int i, int len_wds);
+int			ft_cnt_wds(char const *str, char c);
 
-void	handle_redirections(t_cmd   *cmd);
-void 	handle_output_red(t_token *out_red);
-void	handle_append_red(t_token *out_red);
-void	handle_input_red(t_token *in_red);
-void	handle_heredoc(t_token *in_red);
+void		handle_redirections(t_cmd *cmd);
+void		handle_output_red(t_token *out_red);
+void		handle_append_red(t_token *out_red);
+void		handle_input_red(t_token *in_red);
+void		handle_heredoc(t_token *in_red);
 
-int		built_in_shell(t_cmd *cmd, t_all *all);
-int		built_in_subshell(t_cmd *cmd, t_all *all);
-int		handle_built_in(t_cmd *cmd, t_all *all);
-
+int			built_in_shell(t_cmd *cmd, t_all *all);
+int			built_in_subshell(t_cmd *cmd, t_all *all);
+int			handle_built_in(t_cmd *cmd, t_all *all);
 
 /*extra functions*/
 

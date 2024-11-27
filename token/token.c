@@ -12,29 +12,6 @@
 
 #include "../includes/shell.h"
 
-/*int	main(int arc, char **arv, char **env)
-{
-	t_token *t;
-	t_cmd	*c;
-	int		i;
-	t_all	*all;
-	char	*str;
-	
-
-	all = (t_all *)malloc(sizeof(t_all));
-	all->env = envellope(env);
-	str = NULL;
-	printf("He<<$SHELL |l\"omy  |'love'\"|baby||bubble <look >out >wow <gril \n");
-	t = tokenizer("He<<$SHELL |l\"omy  |'love'\"|baby||bubble <look >out >wow <gril", all);
-	all->token = t;
-	token_list_visualizer(all);
-	t = all->token;
-	c = parser(t);
-	all->cmd = c;
-	cmd_list_visualizer(all);
-	total_free(all);
-}*/
-
 t_token	*tokenizer(char	*input, t_all *all)
 {
 	char	**chop;
@@ -124,7 +101,6 @@ char	*spacer(char *s, t_all *all)
 			&& s[i + 1] != '?')
 		{
 			tmp = var_pfetch(all->env, s + i);
-			//printf("%s\n", tmp);
 			while (tmp && *tmp)
 				spaced[j++] = *(tmp++);
 			while (s[i] != ' ' && s[i] && s[i] != 34)
