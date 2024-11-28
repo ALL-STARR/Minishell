@@ -12,6 +12,8 @@
 
 #include "includes/shell.h"
 
+int	g_err_global = 0;
+
 static void	l_reset(t_token *t, t_cmd *c)
 {
 	token_l_free(t);

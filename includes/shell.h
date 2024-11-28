@@ -122,8 +122,12 @@ int			my_pwd(t_all *all);
 void		my_unset(t_all *all);
 void		my_echo(char **arg);
 void		my_cd(char **cmd, t_all *all);
-void		my_export(t_all *all);
+int			my_export(t_all *all, t_cmd *cm);
 void		my_env(t_cmd *cmd, t_all *all);
+void 		update_equal(char *c, t_env_list *e);
+void 		update_append(char *c, t_env_list *e);
+char 		*get_name(t_env_list *env, char *str);
+char 		*get_value(t_env_list *env, char *str);
 
 /*exec functions*/
 

@@ -58,7 +58,7 @@ void	my_unset(t_all *all)
 	e = all->env;
 	if (all->cmd->cmd[2])
 	{
-		perror("syntax error\n");
+		printf("syntax error\n");
 		return ;
 	}
 	while (e->previous != NULL)
@@ -66,9 +66,9 @@ void	my_unset(t_all *all)
 	tmp = ft_strdup(all->cmd->cmd[1]);
 	ft_strlcat(tmp, "=", ft_strlen(all->cmd->cmd[1]) + 2);
 	while (strncmp(e->var, tmp, ft_strlen(all->cmd->cmd[1]) + 1) != 0
-		&& e != NULL)
+		&& e->next != NULL)
 		e = e->next;
-	if (e != NULL)
+	if (strncmp(e->var, tmp, ft_strlen(all->cmd->cmd[1]) + 1) == 0)
 		e = env_node_delete(e);
 	free(tmp);
 }

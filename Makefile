@@ -26,6 +26,8 @@ SHELL_SRCS 	= token/token_utils.c\
 				built_in/built_in.c\
 				built_in/built_in_1.c\
 				built_in/my_unset.c\
+				built_in/my_export.c\
+				built_in/built_in_utils.c\
 				signal.c
 
 SHELL_SRC	= ${SHELL_SRCS}
