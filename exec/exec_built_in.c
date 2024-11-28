@@ -34,7 +34,7 @@ int	built_in_subshell(t_cmd *cmd, t_all *all)
 	}
 	else if ((ft_strcmp(cmd->cmd[0], "unset") == 0) && (ft_strlen(cmd->cmd[0]) == 5))
 	{
-		my_unset(cmd, all);
+		my_unset(all);
 		return (1);
 	}
 	/*else if ((ft_strcmp(cmd->cmd[0], "exit") == 0) && (ft_strlen(cmd->cmd[0]) == 4))

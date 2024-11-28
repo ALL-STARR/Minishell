@@ -83,8 +83,6 @@ char		*var_fetch(t_env_list *e, char *str);
 char		*var_value(char *var);
 char		*var_pfetch(t_env_list *e, char *str);
 char		*var_bfetch(t_env_list *e, char *str);
-void		env_n_free(t_env_list *t);
-t_env_list	*env_node_delete(t_env_list *env);
 
 /*token functions*/
 
@@ -121,7 +119,7 @@ t_token		*out_red(t_token *t, t_cmd *c);
 /*built-in functions*/
 
 int			my_pwd(t_all *all);
-void		my_unset(t_cmd *cmd, t_all *all);
+void		my_unset(t_all *all);
 void		my_echo(char **arg);
 void		my_cd(char **cmd, t_all *all);
 void		my_export(t_all *all);

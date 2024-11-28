@@ -23,8 +23,25 @@ static void	env_split(t_all *all)
 		env_rlt = ft_split(current->var, '=');
 		current->env_name = env_rlt[0];
 		current->env_value = env_rlt[1];
+		free(env_rlt);
 		current = current->next;
 	}
+}
+
+static void env_split_erase(t_env_list *e)
+{
+	t_env_list *tmp;
+
+	tmp = e;
+	while (tmp->previous != NULL)
+		tmp = tmp->previous;
+	while (tmp)
+	{
+		free(tmp->env_name);
+		free(tmp->env_value); 
+		tmp = tmp->next;
+	}
+	
 }
 
 /*void	tok_split(t_all *all)
@@ -55,6 +72,8 @@ void	my_export(t_all *all)
 			env_split(all);
 			printf("declare -x %s", current->env_name);
 			printf("=\"%s\"\n", current->env_value);
+			free(current->env_name);
+			free(current->env_value);
 			current = current->next;
 		}
 		return ;
@@ -87,42 +106,27 @@ void	my_export(t_all *all)
 			return ;
 		new_node->env_name = ft_strdup(tok_rlt[0]);
 		new_node->env_value = ft_strdup(tok_rlt[1]);
+		free(tok_rlt[0]);
+		free(tok_rlt[1]);
+		free(tok_rlt);
 		new_node->var = ft_strjoin(new_node->env_name, "=");
 		new_node->var = ft_strjoin(new_node->var, new_node->env_value);
 		new_node->next = NULL;
 		if (all->env == NULL)
+		{
 			all->env = new_node;
+			new_node->previous = NULL;
+		}
 		else
 		{
 			current = all->env;
 			while (current->next != NULL)
 				current = current->next;
 			current->next = new_node;
+			new_node->previous = current;
 		}
 	}
-}
-
-void	my_unset(t_cmd *cmd, t_all *all)
-{
-	t_env_list	*current;
-	t_token		*next_content;
-	char		**tok_rlt;
-
-	current = all->env;
-	next_content = all->token->next;
-	tok_rlt = ft_split(next_content->content, '=');
-	next_content->tok_name = tok_rlt[0];
-	next_content->tok_value = tok_rlt[1];
-	while (current)
-	{
-		env_split(all);
-		if (strcmp(current->env_name, tok_rlt[0]) == 0)
-		{
-			printf("test\n");
-			break ;
-		}
-		current = current->next;
-	}
+	env_split_erase(all->env);
 }
 
 void	my_cd(char **cmd, t_all *all)
