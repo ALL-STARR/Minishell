@@ -89,6 +89,7 @@ char		*var_fetch(t_env_list *e, char *str);
 char		*var_value(char *var);
 char		*var_pfetch(t_env_list *e, char *str);
 char		*var_bfetch(t_env_list *e, char *str);
+t_env_list	*env_rewinder(t_env_list *e);
 
 /*token functions*/
 
@@ -110,7 +111,6 @@ void		quote_erase(t_token *l);
 void		spacer_shortcut(char *spac, char *s, int *i, int *j);
 int			simple_quoted(char *s, int index);
 
-
 /*parsing functions*/
 
 int			word_count(t_token *t);
@@ -127,14 +127,14 @@ t_token		*out_red(t_token *t, t_cmd *c);
 int			my_pwd(t_all *all);
 void		my_unset(t_all *all);
 void		my_echo(char **arg);
-void		my_cd(char **cmd, t_all *all);
+int			my_cd(char **cmd, t_all *all);
 int			my_export(t_all *all, t_cmd *cm);
 void		my_env(t_cmd *cmd, t_all *all);
-void    	my_exit(t_all *all, t_cmd *c);
-void 		update_equal(char *c, t_env_list *e);
-void 		update_append(char *c, t_env_list *e);
-char 		*get_name(t_env_list *env, char *str);
-char 		*get_value(t_env_list *env, char *str);
+void		my_exit(t_all *all, t_cmd *c);
+void		update_equal(char *c, t_env_list *e);
+void		update_append(char *c, t_env_list *e);
+char		*get_name(t_env_list *env, char *str);
+char		*get_value(t_env_list *env, char *str);
 
 /*exec functions*/
 

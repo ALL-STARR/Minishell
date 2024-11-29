@@ -36,8 +36,8 @@ static void	loop(t_all *all, char *input)
 		}
 		all->token = tokenizer(input, all);
 		all->cmd = parser(all);
-		/*token_list_visualizer(all);
-		cmd_list_visualizer(all);*/
+		token_list_visualizer(all);
+		cmd_list_visualizer(all);
 		ft_pipex(all->cmd, all->env, all);
 		l_reset(all->token, all->cmd);
 	}

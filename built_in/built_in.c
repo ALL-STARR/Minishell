@@ -69,3 +69,10 @@ void	my_env(t_cmd *cmd, t_all *all)
 		current = current->next;
 	}
 }
+
+t_env_list	*env_rewinder(t_env_list *e)
+{
+	while (e->previous != NULL)
+		e = e->previous;
+	return (e);
+}

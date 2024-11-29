@@ -32,7 +32,7 @@ void	type_assign(t_token *t)
 	quote_erase(t);
 }
 
-static int	error_size()
+static int	error_size(void)
 {
 	char	*tmp;
 	int		cpy;

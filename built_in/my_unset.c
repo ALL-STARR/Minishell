@@ -19,6 +19,16 @@ static void	env_n_free(t_env_list *t)
 	return ;
 }
 
+static t_env_list	*del_first_node(t_env_list *e)
+{
+	t_env_list	*tmp;
+
+	tmp = e->next;
+	env_n_free(e);
+	tmp->previous = NULL;
+	return (tmp);
+}
+
 static t_env_list	*env_node_delete(t_env_list *env)
 {
 	t_env_list	*tmp;
@@ -28,12 +38,7 @@ static t_env_list	*env_node_delete(t_env_list *env)
 	if (env->next == NULL && env->previous == NULL)
 		return (env_n_free(env), NULL);
 	else if (env->previous == NULL)
-	{
-		tmp = env->next;
-		env_n_free(env);
-		tmp->previous = NULL;
-		return (tmp);
-	}
+		return (del_first_node(env));
 	else if (env->next == NULL)
 	{
 		tmp = env->previous;
