@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:18:55 by thomvan-          #+#    #+#             */
-/*   Updated: 2024/11/28 20:39:51 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/11/29 15:09:49 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,26 @@ static int  is_valid(t_cmd *cm)
         j = 0;
         while (cm->cmd[i][j] && cm->cmd[i][j] != '=')
             j++;
-        if (!(cm->cmd[i][j] && cm->cmd[i][j - 1] && cm->cmd[i][j - 1] != '-'
-            && cm->cmd[i][j - 1] != '*'))
+        if ((!cm->cmd[i][j - 1] || cm->cmd[i][j - 1] == '-'
+            || cm->cmd[i][j - 1] == '*'))
             return (0);
         i++;
     }
     return (1);
+}
+
+static int  has_equal(char *s)
+{
+    int i;
+
+    i = 0;
+    while (s[i])
+    {
+        if (s[i] == '=')
+            return (1);
+        i++;
+    }
+    return (0);
 }
 
 int    my_export(t_all *all, t_cmd *cm)
@@ -82,13 +96,16 @@ int    my_export(t_all *all, t_cmd *cm)
         return (printf("export: not a valid identifier\n"), g_err_global = 1, 1);
     while (cm->cmd[i])
     {
-        tmp = get_name(e, cm->cmd[i]);
-        e = all->env;
-        if (ft_strnstr(cm->cmd[i], "+=", ft_strlen(tmp) + 2))
-            update_append(cm->cmd[i], e);
-        else
-            update_equal(cm->cmd[i], e);
+        if (has_equal(cm->cmd[i]))
+        {
+            tmp = get_name(e, cm->cmd[i]);
+            e = all->env;
+            if (ft_strnstr(cm->cmd[i], "+=", ft_strlen(tmp) + 2))
+                update_append(cm->cmd[i], e);
+            else
+                update_equal(cm->cmd[i], e);
+            free(tmp);    
+        }
         i++;
     }
-    free(tmp);
 }

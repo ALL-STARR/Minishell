@@ -63,8 +63,7 @@ void	my_unset(t_all *all)
 	}
 	while (e->previous != NULL)
 		e = e->previous;
-	tmp = ft_strdup(all->cmd->cmd[1]);
-	ft_strlcat(tmp, "=", ft_strlen(all->cmd->cmd[1]) + 2);
+	tmp = ft_strjoin(all->cmd->cmd[1], "=");
 	while (strncmp(e->var, tmp, ft_strlen(all->cmd->cmd[1]) + 1) != 0
 		&& e->next != NULL)
 		e = e->next;

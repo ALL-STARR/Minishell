@@ -37,11 +37,11 @@ int	built_in_subshell(t_cmd *cmd, t_all *all)
 		my_unset(all);
 		return (1);
 	}
-	/*else if ((ft_strcmp(cmd->cmd[0], "exit") == 0) && (ft_strlen(cmd->cmd[0]) == 4))
+	else if ((ft_strcmp(cmd->cmd[0], "exit") == 0) && (ft_strlen(cmd->cmd[0]) == 4))
 	{
-		my_exit();
+		my_exit(all, cmd);
 		return (1);
-	}*/
+	}
 	return (0);
 }
 

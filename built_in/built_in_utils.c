@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 17:00:20 by thomvan-          #+#    #+#             */
-/*   Updated: 2024/11/28 21:32:13 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/11/29 14:54:02 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void update_equal(char *c, t_env_list *e)
     tmp = get_name(NULL, c);
     while (ft_strncmp(e->var, tmp, ft_strlen(tmp)) != 0 && e->next)
         e = e->next;
-    if (e->next && ft_strncmp(e->var, tmp, ft_strlen(tmp)) != 0)
+    if (ft_strncmp(e->var, tmp, ft_strlen(tmp)) == 0)
     {
         free(e->var);
-        e->var = ft_strdup(e->var);
+        e->var = ft_strdup(c);
     }
     else
     {

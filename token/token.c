@@ -83,58 +83,50 @@ t_token	*new_t_node(t_token *l)
 	return (new);
 }
 
+static void	spacer_short(char *sp, char *s, t_pair *p, t_all *all)
+{
+	char	*tmp;
+	int		flag;
+	char	*cpy;
+
+	flag = 0;
+	if (s[(p->i) + 1] == '?')
+	{
+		tmp = ft_itoa(g_err_global);
+		cpy = tmp;
+		flag = 1;
+	}
+	else
+		tmp = var_pfetch(all->env, s + (p->i));
+	while (tmp && *tmp)
+		sp[(p->j)++] = *(tmp++);
+	while (s[p->i] != ' ' && s[p->i] && s[p->i] != 34)
+		(p->i)++;
+	if (flag)
+		free(cpy);
+}
+
 /*creates a new string with ' ' separating each elements for further splitting*/
 
 char	*spacer(char *s, t_all *all)
 {
 	char	*spaced;
-	int		i;
-	int		j;
-	char	*tmp;
+	t_pair	p;
 
-	i = 0;
-	j = 0;
+	p.i = 0;
+	p.j = 0;
 	spaced = malloc(sizeof(char) * (size_count(s, all) + 1));
-	while (s[i] && spaced)
+	while (s[p.i] && spaced)
 	{
-		if (s[i] == '$' && !simple_quoted(s, i)
-			&& s[i + 1] != '?')
-		{
-			tmp = var_pfetch(all->env, s + i);
-			while (tmp && *tmp)
-				spaced[j++] = *(tmp++);
-			while (s[i] != ' ' && s[i] && s[i] != 34)
-				i++;
-		}
-		if (sym_check(s + i) < GENERAL && !quoted(s, i))
-			spacer_shortcut(spaced, s, &i, &j);
-		else if (s[i])
-			spaced[j++] = s[i++];
+		if (s[p.i] == '$' && !simple_quoted(s, p.i))
+			spacer_short(spaced, s, &p, all);
+		if (sym_check(s + p.i) < GENERAL && !quoted(s, p.i))
+			spacer_shortcut(spaced, s, &p.i, &p.j);
+		else if (s[p.i])
+			spaced[p.j++] = s[p.i++];
 	}
 	free(s);
 	if (spaced)
-		spaced[j] = '\0';
+		spaced[p.j] = '\0';
 	return (spaced);
-}
-
-/*frees the token list*/
-
-void	token_l_free(t_token *t)
-{
-	t_token	*tmp;
-
-	if (!t)
-		return ;
-	while (t->previous != NULL)
-		t = t->previous;
-	while (t->next != NULL)
-	{
-		tmp = t->next;
-		free(t->content);
-		free(t);
-		t = tmp;
-	}
-	free(t->content);
-	free(t);
-	return ;
 }

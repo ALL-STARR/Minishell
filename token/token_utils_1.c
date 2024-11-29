@@ -32,12 +32,23 @@ void	type_assign(t_token *t)
 	quote_erase(t);
 }
 
+static int	error_size()
+{
+	char	*tmp;
+	int		cpy;
+
+	tmp = ft_itoa(g_err_global);
+	cpy = ft_strlen(tmp);
+	free(tmp);
+	return (cpy);
+}
+
 /*calculates the size needed for the new spaced string*/
 
 int	size_count(char *str, t_all *all)
 {
-	int	i;
-	int	size;
+	int		i;
+	int		size;
 
 	i = 0;
 	size = 0;
@@ -45,7 +56,12 @@ int	size_count(char *str, t_all *all)
 	{
 		if (str[i] == '$' && var_pfetch(all->env, str + i)
 			&& !simple_quoted(str, i))
-			size += ft_strlen(var_pfetch(all->env, str + i));
+		{
+			if (str[i + 1] == '?')
+				size += error_size();
+			else
+				size += ft_strlen(var_pfetch(all->env, str + i));
+		}
 		if (sym_check(str + i) < GENERAL && !quoted(str, i))
 		{
 			size += 2;
@@ -74,40 +90,3 @@ int	is_command(t_token *t)
 	}
 	return (0);
 }
-
-/*returns the environment variable
-
-{
-	int		i;
-	char	*name;
-	char	*value;
-
-	i = 0;
-	while (input[i] != ' ')
-		i++;
-	name = malloc(sizeof(char) * (i + 1));
-	if (!name)
-		return (NULL);
-	ft_strlcpy(name, input, i);
-	value = variable_fetch(env, name);
-	return (value);
-}
-
-gets the size of the environment variable
-
-size_t	env_size(char *input, t_env_list *env)
-{
-	int		i;
-	char	*name;
-	char	*value;
-
-	i = 0;
-	while (input[i] != ' ')
-		i++;
-	name = malloc(sizeof(char) * (i + 1));
-	if (!name)
-		return (-1);
-	ft_strlcpy(name, input, i);
-	value = variable_fetch(env, name);
-	return (ft_strlen(value));
-}*/

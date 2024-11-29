@@ -10,6 +10,7 @@ SHELL_SRCS 	= token/token_utils.c\
 				token/token_utils_2.c\
 				token/token_utils_3.c\
 				token/token.c\
+				token/token1.c\
 				token/special_split.c\
 				parsing/parse.c\
 				parsing/parse_utils.c\
@@ -28,6 +29,7 @@ SHELL_SRCS 	= token/token_utils.c\
 				built_in/my_unset.c\
 				built_in/my_export.c\
 				built_in/built_in_utils.c\
+				built_in/my_exit.c\
 				signal.c
 
 SHELL_SRC	= ${SHELL_SRCS}
@@ -42,7 +44,7 @@ FT_FOLDER = ./libft
 
 FT = ${FT_FOLDER}/libft.a
 
-CC		= gcc -g -fsanitize=address
+CC		= gcc -g #-fsanitize=address
 
 FLAGS	= -Wall -Wextra -Werror
 

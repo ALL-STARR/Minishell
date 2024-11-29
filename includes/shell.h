@@ -23,6 +23,12 @@
 # include <termios.h>
 # include <stdbool.h>
 
+typedef struct s_pair
+{
+	int	i;
+	int	j;
+}	t_pair;
+
 typedef struct s_env_list
 {
 	char				*var;
@@ -103,7 +109,7 @@ char		**s_split(char const *str, const char charset);
 void		quote_erase(t_token *l);
 void		spacer_shortcut(char *spac, char *s, int *i, int *j);
 int			simple_quoted(char *s, int index);
-void		spacer_shortcut(char *spac, char *s, int *i, int *j);
+
 
 /*parsing functions*/
 
@@ -124,6 +130,7 @@ void		my_echo(char **arg);
 void		my_cd(char **cmd, t_all *all);
 int			my_export(t_all *all, t_cmd *cm);
 void		my_env(t_cmd *cmd, t_all *all);
+void    	my_exit(t_all *all, t_cmd *c);
 void 		update_equal(char *c, t_env_list *e);
 void 		update_append(char *c, t_env_list *e);
 char 		*get_name(t_env_list *env, char *str);
