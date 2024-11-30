@@ -43,7 +43,7 @@ int	my_cd(char **cmd, t_all *all)
 	getcwd(cwd, sizeof(cwd));
 	tmp = new_empty_string(cwd);
 	if (!tmp)
-		return (printf("my_cd : malloc error\n"), 1);
+		return (printf("malloc error\n"), g_err_global = 1, 1);
 	while (ft_strncmp(cpy->var, "PWD", 3) != 0 && cpy != NULL)
 		cpy = cpy->next;
 	if (cpy)

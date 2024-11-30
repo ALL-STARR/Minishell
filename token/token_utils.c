@@ -107,7 +107,7 @@ static char	*no_quote_node(char *s)
 	{
 		tmp = malloc(sizeof(char) * (j + 1));
 		if (!s)
-			return (NULL);
+			return (g_err_global = 1, NULL);
 		s = no_quote_cpy(tmp, s);
 	}
 	return (s);

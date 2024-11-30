@@ -23,7 +23,7 @@ t_token	*tokenizer(char	*input, t_all *all)
 	chop = s_split(input, ' ');
 	token_list = token_node(chop);
 	if (token_list == NULL)
-		return (NULL);
+		return (g_err_global = 1, NULL);
 	type_assign(token_list);
 	all->token = token_list;
 	free(input);
@@ -40,10 +40,10 @@ t_token	*token_node(char **chopped)
 	int		i;
 
 	if (!(*chopped))
-		return (NULL);
+		return (g_err_global = 1, NULL);
 	tok = (t_token *)malloc(sizeof(t_token));
 	if (!tok)
-		return (NULL);
+		return (g_err_global = 1, NULL);
 	tok->previous = NULL;
 	tok->next = NULL;
 	i = 0;
@@ -57,7 +57,7 @@ t_token	*token_node(char **chopped)
 		if (chopped[i])
 			tok = new_t_node(tok);
 		if (!tok)
-			return (NULL);
+			return (g_err_global = 1, NULL);
 	}
 	return (first);
 }
@@ -70,7 +70,7 @@ t_token	*new_t_node(t_token *l)
 
 	new = (t_token *)malloc(sizeof(t_token));
 	if (!new)
-		return (NULL);
+		return (g_err_global = 1, NULL);
 	if (!l)
 	{
 		new->next = NULL;
@@ -128,5 +128,7 @@ char	*spacer(char *s, t_all *all)
 	free(s);
 	if (spaced)
 		spaced[p.j] = '\0';
+	else
+		return (g_err_global = 1, NULL);
 	return (spaced);
 }

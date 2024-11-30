@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 18:26:22 by thomvan-          #+#    #+#             */
-/*   Updated: 2024/11/29 21:18:46 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/11/30 12:45:23 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static t_cmd	*cmd_node_pipe_short(t_all *all, t_cmd *cmd_l, int *i)
 	cmd_l->cmd[*i] = NULL;
 	cmd_l = new_c_node(cmd_l, all->token);
 	if (!cmd_l)
-		return (NULL);
+		return (g_err_global = 1, NULL);
 	*i = 0;
 	return (cmd_l);
 }
@@ -77,7 +77,7 @@ t_cmd	*cmd_node(t_all *all, t_cmd *cmd_l)
 	cmd_l->cmd = malloc(sizeof(char *) * (word_count(all->token) + 1));
 	leftover = NULL;
 	if (!cmd_l->cmd)
-		return (NULL);
+		return (g_err_global = 1, NULL);
 	first = cmd_l;
 	all = cmd_part1(all, leftover, &i, cmd_l);
 	return (first);

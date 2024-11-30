@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 17:00:20 by thomvan-          #+#    #+#             */
-/*   Updated: 2024/11/29 21:32:36 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/11/30 12:32:07 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,14 @@ static char	*writer(char *name, t_env_list *e, int i, char *str)
 	{
 		name = malloc(sizeof(char) * (i + 1));
 		if (!name)
-			return (NULL);
+			return (g_err_global = 1, NULL);
 		ft_strlcpy(name, e->var, i + 1);
 	}
 	else
 	{
 		name = malloc(sizeof(char) * (i + 1));
 		if (!name)
-			return (NULL);
+			return (g_err_global = 1, NULL);
 		ft_strlcpy(name, str, i + 1);
 	}
 	return (name);

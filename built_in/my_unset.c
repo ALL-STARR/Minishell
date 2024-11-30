@@ -59,20 +59,20 @@ void	my_unset(t_all *all)
 {
 	char		*tmp;
 	t_env_list	*e;
+	int			i;
 
+	i = 1;
 	e = all->env;
-	if (all->cmd->cmd[2])
+	while (all->cmd->cmd[i])
 	{
-		printf("syntax error\n");
-		return ;
+		e = env_rewinder(e);
+		tmp = ft_strjoin(all->cmd->cmd[i], "=");
+		while (strncmp(e->var, tmp, ft_strlen(all->cmd->cmd[i]) + 1) != 0
+			&& e->next != NULL)
+			e = e->next;
+		if (strncmp(e->var, tmp, ft_strlen(all->cmd->cmd[i]) + 1) == 0)
+			e = env_node_delete(e);
+		free(tmp);
+		i++;
 	}
-	while (e->previous != NULL)
-		e = e->previous;
-	tmp = ft_strjoin(all->cmd->cmd[1], "=");
-	while (strncmp(e->var, tmp, ft_strlen(all->cmd->cmd[1]) + 1) != 0
-		&& e->next != NULL)
-		e = e->next;
-	if (strncmp(e->var, tmp, ft_strlen(all->cmd->cmd[1]) + 1) == 0)
-		e = env_node_delete(e);
-	free(tmp);
 }

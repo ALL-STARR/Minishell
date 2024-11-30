@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:38:29 by thomvan-          #+#    #+#             */
-/*   Updated: 2024/11/29 21:21:59 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/11/30 12:19:55 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	my_exit(t_all *all, t_cmd *c)
 		}
 		i++;
 	}
-	tmp = ft_atoi(c->cmd[1]);
+	tmp = ft_atoi(c->cmd[1]) % 256;
 	g_err_global = tmp;
 	total_free(all);
 	exit(tmp);

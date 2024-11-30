@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:42:19 by thomvan-          #+#    #+#             */
-/*   Updated: 2024/11/29 21:58:57 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/11/30 12:52:35 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*var_maker(char *var, int i, char *str)
 {
 	var = malloc(sizeof(char) * (i + 2));
 	if (!var)
-		return (printf("malloc error\n"), NULL);
+		return (printf("malloc error\n"), g_err_global = 1, NULL);
 	ft_strlcpy(var, str + 1, i + 1);
 	ft_strlcat(var, "=", ft_strlen(var) + 2);
 	return (var);
