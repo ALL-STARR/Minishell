@@ -74,7 +74,6 @@ all: ${NAME}
 
 $(NAME): $(OBJS) ${FT}
 	@$(CC) $(FLAGS) -o $(NAME)  $(OBJS) ${FT} ${READ_FLAGS}
-	make clean
 
 ${FT}: 
 	@${MAKE_FT}
