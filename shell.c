@@ -34,11 +34,18 @@ static void	loop(t_all *all, char *input)
 			free(input);
 			break ;
 		}
-		g_err_global = 0;
-		all->token = tokenizer(input, all);
-		all->cmd = parser(all);
-		ft_pipex(all->cmd, all->env, all);
-		l_reset(all->token, all->cmd);
+		if (*input)
+		{
+			g_err_global = 0;
+			all->token = tokenizer(input, all);
+			all->cmd = parser(all);
+			token_list_visualizer(all);
+			cmd_list_visualizer(all);
+			ft_pipex(all->cmd, all->env, all);
+			l_reset(all->token, all->cmd);
+		}
+		else
+			free(input);
 	}
 }
 
@@ -63,5 +70,3 @@ int	main(int arc, char **arv, char **envp)
 	return (0);
 }
 
-/*token_list_visualizer(all);
-cmd_list_visualizer(all);*/

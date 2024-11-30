@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:38:29 by thomvan-          #+#    #+#             */
-/*   Updated: 2024/11/30 13:41:50 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/11/30 17:35:17 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,31 @@ static int	is_digit(char *s)
 	return (1);
 }
 
-void	my_exit(t_all *all, t_cmd *c)
+int	my_exit(t_all *all, t_cmd *c)
 {
 	int	i;
+	int	j;
 	int	tmp;
 
 	i = 1;
-	if (!c->cmd[1] || c->cmd[2])
+	tmp = 0;
+	j = 0;
+	while (c->cmd[j])
+		j++;
+	if (j > 1)
+		return (printf("too many arguments\n"), g_err_global = 1, 1);
+	if (c->cmd[i])
 	{
-		printf("please provide only one numeric argument\n");
-		g_err_global = 1;
-		return ;
-	}
-	while (c->cmd[i])
-	{
-		if (!is_digit(c->cmd[i]))
+		while (c->cmd[i])
 		{
-			printf("error : argument is not a number\n");
-			g_err_global = 1;
-			return ;
+			if (!is_digit(c->cmd[i]))
+				return (printf("argument is not a number\n"), g_err_global = 1,
+					1);
+			i++;
 		}
-		i++;
+		tmp = ft_atoi(c->cmd[1]) % 256;
+		g_err_global = tmp;
+		total_free(all);
 	}
-	tmp = ft_atoi(c->cmd[1]) % 256;
-	g_err_global = tmp;
-	total_free(all);
 	exit(tmp);
 }
