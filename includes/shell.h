@@ -16,18 +16,27 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/wait.h>
 # include <stdio.h>
+# include <stdbool.h>
+# include <fcntl.h>
+//# include <termios.h>
 # include "libft.h"
 
 typedef struct s_env_list
 {
 	char				*var;
+	char				*env_name;
+	char				*env_value;
 	struct s_env_list	*next;
+	struct s_env_list	*previous;
 }	t_env_list;
 
 typedef struct s_token
 {
 	char			*content;
+	char			*tok_name;
+	char			*tok_value;
 	int				type;
 	int				index;
 	struct s_token	*next;
@@ -36,9 +45,13 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
-	char			**cmd;
+	char			**cmd;		
+	struct s_token	*in_red;
+	struct s_token	*out_red;
 	struct s_cmd	*next;
 	struct s_cmd	*previous;
+	int				tube[2];
+	int				prev_tube;
 }	t_cmd;
 
 typedef struct s_all
@@ -48,17 +61,17 @@ typedef struct s_all
 	t_cmd		*cmd;
 }	t_all;
 
-# define CHAR_SMALLER_THAN 1
-# define CHAR_GREATER_THAN 2
-# define PIPE 3
-# define DOUBLE_SMALL 4
-# define DOUBLE_GREAT 5
+# define SMALLER 1
+# define GREATER 2
+# define DOUBLE_SMALL 3
+# define DOUBLE_GREAT 4
+# define PIPE 5
 # define GENERAL 6
 # define COMMAND 7
 
 /*general functions*/
 
-void		total_free(t_token *t);
+void		total_free(t_all *all);
 
 /*environment_list functions*/
 
@@ -67,7 +80,9 @@ t_env_list	*new_node(t_env_list *l);
 void		env_l_free(t_env_list *l);
 char		*variable_fetch(t_env_list *e, char *str);
 char		*var_value(char *var);
+char		*var_fetch(t_env_list *e, char *str);
 char		*var_pfetch(t_env_list *e, char *str);
+char		*var_bfetch(t_env_list *e, char *str);
 void		env_n_free(t_env_list *t);
 t_env_list	*env_node_delete(t_env_list *env);
 
@@ -91,23 +106,74 @@ void		quote_erase(t_token *l);
 void		spacer_shortcut(char *spac, char *s, int *i, int *j);
 int			simple_quoted(char *s, int index);
 void		spacer_shortcut(char *spac, char *s, int *i, int *j);
-
+void		token_l_free(t_token *t);
 
 /*parsing functions*/
 
 int			word_count(t_token *t);
-t_cmd		*cmd_node(t_token *t, t_cmd *cmd_l);
+t_cmd		*cmd_node(t_all *all, t_cmd *cmd_l);
 t_cmd		*new_c_node(t_cmd *c, t_token *t);
-t_cmd		*parser(t_token *t);
+t_cmd		*parser(t_all *all);
 void		cmd_l_free(t_cmd *c);
+t_token		*redirect_finder(t_token *t, t_cmd *c);
+t_token		*in_red(t_token *t, t_cmd *c);
+t_token		*out_red(t_token *t, t_cmd *c);
 
 /*built-in functions*/
 
-void		my_unset(t_all *all);
-void 		my_pwd();
+int			my_pwd(t_all *all);
+void		my_unset(t_cmd *cmd, t_all *all);
 void		my_echo(char **arg);
-void		my_cd(char **cmd);
+void		my_cd(char **cmd, t_all *all);
 void		my_export(t_all *all);
-void		my_env(t_all *all, t_cmd *cmd);
+void		my_env(t_cmd *cmd, t_all *all);
+void		env_split(t_all *all);
+
+/*exec functions*/
+
+void	ft_pipex(t_cmd *cmd, t_env_list *env_list, t_all *all);
+int		init_pids_and_count(t_cmd *cmd, pid_t **pids);
+int		create_pipe(int tube[2], pid_t *pids, t_cmd *current_cmd);
+pid_t	create_fork(void);
+pid_t	create_process(t_cmd *current_cmd, t_env_list *env_list, t_all *all);
+
+void	pipe_redirect(t_cmd *current_cmd, t_env_list *env_list);
+void	pipe_redi(t_cmd *current_cmd, t_env_list *env_list, int *heredoc_fd);
+void	ft_exec(char **cmd, t_env_list *env_list);
+void	close_unused_pipes(t_cmd *current_cmd);
+void 	wait_for_children(pid_t *pids, int cmd_count);
+
+int		check_path(t_env_list *env_list);
+char	*get_path(char **cmd, t_env_list *env_list, int i);
+char	*ft_free_tab(char **cmd);
+char	**env_list_to_array(t_env_list *env_list, int i);
+int 	ft_strcmp(char *str1, char *str2);
+
+char	**ft_split(char const *s, char c);
+char	**ft_split_wds(char const *s, char c, char **dst, int num_wds);
+char	**ft_free_split(char **ptr, int i);
+char	*ft_put(char *wds, char const *s, int i, int len_wds);
+int		ft_cnt_wds(char const *str, char c);
+
+void	handle_redirections(t_cmd *cmd, int *heredoc_fd);
+void 	handle_output_red(t_token *out_red);
+void	handle_append_red(t_token *out_red);
+void	handle_input_red(t_token *in_red);
+void	handle_heredoc(t_token *in_red, int *heredoc_fd);
+
+int		built_in_shell(t_cmd *cmd, t_all *all);
+int		built_in_subshell(t_cmd *cmd, t_all *all);
+int		handle_built_in(t_cmd *cmd, t_all *all);
+
+/*extra functions*/
+
+void		token_list_visualizer(t_all *all);
+void		cmd_list_visualizer(t_all *all);
+
+/*signal functions*/
+
+void		init_signal(void);
+void		sigint_handler(int sig);
+void		reset_signal(void);
 
 #endif
