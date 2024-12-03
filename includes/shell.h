@@ -32,8 +32,6 @@ typedef struct s_pair
 typedef struct s_env_list
 {
 	char				*var;
-	char				*env_name;
-	char				*env_value;
 	struct s_env_list	*next;
 	struct s_env_list	*previous;
 }	t_env_list;
@@ -41,8 +39,6 @@ typedef struct s_env_list
 typedef struct s_token
 {
 	char			*content;
-	char			*tok_name;
-	char			*tok_value;
 	int				type;
 	int				index;
 	struct s_token	*next;
@@ -53,6 +49,8 @@ typedef struct s_cmd
 {
 	char			**cmd;
 	int				n_redirection;
+	int				prev_tube;
+	int				tube[2];
 	struct s_token	*in_red;
 	struct s_token	*out_red;
 	struct s_cmd	*next;
@@ -89,6 +87,7 @@ char		*var_fetch(t_env_list *e, char *str);
 char		*var_value(char *var);
 char		*var_pfetch(t_env_list *e, char *str);
 char		*var_bfetch(t_env_list *e, char *str);
+t_env_list	*env_rewinder(t_env_list *e);
 
 /*token functions*/
 
@@ -110,7 +109,6 @@ void		quote_erase(t_token *l);
 void		spacer_shortcut(char *spac, char *s, int *i, int *j);
 int			simple_quoted(char *s, int index);
 
-
 /*parsing functions*/
 
 int			word_count(t_token *t);
@@ -127,25 +125,25 @@ t_token		*out_red(t_token *t, t_cmd *c);
 int			my_pwd(t_all *all);
 void		my_unset(t_all *all);
 void		my_echo(char **arg);
-void		my_cd(char **cmd, t_all *all);
+int			my_cd(char **cmd, t_all *all);
 int			my_export(t_all *all, t_cmd *cm);
 void		my_env(t_cmd *cmd, t_all *all);
-void    	my_exit(t_all *all, t_cmd *c);
-void 		update_equal(char *c, t_env_list *e);
-void 		update_append(char *c, t_env_list *e);
-char 		*get_name(t_env_list *env, char *str);
-char 		*get_value(t_env_list *env, char *str);
+int			my_exit(t_all *all, t_cmd *c);
+void		update_equal(char *c, t_env_list *e);
+void		update_append(char *c, t_env_list *e);
+char		*get_name(t_env_list *env, char *str);
+char		*get_value(t_env_list *env, char *str);
 
 /*exec functions*/
 
 void		ft_pipex(t_cmd *cmd, t_env_list *env_list, t_all *all);
 int			init_pids_and_count(t_cmd *cmd, pid_t **pids);
 int			create_pipe(int tube[2], pid_t *pids, t_cmd *current_cmd);
-pid_t		create_process(t_cmd *current_cmd, int *tube, int prev_tube, t_env_list *env_list, t_all *all);
-void		pipe_redirect(t_cmd *current_cmd, int *tube, int prev_tube, t_env_list *env_list);
-void		handle_pipe_redirect(t_cmd *current_cmd, int *tube, int prev_tube, t_env_list *env_list);
+pid_t		create_process(t_cmd *current_cmd, t_env_list *env_list, t_all *all);
+void		pipe_redirect(t_cmd *current_cmd, t_env_list *env_list);
+void 		pipe_redi(t_cmd *current_cmd, t_env_list *env_list, int *heredoc_fd);
 void		ft_exec(char **cmd, t_env_list *env_list);
-void		close_unused_pipes(int *prev_tube, int *tube, t_cmd *current_cmd);
+void		close_unused_pipes(t_cmd *current_cmd);
 void		wait_for_children(pid_t *pids, int cmd_count);
 
 char		*get_path(char **cmd, t_env_list *env_list, int i);
@@ -160,11 +158,11 @@ char		**ft_free_split(char **ptr, int i);
 char		*ft_put(char *wds, char const *s, int i, int len_wds);
 int			ft_cnt_wds(char const *str, char c);
 
-void		handle_redirections(t_cmd *cmd);
+void		handle_redirections(t_cmd *cmd, int *heredoc_fd);
 void		handle_output_red(t_token *out_red);
 void		handle_append_red(t_token *out_red);
 void		handle_input_red(t_token *in_red);
-void		handle_heredoc(t_token *in_red);
+void		handle_heredoc(t_token *in_red, int *heredoc_fd);
 
 int			built_in_shell(t_cmd *cmd, t_all *all);
 int			built_in_subshell(t_cmd *cmd, t_all *all);

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/shell.h"
+#include "../includes/shell.h"
 
 t_env_list	*envellope(char **env)
 {
@@ -20,7 +20,7 @@ t_env_list	*envellope(char **env)
 
 	envl = (t_env_list *)malloc(sizeof(t_env_list));
 	if (!envl)
-		return (NULL);
+		return (g_err_global = 1, NULL);
 	i = 0;
 	first = envl;
 	envl->previous = NULL;
@@ -31,7 +31,7 @@ t_env_list	*envellope(char **env)
 		if (env[i])
 			envl = new_node(envl);
 		if (!envl)
-			return (NULL);
+			return (g_err_global = 1, NULL);
 	}
 	return (first);
 }
@@ -42,7 +42,7 @@ t_env_list	*new_node(t_env_list *l)
 
 	new = (t_env_list *)malloc(sizeof(t_env_list));
 	if (!new)
-		return (NULL);
+		return (g_err_global = 1, NULL);
 	if (!l)
 		return (new);
 	l->next = new;
@@ -74,8 +74,7 @@ char	*var_fetch(t_env_list *e, char *str)
 	int	flag;
 
 	flag = 0;
-	while (e->previous != NULL)
-		e = e->previous;
+	e = env_rewinder(e);
 	while (e != NULL)
 	{
 		if (ft_strncmp(e->var, str, ft_strlen(str)) == 0)
@@ -88,39 +87,6 @@ char	*var_fetch(t_env_list *e, char *str)
 	if (flag)
 		return (e->var);
 	return (NULL);
-}
-
-char	*var_pfetch(t_env_list *e, char *str)
-{
-	int			flag;
-	int			i;
-	t_env_list	*cpy;
-	char		*var;
-
-	flag = 0;
-	i = 0;
-	while (e->previous != NULL)
-		e = e->previous;
-	cpy = e;
-	while (str[i + 1] != ' ' && str[i + 1] != 34 && str[i + 1] != '\0')
-		i++;
-	var = malloc(sizeof(char) * (i + 2));
-	if (!var)
-		return (printf("malloc error\n"), NULL);
-	ft_strlcpy(var, str + 1, i + 1);
-	ft_strlcat(var, "=", ft_strlen(var) + 2);
-	while (cpy != NULL)
-	{
-		if (ft_strncmp(cpy->var, var, i + 1) == 0)
-		{
-			flag = 1;
-			break ;
-		}
-		cpy = cpy->next;
-	}
-	if (flag)
-		return (free(var), cpy->var + (i + 1));
-	return (free(var), NULL);
 }
 
 char	*var_bfetch(t_env_list *e, char *str)

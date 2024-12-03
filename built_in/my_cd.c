@@ -12,33 +12,39 @@
 
 #include "../includes/shell.h"
 
-void	my_cd(char **cmd, t_all *all)
+static char	*new_empty_string(char *cwd)
+{
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	tmp = malloc(sizeof(char) * (ft_strlen(cwd) + 5));
+	if (!tmp)
+		return (g_err_global = 1, NULL);
+	while (i < (ft_strlen(cwd) + 5))
+		tmp[i++] = '\0';
+	return (tmp);
+}
+
+int	my_cd(char **cmd, t_all *all)
 {
 	int			err;
 	char		*tmp;
 	t_env_list	*cpy;
-	int			i;
-	static char	cwd[1024];	
+	static char	cwd[1024];
 
 	cpy = all->env;
-	i = 0;
 	if (!cmd[1])
-	{
-		printf("please insert absolute or relative path\n");
-		return ;
-	}
+		return (printf("please insert path\n"), g_err_global = 1, 1);
 	else
 		err = chdir(cmd[1]);
 	if (err == -1)
 		perror("chdir :");
 	getcwd(cwd, sizeof(cwd));
-	tmp = malloc(sizeof(char) * (ft_strlen(cwd) + 5));
+	tmp = new_empty_string(cwd);
 	if (!tmp)
-		return ;
-	while (i < (ft_strlen(cwd) + 5))
-		tmp[i++] = '\0';
-	while (ft_strncmp(cpy->var, "PWD", 3) != 0
-		&& cpy != NULL)
+		return (printf("malloc error\n"), g_err_global = 1, 1);
+	while (ft_strncmp(cpy->var, "PWD", 3) != 0 && cpy != NULL)
 		cpy = cpy->next;
 	if (cpy)
 	{

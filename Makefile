@@ -15,7 +15,9 @@ SHELL_SRCS 	= token/token_utils.c\
 				parsing/parse.c\
 				parsing/parse_utils.c\
 				parsing/parse_utils_1.c\
-				env.c\
+				parsing/cmd.c\
+				env/env.c\
+				env/env_utils.c\
 				shell.c\
 				utils/extra.c\
 				exec/exec_utils.c\
@@ -25,11 +27,11 @@ SHELL_SRCS 	= token/token_utils.c\
 				exec/handle_heredoc.c\
 				exec/exec_built_in.c\
 				built_in/built_in.c\
-				built_in/built_in_1.c\
 				built_in/my_unset.c\
 				built_in/my_export.c\
 				built_in/built_in_utils.c\
 				built_in/my_exit.c\
+				built_in/my_cd.c\
 				signal.c
 
 SHELL_SRC	= ${SHELL_SRCS}
@@ -72,7 +74,6 @@ all: ${NAME}
 
 $(NAME): $(OBJS) ${FT}
 	@$(CC) $(FLAGS) -o $(NAME)  $(OBJS) ${FT} ${READ_FLAGS}
-	make clean
 
 ${FT}: 
 	@${MAKE_FT}
