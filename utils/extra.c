@@ -83,7 +83,7 @@ void	cmd_list_visualizer(t_all *all)
 			}
 			printf("} ");
 		}
-		printf("n_redirections = %d\n", all->cmd->n_redirection);
+		printf("\n");
 		all->cmd = all->cmd->next;
 	}
 	printf("\n");

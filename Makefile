@@ -21,6 +21,9 @@ SHELL_SRCS 	= token/token_utils.c\
 				shell.c\
 				utils/extra.c\
 				exec/exec_utils.c\
+				exec/exec_utils_2.c\
+				exec/pipex_utils.c\
+				exec/redirect.c\
 				exec/ft_split.c\
 				exec/pipex.c\
 				exec/handle_redirect.c\
@@ -74,6 +77,7 @@ all: ${NAME}
 
 $(NAME): $(OBJS) ${FT}
 	@$(CC) $(FLAGS) -o $(NAME)  $(OBJS) ${FT} ${READ_FLAGS}
+	make clean
 
 ${FT}: 
 	@${MAKE_FT}
