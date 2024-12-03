@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 11:48:07 by raneuman          #+#    #+#             */
-/*   Updated: 2024/12/03 16:54:12 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/12/03 18:08:28 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static int	pipe_redirect(t_cmd *current_cmd, t_env_list *env_list)
 {
 	if (!current_cmd->out_red)
 	{
-		printf("hello\n\n");
 		if (current_cmd->next)
 		{
 			dup2(current_cmd->tube[1], 1);
@@ -74,7 +73,6 @@ static pid_t	ft_process(t_cmd *current_cmd, t_env_list *env_list, t_all *all)
 	if (built_in_subshell(current_cmd, all))
 		return (0);
 	pid = create_fork();
-	printf("cmd %s out_red = %s\n", current_cmd->cmd[0], current_cmd->out_red->content);
 	if (pid == -1)
 		return (g_err_global = 1, -1);
 	if (pid == 0)
@@ -92,8 +90,7 @@ static pid_t	ft_process(t_cmd *current_cmd, t_env_list *env_list, t_all *all)
 		exit(1);
 	}
 	wait(&status);
-	g_err_global = WEXITSTATUS(status);
-	return (pid);
+	return (g_err_global = WEXITSTATUS(status), pid);
 }
 
 int	ft_pipex(t_cmd *cmd, t_env_list *env_list, t_all *all)

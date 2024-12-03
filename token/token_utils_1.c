@@ -25,7 +25,7 @@ void	type_assign(t_token *t)
 			t->type = 7;
 		t = t->next;
 	}
-	if (t->type)
+	if (t)
 		t->type = sym_check(t->content);
 	if (is_command(t))
 		t->type = 7;

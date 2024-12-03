@@ -31,7 +31,6 @@ int	my_pwd(t_all *all)
 		printf("var doesn't exist\n");
 		exit (1);
 	}
-
 	printf("%s\n", wd);
 	return (0);
 }

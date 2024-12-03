@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/03 16:41:47 by thomvan-          #+#    #+#             */
-/*   Updated: 2024/12/03 16:42:26 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/12/03 20:41:38 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,29 @@ static t_cmd	*cmd_node_pipe_short(t_all *all, t_cmd *cmd_l, int *i)
 	return (cmd_l);
 }
 
+static t_cmd	*cmd_part1(t_all *all, int *i, t_token **left, t_cmd *cmd)
+{
+	while (all->token && all->token->next != NULL)
+	{
+		if (all->token->type != PIPE)
+		{
+			all->token = redirect_finder(all->token, cmd);
+			if (!all->token)
+				break ;
+			if (all->token && all->token->type > PIPE && (!all->token->previous
+					|| all->token->previous->type > DOUBLE_GREAT))
+				*left = all->token;
+			if (all->token->type != PIPE)
+				cmd->cmd[(*i)++] = all->token->content;
+		}
+		if (all->token->type != PIPE && all->token->next)
+			all->token = all->token->next;
+		if (all->token && all->token->type == PIPE)
+			cmd = cmd_node_pipe_short(all, cmd, i);
+	}
+	return (cmd);
+}
+
 /*creates cmd_nodes and fills them with the commands*/
 
 t_cmd	*cmd_node(t_all *all, t_cmd *cmd_l)
@@ -39,25 +62,7 @@ t_cmd	*cmd_node(t_all *all, t_cmd *cmd_l)
 	if (!cmd_l->cmd)
 		return (NULL);
 	first = cmd_l;
-	while (all->token && all->token->next != NULL)
-	{
-		if (all->token->type != PIPE)
-		{
-			all->token = redirect_finder(all->token, cmd_l);
-			if (!all->token)
-				break ;
-			if (all->token && all->token->type > PIPE
-				&& (!all->token->previous
-					|| all->token->previous->type > DOUBLE_GREAT))
-				leftover = all->token;
-			if (all->token->type != PIPE)
-				cmd_l->cmd[i++] = all->token->content;
-		}
-		if (all->token->type != PIPE && all->token->next)
-			all->token = all->token->next;
-		if (all->token && all->token->type == PIPE)
-			cmd_l = cmd_node_pipe_short(all, cmd_l, &i);
-	}
+	cmd_l = cmd_part1(all, &i, &leftover, cmd_l);
 	cmd_l->cmd[i] = NULL;
 	if (all->token && all->token->type != PIPE)
 	{
@@ -67,4 +72,28 @@ t_cmd	*cmd_node(t_all *all, t_cmd *cmd_l)
 	if (leftover)
 		all->token = leftover;
 	return (first);
+}
+
+int	syntax_police(t_token *tok)
+{
+	t_token	*t;
+
+	t = tok;
+	if (!tok)
+		return (0);
+	while (t->previous != NULL)
+		t = t->previous;
+	while (t)
+	{
+		if ((t->type == SMALLER || t->type == DOUBLE_SMALL) && (!t->next
+				|| (t->next->type == GREATER || t->next->type == DOUBLE_GREAT)))
+			return (ft_putstr_fd("syntax error\n", 2), g_err_global = 2, 1);
+		if ((t->type == GREATER || t->type == DOUBLE_GREAT) && (!t->next
+				|| t->next->type == SMALLER || t->next->type == DOUBLE_SMALL))
+			return (ft_putstr_fd("syntax error\n", 2), g_err_global = 2, 1);
+		if (t->type == PIPE && (!t->next || t->next->type == PIPE))
+			return (ft_putstr_fd("syntax error\n", 2), g_err_global = 2, 1);
+		t = t->next;
+	}
+	return (0);
 }

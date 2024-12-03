@@ -80,6 +80,7 @@ extern int			g_err_global;
 /*general functions*/
 
 void		total_free(t_all *all);
+int			syntax_police(t_token *tok);
 
 /*environment_list functions*/
 
