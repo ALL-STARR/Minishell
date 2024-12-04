@@ -35,6 +35,7 @@ SHELL_SRCS 	= token/token_utils.c\
 				built_in/built_in_utils.c\
 				built_in/my_exit.c\
 				built_in/my_cd.c\
+				built_in/export_utils.c\
 				signal.c
 
 SHELL_SRC	= ${SHELL_SRCS}

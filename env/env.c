@@ -26,7 +26,10 @@ t_env_list	*envellope(char **env)
 	envl->previous = NULL;
 	while (env[i])
 	{
-		envl->var = ft_strdup(env[i]);
+		if (env[i][0] == '_')
+			i++;
+		if (env[i])
+			envl->var = ft_strdup(env[i]);
 		i++;
 		if (env[i])
 			envl = new_node(envl);
@@ -72,9 +75,11 @@ void	env_l_free(t_env_list *l)
 char	*var_fetch(t_env_list *e, char *str)
 {
 	int	flag;
+	int	i;
 
 	flag = 0;
 	e = env_rewinder(e);
+	i = 1;
 	while (e != NULL)
 	{
 		if (ft_strncmp(e->var, str, ft_strlen(str)) == 0)
@@ -85,7 +90,11 @@ char	*var_fetch(t_env_list *e, char *str)
 		e = e->next;
 	}
 	if (flag)
-		return (e->var);
+	{
+		while (e->var[i] != '=')
+			i++;
+		return (e->var + i + 1);
+	}
 	return (NULL);
 }
 

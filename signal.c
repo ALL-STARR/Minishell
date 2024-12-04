@@ -15,20 +15,21 @@
 
 void	sigint_handler(int sig)
 {
+	g_err_global = 130;
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	g_err_global = 130;
 	(void) sig;
 }
 
 static void	sigint_handler2(int sig)
 {
+	g_err_global = 130;
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	//rl_redisplay();
+	rl_redisplay();
 	exit (130);
 	(void) sig;
 }
