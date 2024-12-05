@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:42:19 by thomvan-          #+#    #+#             */
-/*   Updated: 2024/11/30 12:52:35 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/12/05 16:10:41 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,25 @@ char	*var_pfetch(t_env_list *e, char *str)
 	if (flag)
 		return (free(var), cpy->var + (i + 1));
 	return (free(var), NULL);
+}
+
+char	*increment_shlvl(t_env_list *envl, char	*var)
+{
+	int		i;
+	char	*s;
+	char	*tmp;
+	int		j;
+
+	i = 0;
+	s = NULL;
+	while (var[i] != '=' && var[i])
+		i++;
+	if (var[i] == '=')
+	{
+		j = ft_atoi(var + i + 1) + 1;
+		tmp = ft_itoa(j);
+		s = ft_strjoin("SHLVL=", tmp);
+		free(tmp);
+	}
+	return (s);
 }

@@ -18,6 +18,8 @@ t_env_list	*envellope(char **env)
 	t_env_list	*first;
 	int			i;
 
+	//if (!env[0])
+
 	envl = (t_env_list *)malloc(sizeof(t_env_list));
 	if (!envl)
 		return (g_err_global = 1, NULL);
@@ -26,12 +28,12 @@ t_env_list	*envellope(char **env)
 	envl->previous = NULL;
 	while (env[i] != NULL)
 	{
-		if (env[i])
+		if (ft_strncmp(env[i], "SHLVL=", 6) == 0)
+			envl->var = increment_shlvl(envl, env[i]);
+		else
 			envl->var = ft_strdup(env[i]);
-		if (env[i])
-			i++;
-		if (env[i])
-			envl = new_node(envl);
+		i++;
+		envl = new_node(envl);
 		if (!envl)
 			return (g_err_global = 1, NULL);
 	}
