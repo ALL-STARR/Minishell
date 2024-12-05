@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 11:48:07 by raneuman          #+#    #+#             */
-/*   Updated: 2024/12/03 18:08:28 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/12/05 13:34:08 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,7 @@ static pid_t	ft_process(t_cmd *current_cmd, t_env_list *env_list, t_all *all)
 			ft_exec(current_cmd->cmd, env_list);
 		exit(1);
 	}
-	wait(&status);
-	return (g_err_global = WEXITSTATUS(status), pid);
+	return (pid);
 }
 
 int	ft_pipex(t_cmd *cmd, t_env_list *env_list, t_all *all)

@@ -34,7 +34,7 @@ static int	loop(t_all *all, char *input)
 		while (1)
 		{
 			init_signal();
-			input = readline("Minishell>");
+			input = readline("Minishell> ");
 			if (input <= 0)
 				return (write(1, "exit\n", 6), free(input), 1);
 			if (*input)

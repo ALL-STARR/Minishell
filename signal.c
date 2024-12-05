@@ -30,7 +30,13 @@ static void	sigint_handler2(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	exit (130);
+	(void) sig;
+}
+
+static void	sigquit_handler(int sig)
+{
+	g_err_global = 131;
+	write(2, "Quit: 3\n", 8);
 	(void) sig;
 }
 
@@ -43,5 +49,5 @@ void	init_signal(void)
 void	reset_signal(void)
 {
 	signal(SIGINT, sigint_handler2);
-	signal(SIGQUIT, SIG_DFL);
+	signal(SIGQUIT, sigquit_handler);
 }

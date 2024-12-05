@@ -73,7 +73,7 @@ void	my_env(t_cmd *cmd, t_all *all)
 	}
 	while (current)
 	{
-		if (has_equal(current->var))
+		if (current->var[0] != '_' && has_equal(current->var))
 			printf("%s\n", current->var);
 		current = current->next;
 	}

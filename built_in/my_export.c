@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:18:55 by thomvan-          #+#    #+#             */
-/*   Updated: 2024/12/05 00:36:10 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/12/05 14:28:18 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	naked_export(t_env_list *e)
 
 	while (e)
 	{
-		if (has_equal(e->var))
+		if (has_equal(e->var) && e->var[0] != '_')
 		{
 			tmp = get_name(e, NULL);
 			printf("declare -x %s", tmp);
@@ -26,7 +26,8 @@ static void	naked_export(t_env_list *e)
 			printf("=\"%s\"\n", get_value(e, NULL));
 		}
 		else
-			printf("declare -x %s\n", e->var);
+			if (e->var[0] != '_')
+				printf("declare -x %s\n", e->var);
 		e = e->next;
 	}
 }
