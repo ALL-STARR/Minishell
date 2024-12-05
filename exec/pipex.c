@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 11:48:07 by raneuman          #+#    #+#             */
-/*   Updated: 2024/12/05 13:34:08 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/12/05 15:03:09 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static int	ft_exec(char **cmd, t_env_list *env_list)
 	env_array = env_list_to_array(env_list, 0);
 	if (env_array)
 	{
-		reset_signal();
 		if (execve(path, cmd, env_array) == -1)
 		{
 			perror("exec ");
@@ -48,6 +47,7 @@ static int	pipe_redirect(t_cmd *current_cmd, t_env_list *env_list)
 		{
 			dup2(current_cmd->tube[1], 1);
 			close(current_cmd->tube[1]);
+			close(current_cmd->tube[0]);
 		}
 	}
 	if (current_cmd->previous != NULL)
