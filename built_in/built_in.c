@@ -34,6 +34,7 @@ int	my_pwd(t_all *all)
 	printf("%s\n", wd);
 	return (0);
 }
+
 static int	check_n(char **arg, int *flag)
 {
 	int	i;

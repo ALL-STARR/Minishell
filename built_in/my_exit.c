@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 14:38:29 by thomvan-          #+#    #+#             */
-/*   Updated: 2024/12/05 18:53:06 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/12/05 19:14:27 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,8 @@ int	my_exit(t_all *all, t_cmd *c)
 	{
 		while (c->cmd[i])
 		{
-			if (!is_digit(c->cmd[i]))
-				return (printf("argument is not a number\n"), g_err_global = 1,
-					1);
-			i++;
+			if (!is_digit(c->cmd[i++]))
+				return (printf("not a number\n"), g_err_global = 1, 1);
 		}
 		g_err_global = tmp;
 		total_free(all);
