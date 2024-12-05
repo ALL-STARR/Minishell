@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 21:42:19 by thomvan-          #+#    #+#             */
-/*   Updated: 2024/12/05 16:10:41 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/12/05 17:29:03 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,26 @@ char	*increment_shlvl(t_env_list *envl, char	*var)
 		free(tmp);
 	}
 	return (s);
+}
+
+t_env_list	*env_empty(t_env_list *e)
+{
+	char	*cwd;
+	char	*tmp;
+
+	cwd = malloc(sizeof(char) * 1024);
+	e->previous = NULL;
+	getcwd(cwd, 1024);
+	e->var = ft_strdup("OLDPWD=");
+	e = new_node(e);
+	e->var = ft_strjoin("PWD=", cwd);
+	e = new_node(e);
+	e->var = ft_strdup("SHLVL=1");
+	e = new_node(e);
+	tmp = ft_strjoin("_=", cwd);
+	e->var = ft_strjoin(tmp, "/./minishell");
+	free(tmp);
+	free(cwd);
+	e = env_rewinder(e);
+	return (e);
 }
