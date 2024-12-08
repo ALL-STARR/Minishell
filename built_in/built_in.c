@@ -43,13 +43,13 @@ static int	check_n(char **arg, int *flag)
 	i = 1;
 	while (arg[i])
 	{
-		j = 1;
+		j = 0;
 		if (arg[i][0] == '-' && arg[i][1] == 'n')
-			while (arg[i][j] == 'n' && arg[i][j])
+			while (arg[i][j + 1] == 'n')
 				j++;
-		if (arg[i][j] != 'n' && arg[i][j] != '\0')
+		if (arg[i][j + 1] != '\0')
 			return (0);
-		else
+		else if (arg[i][0] == '-' && arg[i][1] == 'n')
 			(*flag)++;
 		i++;
 	}
@@ -69,7 +69,7 @@ void	my_echo(char **arg)
 		return ;
 	}
 	if (check_n(arg, &flag))
-		flag = 1;
+		flag = check_n(arg, &flag);
 	while (arg[i + flag] != NULL)
 	{
 		printf("%s", arg[i + flag]);

@@ -66,8 +66,8 @@ int	my_cd(char **cmd, t_all *all)
 	cpy = all->env;
 	if (!cmd[1])
 		return (printf("please insert path\n"), g_err_global = 1, 1);
-	else
-		err = chdir(cmd[1]);
+	old_pwd_update(all);
+	err = chdir(cmd[1]);
 	if (err == -1)
 		return (printf("No such file or directory\n"), g_err_global = 1, 1);
 	getcwd(cwd, sizeof(cwd));
