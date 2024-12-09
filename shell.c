@@ -12,40 +12,71 @@
 
 #include "includes/shell.h"
 
-/*int	main(int arc, char **arv, char **envp)
-{
-	char		*input;
-	char		*prompt;
-	t_token		*token;
-	t_cmd		*c;
-	int			i;
+int	g_err_global = 0;
 
-	if (arc == 0)
-		return (1);
-	input = readline("write something : ");
-    if (input == NULL) 
-        return(1);
-    if (ft_strncmp(input, "exit", ft_strlen(input)) == 0) 
-	{
-    	free(input);
-    	return (1);
-    }
-    if (*input) 
-        add_history(input);
-	token = tokenizer(input);
-	c = parser(token);
-	while (c->next != NULL)
-	{
-		i = 0;
-		while (c->cmd[i])
-		{
-			printf("%s\n", c->cmd[i]);
-			i++;
-		}
-		c = c->next;
-	}
-	clear_history();
+static void	l_reset(t_token *t, t_cmd *c)
+{
+	token_l_free(t);
 	cmd_l_free(c);
-	total_free(token);
-    return 0;
-}*/
+}
+
+static int	syntax_exit(char *input, t_all *all)
+{
+	token_l_free(all->token);
+	g_err_global = 2;
+	return (1);
+}
+
+static int	loop(t_all *all, char *input)
+{
+	while (1)
+	{
+		while (1)
+		{
+			init_signal();
+			input = readline("Minishell> ");
+			if (input <= 0)
+				return (write(1, "exit\n", 6), free(input), 1);
+			if (*input)
+			{
+				add_history(input);
+				all->token = tokenizer(input, all);
+				//token_list_visualizer(all);
+				if (syntax_police(all->token) && syntax_exit(input, all))
+					break ;
+				all->cmd = parser(all);
+				//cmd_list_visualizer(all);
+				reset_signal();
+				if (all->cmd)
+					ft_pipex(all->cmd, all->env, all);
+				l_reset(all->token, all->cmd);
+			}
+			else
+				free(input);
+		}
+	}
+}
+
+int	main(int arc, char **arv, char **envp)
+{
+	char					*input;
+	t_all					*all;
+
+	if (arc == 1)
+	{
+		all = (t_all *)malloc(sizeof(t_all));
+		all->env = envellope(envp);
+		loop(all, input);
+		clear_history();
+		env_l_free(all->env);
+		free(all);
+	}
+	else
+	{
+		printf("Wrong amount of arguments!\n");
+	}
+	return (0);
+}
+
+/*token_list_visualizer(all);
+cmd_list_visualizer(all);*/

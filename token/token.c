@@ -2,9 +2,12 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                    +:+ +:+
+	+:+     */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+
+	+#+        */
+/*                                                +#+#+#+#+#+
+	+#+           */
 /*   Created: 2024/09/14 13:10:50 by marvin            #+#    #+#             */
 /*   Updated: 2024/09/14 13:10:50 by marvin           ###   ########.fr       */
 /*                                                                            */
@@ -12,52 +15,20 @@
 
 #include "../includes/shell.h"
 
-int	main(int arc, char **arv, char **env)
-{
-	t_token *t;
-	t_cmd	*c;
-	int		i;
-	t_all	*all;
-	
-
-	all = (t_all *)malloc(sizeof(t_all));
-	all->env = envellope(env);
-	t = tokenizer("He$SHELL |l\"omy  |'love'\"|baby|bubble>>look", all);
-	printf("\"He>>$SHELL \"|l\"omy  |'love'\"|baby|bubble>>look\n");
-	c = parser(t);
-	while (c->previous != NULL)
-		c = c->previous;
-	while (c->next != NULL)
-	{
-		i = 0;
-		while (c->cmd[i])
-		{
-			printf("%s\n", c->cmd[i]);
-			i++;
-		}
-		c = c->next;
-	}
-	i = 0;
-	while (c->cmd[i])
-	{
-		printf("%s\n", c->cmd[i]);
-		i++;
-	}
-	cmd_l_free(c);
-	token_l_free(t);
-}
-
-t_token	*tokenizer(char	*input, t_all *all)
+t_token	*tokenizer(char *input, t_all *all)
 {
 	char	**chop;
 	t_token	*token_list;
 
+	if (!input)
+		return (NULL);
 	input = spacer(input, all);
 	chop = s_split(input, ' ');
 	token_list = token_node(chop);
 	if (token_list == NULL)
-		return (NULL);
+		return (g_err_global = 1, NULL);
 	type_assign(token_list);
+	all->token = token_list;
 	free(input);
 	free(chop);
 	return (token_list);
@@ -71,9 +42,11 @@ t_token	*token_node(char **chopped)
 	t_token	*first;
 	int		i;
 
+	if (!(*chopped))
+		return (g_err_global = 1, NULL);
 	tok = (t_token *)malloc(sizeof(t_token));
 	if (!tok)
-		return (NULL);
+		return (g_err_global = 1, NULL);
 	tok->previous = NULL;
 	tok->next = NULL;
 	i = 0;
@@ -87,7 +60,7 @@ t_token	*token_node(char **chopped)
 		if (chopped[i])
 			tok = new_t_node(tok);
 		if (!tok)
-			return (NULL);
+			return (g_err_global = 1, NULL);
 	}
 	return (first);
 }
@@ -100,7 +73,7 @@ t_token	*new_t_node(t_token *l)
 
 	new = (t_token *)malloc(sizeof(t_token));
 	if (!new)
-		return (NULL);
+		return (g_err_global = 1, NULL);
 	if (!l)
 	{
 		new->next = NULL;
@@ -113,56 +86,57 @@ t_token	*new_t_node(t_token *l)
 	return (new);
 }
 
+static void	spacer_short(char *sp, char *s, t_pair *p, t_all *all)
+{
+	char	*tmp;
+	int		flag;
+	char	*cpy;
+
+	flag = 0;
+	if (s[(p->i) + 1] == '?')
+	{
+		tmp = ft_itoa(g_err_global);
+		cpy = tmp;
+		flag = 1;
+	}
+	else
+		tmp = var_pfetch(all->env, s + (p->i));
+	while (tmp && *tmp)
+		sp[(p->j)++] = *(tmp++);
+	if (flag)
+		(p->i) = p->i + 2;
+	else
+		while (s[p->i] != ' ' && s[p->i] && s[p->i] != 34
+			&& sym_check(s + p->i) == 6)
+			(p->i)++;
+	if (flag)
+		free(cpy);
+}
+
 /*creates a new string with ' ' separating each elements for further splitting*/
 
 char	*spacer(char *s, t_all *all)
 {
 	char	*spaced;
-	int		i;
-	int		j;
-	char	*tmp;
+	t_pair	p;
 
-	i = 0;
-	j = 0;
+	p.i = 0;
+	p.j = 0;
 	spaced = malloc(sizeof(char) * (size_count(s, all) + 1));
-	while (s[i] && spaced)
+	while (s[p.i] && spaced)
 	{
-		if (s[i] == '$' && var_pfetch(all->env, s + i) && !simple_quoted(s, i)
-			&& s[i + 1] != '?')
-		{
-			tmp = var_pfetch(all->env, s + i);
-			while (*tmp)
-				spaced[j++] = *(tmp++);
-			while (s[i] != ' ')
-				i++;
-		}
-		if (sym_check(s + i) < GENERAL && !quoted(s, i))
-			spacer_shortcut(spaced, s, &i, &j);
-		else
-			spaced[j++] = s[i++];
+		if (s[p.i] == '$' && !simple_quoted(s, p.i) && s[p.i + 1]
+			&& !alone_quote(s, p.i))
+			spacer_short(spaced, s, &p, all);
+		if (sym_check(s + p.i) < GENERAL && !quoted(s, p.i))
+			spacer_shortcut(spaced, s, &p.i, &p.j);
+		else if (s[p.i])
+			spaced[p.j++] = s[p.i++];
 	}
 	free(s);
 	if (spaced)
-		spaced[j] = '\0';
+		spaced[p.j] = '\0';
+	else
+		return (g_err_global = 1, NULL);
 	return (spaced);
-}
-
-/*frees the token list*/
-
-void	token_l_free(t_token *t)
-{
-	t_token	*tmp;
-
-	while (t->previous != NULL)
-		t = t->previous;
-	while (t->next != NULL)
-	{
-		tmp = t->next;
-		free(t->content);
-		free(t);
-		t = tmp;
-	}
-	free(t->content);
-	free(t);
-	return ;
 }

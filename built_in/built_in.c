@@ -12,24 +12,49 @@
 
 #include "../includes/shell.h"
 
-/*pwd*/
-
-void my_pwd(t_cmd *c)
+int	my_pwd(t_all *all)
 {
-    static char cwd[1024];
+	char		*wd;
+	t_env_list	*cpy;
 
-	if (c->cmd[1])
+	cpy = all->env;
+	if (all->cmd->cmd[1])
 	{
-		perror("pwd: too many arguments\n");
-		return ;
+		printf("Too many arguments !\n");
+		exit (1);
+		return (1);
 	}
-    if (getcwd(cwd, sizeof(cwd)) != NULL)
-        printf(stdout, "%s", cwd);
-	else 
-        perror("getcwd error");
+	wd = NULL;
+	wd = var_fetch(cpy, "PWD");
+	if (!wd)
+	{
+		printf("var doesn't exist\n");
+		exit (1);
+	}
+	printf("%s\n", wd);
+	return (0);
 }
 
-/*echo*/
+static int	check_n(char **arg, int *flag)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (arg[i])
+	{
+		j = 0;
+		if (arg[i][0] == '-' && arg[i][1] == 'n')
+			while (arg[i][j + 1] == 'n')
+				j++;
+		if (arg[i][j] && arg[i][j + 1] != '\0')
+			return (0);
+		else if (arg[i][0] == '-' && arg[i][1] == 'n')
+			(*flag)++;
+		i++;
+	}
+	return (*flag);
+}
 
 void	my_echo(char **arg)
 {
@@ -38,79 +63,47 @@ void	my_echo(char **arg)
 
 	i = 1;
 	flag = 0;
-	if (arg[i] == ft_strncmp(arg[i], "-n", 2))
-		flag = 1;
+	if (!arg[1])
+	{
+		printf("\n");
+		return ;
+	}
+	if (check_n(arg, &flag))
+		flag = check_n(arg, &flag);
 	while (arg[i + flag] != NULL)
 	{
-		printf("%s", arg[i]);
+		printf("%s", arg[i + flag]);
 		i++;
-		if (arg[i + flag] != NULL)
-			printf("' '");
+		if (arg[i + flag] != NULL && arg[i + flag][0])
+			printf(" ");
 	}
 	if (!flag)
 		printf("\n");
 }
 
-/* cd */
-
-void	my_cd(char **cmd, t_all *all)
+void	my_env(t_cmd *cmd, t_all *all)
 {
-	int			err;
-	char*		tmp;
-	static char	cwd[1024];	
+	t_env_list	*current;
 
-	err = chdir(cmd[1]);
-	if (err == -1)
-		perror("cd: no such file in directory");
-	getcwd(cwd, sizeof(cwd));
-	tmp = malloc(sizeof(char) * (ft_strlen(cwd) + 5));
-	while (ft_strncmp(all->env->var, PWD, 3) != 0
-		&& all->env != NULL)
-		all->env = all->env->next;
-	if (all->env)
+	current = all->env;
+	if (cmd->cmd[1])
 	{
-		tmp = strncpy(tmp, "PWD=", 4);
-		ft_strlcat(tmp, cwd, ft_strlen(cwd + 4));
-		free(all->env->var);
-		all->env->var = tmp;
+		printf("Too many arguments !\n");
+		exit (1);
 		return ;
 	}
-	free(tmp)
+	while (current)
+	{
+		if (current->var[0] != '_' && has_equal(current->var))
+			printf("%s\n", current->var);
+		current = current->next;
+	}
+	printf("_=/usr/bin/env\n");
 }
 
-/*export*/
-
-void	my_export(t_all *all, t_cmd *cmd)
+t_env_list	*env_rewinder(t_env_list *e)
 {
-	int	i;
-
-	if (!cmd->cmd[1])
-	{
-		my_env(all, cmd);
-		return ;
-	}
-	i = 1;
-	while (all->env->next != NULL)
-		all->env = all->env->next;
-	while (all->cmd[i] != NULL && var_value(all->cmd[i]))
-	{
-		all->env = new_node(all->env);
-		all->env->var = all->cmd[i];
-		i++;
-	}
-	if (!var_value(all->cmd[i]))
-		printf("syntax error");
-}
-
-/*env*/
-
-void	my_env(t_all *all, t_cmd *cmd)
-{
-	if (cmd[1])
-		return (printf("too many arguments\n"), );
-	while (all->env != NULL)
-	{
-		printf("%s\n", all->env->var);
-		all->env = all->env->next;
-	}
+	while (e->previous != NULL)
+		e = e->previous;
+	return (e);
 }
