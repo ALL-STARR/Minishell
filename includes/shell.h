@@ -43,6 +43,7 @@ typedef struct s_token
 	char			*delimiter;
 	int				type;
 	int				index;
+	int				flag;
 	struct s_token	*next;
 	struct s_token	*previous;
 }	t_token;
