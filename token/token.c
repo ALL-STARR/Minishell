@@ -106,7 +106,8 @@ static void	spacer_short(char *sp, char *s, t_pair *p, t_all *all)
 	if (flag)
 		(p->i) = p->i + 2;
 	else
-		while (s[p->i] != ' ' && s[p->i] && s[p->i] != 34)
+		while (s[p->i] != ' ' && s[p->i] && s[p->i] != 34
+			&& sym_check(s + p->i) == 6)
 			(p->i)++;
 	if (flag)
 		free(cpy);

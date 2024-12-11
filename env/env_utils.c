@@ -32,7 +32,8 @@ char	*var_pfetch(t_env_list *e, char *str)
 	flag = 0;
 	i = 0;
 	cpy = env_rewinder(e);
-	while (str[i + 1] != ' ' && str[i + 1] != 34 && str[i + 1] != '\0')
+	while (str[i + 1] != ' ' && str[i + 1] != 34 && str[i + 1] != '\0'
+		&& sym_check(str + i + 1) == 6)
 		i++;
 	var = var_maker(var, i, str);
 	if (!var)

@@ -166,6 +166,7 @@ void		handle_output_red(t_token *out_red);
 void		handle_heredoc(t_token *in_red, int *heredoc_fd);
 int			built_in_subshell(t_cmd *cmd, t_all *all);
 int			built_in_shell(t_cmd *cmd, t_all *all);
+int			pipes_limit(t_all *all);
 
 /*extra functions*/
 
@@ -177,5 +178,6 @@ void		cmd_list_visualizer(t_all *all);
 void		init_signal(void);
 void		sigint_handler(int sig);
 void		reset_signal(void);
+void		reset_hered(void);
 
 #endif

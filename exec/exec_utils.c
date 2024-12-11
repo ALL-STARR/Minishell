@@ -55,14 +55,11 @@ char	*get_path(char **cmd, t_env_list *env_list, int i)
 	char	*env_path;
 	char	*result;
 
-	if (!access(cmd[0], X_OK))
+	if (cmd[0] && !access(cmd[0], X_OK))
 		return (cmd[0]);
 	env_path = var_bfetch(env_list, "PATH");
 	if (!env_path || check_path(env_list) == -1)
-	{
-		perror("PATH");
-		return (cmd[0]);
-	}
+		return (NULL);
 	split_path = ft_split(env_path, ':');
 	if (!split_path)
 		return (NULL);

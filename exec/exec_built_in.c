@@ -6,7 +6,7 @@
 /*   By: raneuman <raneuman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 09:53:47 by rachou            #+#    #+#             */
-/*   Updated: 2024/12/01 12:02:57 by raneuman         ###   ########.fr       */
+/*   Updated: 2024/12/08 12:12:40 by raneuman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,25 @@
 
 int	built_in_subshell(t_cmd *cmd, t_all *all)
 {
-	if ((ft_strcmp(cmd->cmd[0], "cd") == 0) && (ft_strlen(cmd->cmd[0]) == 2))
+	if (cmd->cmd[0] && (ft_strcmp(cmd->cmd[0], "cd") == 0) 
+		&& (ft_strlen(cmd->cmd[0]) == 2))
 	{
 		my_cd(cmd->cmd, all);
 		return (1);
 	}
-	else if ((ft_strcmp(cmd->cmd[0], "export") == 0)
+	else if (cmd->cmd[0] && (ft_strcmp(cmd->cmd[0], "export") == 0)
 		&& (ft_strlen(cmd->cmd[0]) == 6))
 	{
 		my_export(all, cmd);
 		return (1);
 	}
-	else if ((ft_strcmp(cmd->cmd[0], "unset") == 0)
+	else if (cmd->cmd[0] && (ft_strcmp(cmd->cmd[0], "unset") == 0)
 		&& (ft_strlen(cmd->cmd[0]) == 5))
 	{
 		my_unset(all);
 		return (1);
 	}
-	else if ((ft_strcmp(cmd->cmd[0], "exit") == 0)
+	else if (cmd->cmd[0] && (ft_strcmp(cmd->cmd[0], "exit") == 0)
 		&& (ft_strlen(cmd->cmd[0]) == 4))
 	{
 		my_exit(all, cmd);
@@ -42,18 +43,19 @@ int	built_in_subshell(t_cmd *cmd, t_all *all)
 
 int	built_in_shell(t_cmd *cmd, t_all *all)
 {
-	if ((ft_strcmp(cmd->cmd[0], "echo") == 0) && (ft_strlen(cmd->cmd[0]) == 4))
+	if (cmd->cmd[0] && (ft_strcmp(cmd->cmd[0], "echo") == 0)
+		&& (ft_strlen(cmd->cmd[0]) == 4))
 	{
 		my_echo(cmd->cmd);
 		return (1);
 	}
-	else if ((ft_strcmp(cmd->cmd[0], "pwd") == 0)
+	else if (cmd->cmd[0] && (ft_strcmp(cmd->cmd[0], "pwd") == 0)
 		&& (ft_strlen(cmd->cmd[0]) == 3))
 	{
 		my_pwd(all);
 		return (1);
 	}
-	else if ((ft_strcmp(cmd->cmd[0], "env") == 0)
+	else if (cmd->cmd[0] && (ft_strcmp(cmd->cmd[0], "env") == 0)
 		&& (ft_strlen(cmd->cmd[0]) == 3))
 	{
 		my_env(cmd, all);

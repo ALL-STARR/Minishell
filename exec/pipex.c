@@ -6,7 +6,7 @@
 /*   By: thomvan- <thomvan-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 11:48:07 by raneuman          #+#    #+#             */
-/*   Updated: 2024/12/05 15:03:09 by thomvan-         ###   ########.fr       */
+/*   Updated: 2024/12/08 14:33:37 by thomvan-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static int	ft_exec(char **cmd, t_env_list *env_list)
 	path = get_path(&cmd[0], env_list, -1);
 	if (!path)
 	{
-		perror(cmd[0]);
+		if (cmd[0])
+			perror(cmd[0]);
 		ft_free_tab(cmd);
 		exit (127);
 	}
@@ -67,7 +68,6 @@ static void	pipe_redi(t_cmd *current_cmd, t_env_list *env_list, int *heredoc_fd)
 static pid_t	ft_process(t_cmd *current_cmd, t_env_list *env_list, t_all *all)
 {
 	pid_t	pid;
-	int		status;
 
 	current_cmd->heredoc_fd = -1;
 	if (built_in_subshell(current_cmd, all))
@@ -89,6 +89,8 @@ static pid_t	ft_process(t_cmd *current_cmd, t_env_list *env_list, t_all *all)
 			ft_exec(current_cmd->cmd, env_list);
 		exit(1);
 	}
+	if (current_cmd->in_red || current_cmd->out_red)
+		wait(NULL);
 	return (pid);
 }
 
@@ -102,9 +104,9 @@ int	ft_pipex(t_cmd *cmd, t_env_list *env_list, t_all *all)
 	current_cmd = cmd;
 	cmd->prev_tube = -1;
 	cmd_count = init_pids_and_count(cmd, &pids);
-	if (cmd_count == -1)
-		return (g_err_global = 1, 1);
 	i = 0;
+	if (cmd_count == -1 || pipes_limit(all) == 1)
+		return (free(pids), g_err_global = 1, 1);
 	while (current_cmd)
 	{
 		if (create_pipe(current_cmd->tube, pids, current_cmd) == -1)
