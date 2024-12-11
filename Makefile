@@ -35,6 +35,7 @@ SHELL_SRCS 	= token/token_utils.c\
 				built_in/my_exit.c\
 				built_in/my_cd.c\
 				built_in/export_utils.c\
+				built_in/my_cd_utils.c\
 				utils/extra.c\
 				signal.c
 
@@ -50,7 +51,7 @@ FT_FOLDER = ./libft
 
 FT = ${FT_FOLDER}/libft.a
 
-CC		= cc -g
+CC		= cc -g -fsanitize=address
 
 FLAGS	= -Wall -Wextra -Werror
 

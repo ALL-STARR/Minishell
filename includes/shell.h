@@ -32,6 +32,7 @@ typedef struct s_pair
 typedef struct s_env_list
 {
 	char				*var;
+	int					flag;
 	struct s_env_list	*next;
 	struct s_env_list	*previous;
 }	t_env_list;
@@ -43,7 +44,6 @@ typedef struct s_token
 	char			*delimiter;
 	int				type;
 	int				index;
-	int				flag;
 	struct s_token	*next;
 	struct s_token	*previous;
 }	t_token;
@@ -97,6 +97,7 @@ char		*var_bfetch(t_env_list *e, char *str);
 t_env_list	*env_rewinder(t_env_list *e);
 char		*increment_shlvl(t_env_list *envl, char	*var);
 t_env_list	*env_empty(t_env_list *e);
+char		*fetch(t_env_list *e, char *str);
 
 /*token functions*/
 
@@ -146,6 +147,8 @@ char		*get_value(t_env_list *env, char *str);
 t_env_list	*env_cpy(t_env_list *env);
 t_env_list	*env_sort_cpy(t_env_list *env);
 int			has_equal(char *s);
+void		old_pwd_update(t_all *all);
+void		cd_minus(t_all *all, char **cmd, int *flag, char *buff);
 
 /*exec functions*/
 
